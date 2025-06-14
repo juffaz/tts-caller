@@ -5,7 +5,7 @@
             [tts-caller.audio :refer [generate-final-wav]])
   (:import [java.lang ProcessBuilder]))
 
-(def sip-user (or (System/getenv "SIP_USER") "0702011321"))
+(def sip-user (or (System/getenv "SIP_USER") "0201011221"))
 (def sip-pass (or (System/getenv "SIP_PASS") "pass1234"))
 (def sip-domain (or (System/getenv "SIP_DOMAIN") "10.22.6.249"))
 
