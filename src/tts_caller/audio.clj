@@ -30,10 +30,11 @@
               (* (.getSampleSizeInBits format) 0.125 (.getChannels format)))))))
 
 (defn generate-final-wav [text outfile]
-  (let [voice "istfemale-hsmm"
+  (let [voice "dfki-ot-hsmm"
         dummy-format (AudioFormat. 8000 16 1 true false)
         audio (generate-audio-bytes text voice)
         silence15 (silence-bytes 15000 dummy-format)
         silence10 (silence-bytes 10000 dummy-format)
         full (concat-audio-streams [silence15 audio audio silence10] dummy-format)]
     (AudioSystem/write full AudioFileFormat$Type/WAVE (File. outfile))))
+
