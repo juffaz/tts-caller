@@ -1,4 +1,5 @@
-FROM clojure:openjdk-17-slim
+FROM clojure:temurin-17-tools-deps
+
 
 WORKDIR /app
 
