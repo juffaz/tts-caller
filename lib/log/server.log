@@ -556,3 +556,39 @@
 2025-06-15 19:36:00,340 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1    PronunciationModel took 0 ms
 2025-06-15 19:36:00,340 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1    AcousticModeller took 5 ms
 2025-06-15 19:36:00,340 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1    Synthesis took 12 ms
+2025-06-15 20:03:57,797 [nREPL-session-1186e6fe-1520-48a4-a06b-4df2d9718cf6] INFO  marytts.main Mary starting up...
+2025-06-15 20:03:57,799 [nREPL-session-1186e6fe-1520-48a4-a06b-4df2d9718cf6] INFO  marytts.main Specification version 5.2
+2025-06-15 20:03:57,799 [nREPL-session-1186e6fe-1520-48a4-a06b-4df2d9718cf6] INFO  marytts.main Implementation version unknown
+2025-06-15 20:03:57,799 [nREPL-session-1186e6fe-1520-48a4-a06b-4df2d9718cf6] INFO  marytts.main Running on a Java 24.0.1 implementation by Arch Linux, on a Linux platform (amd64, 6.15.2-arch1-1)
+2025-06-15 20:03:57,868 [nREPL-session-1186e6fe-1520-48a4-a06b-4df2d9718cf6] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.JPhonemiser(tr.)'
+2025-06-15 20:03:57,876 [nREPL-session-1186e6fe-1520-48a4-a06b-4df2d9718cf6] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.MinimalisticPosTagger(tr,tr.)'
+2025-06-15 20:03:57,877 [nREPL-session-1186e6fe-1520-48a4-a06b-4df2d9718cf6] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.Synthesis'
+2025-06-15 20:03:57,877 [nREPL-session-1186e6fe-1520-48a4-a06b-4df2d9718cf6] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.TextToMaryXML'
+2025-06-15 20:03:57,878 [nREPL-session-1186e6fe-1520-48a4-a06b-4df2d9718cf6] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.SableParser'
+2025-06-15 20:03:57,878 [nREPL-session-1186e6fe-1520-48a4-a06b-4df2d9718cf6] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.SSMLParser'
+2025-06-15 20:03:57,878 [nREPL-session-1186e6fe-1520-48a4-a06b-4df2d9718cf6] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.APMLParser'
+2025-06-15 20:03:57,878 [nREPL-session-1186e6fe-1520-48a4-a06b-4df2d9718cf6] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.EmotionmlParser'
+2025-06-15 20:03:57,878 [nREPL-session-1186e6fe-1520-48a4-a06b-4df2d9718cf6] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.JTokeniser'
+2025-06-15 20:03:57,879 [nREPL-session-1186e6fe-1520-48a4-a06b-4df2d9718cf6] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.DummyTokens2Words'
+2025-06-15 20:03:57,879 [nREPL-session-1186e6fe-1520-48a4-a06b-4df2d9718cf6] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.ProsodyGeneric'
+2025-06-15 20:03:57,880 [nREPL-session-1186e6fe-1520-48a4-a06b-4df2d9718cf6] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.PronunciationModel'
+2025-06-15 20:03:57,880 [nREPL-session-1186e6fe-1520-48a4-a06b-4df2d9718cf6] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.TargetFeatureLister'
+2025-06-15 20:03:57,880 [nREPL-session-1186e6fe-1520-48a4-a06b-4df2d9718cf6] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.HalfPhoneTargetFeatureLister'
+2025-06-15 20:03:57,881 [nREPL-session-1186e6fe-1520-48a4-a06b-4df2d9718cf6] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.AcousticModeller'
+2025-06-15 20:03:57,881 [nREPL-session-1186e6fe-1520-48a4-a06b-4df2d9718cf6] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.RealisedAcoustparamsExtractor'
+2025-06-15 20:03:57,881 [nREPL-session-1186e6fe-1520-48a4-a06b-4df2d9718cf6] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.RealisedDurationsExtractor'
+2025-06-15 20:03:57,881 [nREPL-session-1186e6fe-1520-48a4-a06b-4df2d9718cf6] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.HTSEngine'
+2025-06-15 20:03:57,882 [nREPL-session-1186e6fe-1520-48a4-a06b-4df2d9718cf6] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.PraatTextGridGenerator'
+2025-06-15 20:03:57,883 [nREPL-session-1186e6fe-1520-48a4-a06b-4df2d9718cf6] INFO  marytts.JPhonemiser Module started (PARTSOFSPEECH->PHONEMES, locale tr).
+2025-06-15 20:03:57,883 [nREPL-session-1186e6fe-1520-48a4-a06b-4df2d9718cf6] INFO  marytts.JPhonemiser Starting power-on self test.
+2025-06-15 20:03:57,884 [nREPL-session-1186e6fe-1520-48a4-a06b-4df2d9718cf6] INFO  marytts.JPhonemiser Power-on self test complete.
+2025-06-15 20:03:57,884 [nREPL-session-1186e6fe-1520-48a4-a06b-4df2d9718cf6] INFO  marytts.OpenNLPPosTagger Module started (WORDS->PARTSOFSPEECH, locale tr).
+2025-06-15 20:03:57,885 [nREPL-session-1186e6fe-1520-48a4-a06b-4df2d9718cf6] INFO  marytts.OpenNLPPosTagger Starting power-on self test.
+2025-06-15 20:03:57,885 [nREPL-session-1186e6fe-1520-48a4-a06b-4df2d9718cf6] INFO  marytts.OpenNLPPosTagger Power-on self test complete.
+2025-06-15 20:03:57,886 [nREPL-session-1186e6fe-1520-48a4-a06b-4df2d9718cf6] INFO  marytts.UnitSelectionSynthesizer started.
+2025-06-15 20:03:57,887 [nREPL-session-1186e6fe-1520-48a4-a06b-4df2d9718cf6] INFO  marytts.TargetFeatureLister Module started (ACOUSTPARAMS->TARGETFEATURES, locale null).
+2025-06-15 20:03:57,887 [nREPL-session-1186e6fe-1520-48a4-a06b-4df2d9718cf6] INFO  marytts.HTSEngine Module started (TARGETFEATURES->AUDIO, locale null).
+2025-06-15 20:03:57,894 [nREPL-session-1186e6fe-1520-48a4-a06b-4df2d9718cf6] INFO  marytts.HMMData Loading Tree Set in CARTs:
+2025-06-15 20:03:57,912 [nREPL-session-1186e6fe-1520-48a4-a06b-4df2d9718cf6] INFO  marytts.HMMData Loading GV Model Set:
+2025-06-15 20:03:57,956 [nREPL-session-1186e6fe-1520-48a4-a06b-4df2d9718cf6] INFO  marytts.Voice Registering voice `dfki-ot-hsmm': male, locale tr
+2025-06-15 20:03:57,956 [nREPL-session-1186e6fe-1520-48a4-a06b-4df2d9718cf6] INFO  marytts.Voice New default voice for locale tr: dfki-ot-hsmm (desire 0)

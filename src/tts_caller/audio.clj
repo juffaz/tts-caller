@@ -5,12 +5,38 @@
            [javax.xml.parsers DocumentBuilderFactory]))
 
 ;; ✅ Установи нужный голос здесь:
+
+
 (def voice "cmu-slt-hsmm")
+
+(comment
+
+
+(user/init!)
+  
+ 
+  
+(require '[tts-caller.audio :as audio] :reload)
+
+ (.getName (io/file "lib/voice-cmu-slt-hsmm-5.2.jar"))
+  
+  (audio/list-voices)
+
+(audio/generate-final-wav-auto "Hello, this is fast!" "/tmp/test.wav")
+
+ )
+
+
 
 (defn create-mary []
   (let [cls (Class/forName "marytts.LocalMaryInterface")
         ctor (.getConstructor cls (into-array Class []))]
     (.newInstance ctor (object-array []))))
+
+(defn list-voices []
+  (let [mary (create-mary)
+        voices (.getAvailableVoices mary)]
+    (println "Available voices:" voices)))
 
 (defn ssml->document [^String ssml]
   (let [factory (DocumentBuilderFactory/newInstance)
@@ -95,4 +121,15 @@
   (generate-final-wav-auto "Salam, Sphere və Atlas işləmir!" "/tmp/plain.wav")
 
   ;; Проверка SSML с быстрой скоростью:
-  (generate-final-wav-auto "<speak><prosody rate='x-fast'>Salam, Sphere və Atlas işləmir!</prosody></speak>" "/tmp/ssml.wav"))
+  (generate-final-wav-auto "<speak><prosody rate='x-fast'>Salam, Sphere və Atlas işləmir!</prosody></speak>" "/tmp/ssml.wav")
+  
+   (tts-caller.audio/generate-final-wav-auto
+   "<speak><prosody rate='fast'>Sphere və ATLAS işləmir.</prosody></speak>"
+   "/tmp/test.wav")
+
+  
+(tts-caller.audio/generate-final-wav-auto
+ "<speak><prosody rate='fast'>Sphere və Atlas işləmir.</prosody></speak>"
+ "/tmp/voice.wav")
+
+  )

@@ -1,23 +1,40 @@
 (ns user
   (:require [clojure.java.io :as io]))
 
-(defn add-lib-jars! []
-  (doseq [f (file-seq (io/file "lib"))]
-    (when (.endsWith (.getName f) ".jar")
-      (clojure.lang.RT/addURL (.toURL f)))))
+(defn add-lib-jars []
+  (doseq [name ["marytts-runtime-5.2.jar"
+                "marytts-lang-en-5.2.jar"
+                "voice-cmu-slt-hsmm-5.2.jar" ;; <== ОБЯЗАТЕЛЬНО ПОСЛЕ EN!
+                "marytts-lang-tr-5.2.jar"
+                "marytts-lang-ru-5.2.jar"
+                "marytts-lang-fr-5.2.jar"
+                "voice-dfki-ot-hsmm-5.2.jar"]]
+    (let [f (io/file "lib" name)]
+      (when (.exists f)
+        (.addURL (.getContextClassLoader (Thread/currentThread))
+                 (.toURL f))))))
+
 
 (defn init! []
-  (add-lib-jars!)
+  (add-lib-jars)
   (require 'tts-caller.audio :reload))
 
-(comment
-  ;; Запускай это один раз после Jack-In:
-  (init!)
-  (tts-caller.audio/generate-final-wav-plain "Test" "/tmp/test.wav"))
+(user/init!)
+
+(require '[tts-caller.audio :as audio] :reload)
+
+(audio/list-voices)
 
 
 (comment
-  
-  (user/init!)
-  
+
+
+(user/init!) ;; добавляет JAR'ы
+
+  (require '[tts-caller.audio :as audio] :reload)
+
+  (audio/list-voices)
+
+
   )
+
