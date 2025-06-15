@@ -1,65 +1,58 @@
 (ns tts-caller.audio
   (:import [javax.sound.sampled AudioFormat AudioInputStream AudioSystem AudioFileFormat$Type]
-           [java.io ByteArrayInputStream File]))
+           [java.io ByteArrayInputStream File]
+           [org.w3c.dom Document]
+           [javax.xml.parsers DocumentBuilderFactory]))
 
 (defn create-mary []
   (let [cls (Class/forName "marytts.LocalMaryInterface")
         ctor (.getConstructor cls (into-array Class []))]
     (.newInstance ctor (object-array []))))
 
+(defn ssml->document [^String ssml]
+  (let [factory (DocumentBuilderFactory/newInstance)
+        builder (.newDocumentBuilder factory)
+        is (ByteArrayInputStream. (.getBytes ssml "UTF-8"))]
+    (.parse builder is)))
+
+
+(defn generate-final-wav-auto [text outfile]
+  (if (.startsWith text "<speak>")
+    (generate-final-wav-ssml text outfile)
+    (generate-final-wav-plain text outfile)))
 
 (comment
 
-  (require 'tts-caller.audio :reload)
-  (tts-caller.audio/generate-final-wav "Salam Sphere ATLAS" "/tmp/final.wav")
+  (audio/generate-final-wav-plain "Salam, Sphere və ATLAS işləmir." "/tmp/test.wav")
 
+
+
+  (require '[tts-caller.audio :as audio] :reload)
+  
+  (audio/generate-final-wav-plain "Test" "/tmp/test.wav")
+
+  (audio/generate-final-wav-plain "Salam, Sphere və ATLAS işləmir." "/tmp/test.wav")
+
+(def ssml "<speak><prosody rate='x-fast'>Salam, Sphere və ATLAS işləmir.</prosody></speak>")
 
   
-  (Class/forName "marytts.LocalMaryInterface")
-  
-  (tts-caller.audio/generate-final-wav
-   "<speak><prosody rate='fast'>Salam, Sphere və ATLAS işləmir.</prosody></speak>"
-   "/tmp/test.wav")
-  
-  
-  (require 'tts-caller.audio :reload)
-
-  
-(tts-caller.audio/generate-final-wav "Salam, Sphere və ATLAS işləmir." "/tmp/test.wav")
-
-(require 'tts-caller.audio :reload)
-
-(tts-caller.audio/generate-final-wav
- "Salam, Sphere, Atlas və GNI hazırda işləmir."
- "/tmp/final.wav")
-
-  
-  (generate-final-wav
-   "Salam, Sphere, Atlas və GNI hazırda işləmir."
-   "/tmp/final.wav")
-
-  (tts-caller.audio/generate-final-wav "Salam, bu səsli zəng testidir." "/tmp/test.wav")
-
-  
-  (generate-final-wav "Salam, bu səsli zəng testidir." "/tmp/test.wav")
+(tts-caller.audio/generate-final-wav-auto "<speak><prosody rate='x-fast'>Salam, Sphere və ATLAS işləmir.</prosody></speak>" "/tmp/test.wav")
 
 
-  (.setVoice mary voice)
 
+  (generate-final-wav-auto "Salam Sphere və ATLAS" "/tmp/x.wav")
+
+ 
   
   )
 
 
-
-(defn generate-audio-bytes [text voice]
+(defn generate-audio-bytes-plain [text voice]
   (let [mary (create-mary)
         set-voice (.getMethod (class mary) "setVoice" (into-array Class [String]))
-        set-input-type (.getMethod (class mary) "setInputType" (into-array Class [String]))
-        generate-audio (.getMethod (class mary) "generateAudio" (into-array Class [String]))
-        ssml (str "<speak><prosody rate='fast' volume='+6dB'>" text "</prosody></speak>")]
+        generate-audio (.getMethod (class mary) "generateAudio" (into-array Class [String]))]
     (.invoke set-voice mary (object-array [voice]))
-    (.invoke set-input-type mary (object-array ["RAWMARYXML"]))
-    (with-open [ais (.invoke generate-audio mary (object-array [ssml]))]
+    (with-open [ais (.invoke generate-audio mary (object-array [text]))]
       (let [ais ^AudioInputStream ais
             buffer (byte-array 1024)
             out (java.io.ByteArrayOutputStream.)]
@@ -69,8 +62,25 @@
             (recur (.read ais buffer))))
         (.toByteArray out)))))
 
-
-
+(defn generate-audio-bytes-ssml [ssml voice]
+  (let [mary (create-mary)
+        set-voice (.getMethod (class mary) "setVoice" (into-array Class [String]))
+        set-input-type (.getMethod (class mary) "setInputType" (into-array Class [String]))
+        set-output-type (.getMethod (class mary) "setOutputType" (into-array Class [String]))
+        generate-audio (.getMethod (class mary) "generateAudio" (into-array Class [Document]))
+        doc (ssml->document ssml)]
+    (.invoke set-voice mary (object-array [voice]))
+    (.invoke set-input-type mary (object-array ["RAWMARYXML"]))
+    (.invoke set-output-type mary (object-array ["AUDIO"]))
+    (with-open [ais (.invoke generate-audio mary (object-array [doc]))]
+      (let [ais ^AudioInputStream ais
+            buffer (byte-array 1024)
+            out (java.io.ByteArrayOutputStream.)]
+        (loop [n (.read ais buffer)]
+          (when (pos? n)
+            (.write out buffer 0 n)
+            (recur (.read ais buffer))))
+        (.toByteArray out)))))
 
 (defn silence-bytes [millis format]
   (let [bytes-per-ms (* (/ (.getSampleRate format) 1000)
@@ -86,15 +96,26 @@
      (long (/ (count total-bytes)
               (* (.getSampleSizeInBits format) 0.125 (.getChannels format)))))))
 
-(defn generate-final-wav [text outfile]
+(defn generate-final-wav-plain [text outfile]
   (let [voice "dfki-ot-hsmm"
-        dummy-format (AudioFormat. 8000 16 1 true false)
-        audio (generate-audio-bytes text voice)
-        silence15 (silence-bytes 15000 dummy-format)
-        silence10 (silence-bytes 10000 dummy-format)
-        full (concat-audio-streams [silence15 audio audio silence10] dummy-format)]
+        format (AudioFormat. 8000 16 1 true false)
+        audio (generate-audio-bytes-plain text voice)
+        silence15 (silence-bytes 2000 format)
+        silence10 (silence-bytes 500 format)
+        full (concat-audio-streams [silence15 audio audio silence10] format)]
+    (AudioSystem/write full AudioFileFormat$Type/WAVE (File. outfile))))
+
+(defn generate-final-wav-ssml [ssml outfile]
+  (let [voice "dfki-ot-hsmm"
+        format (AudioFormat. 8000 16 1 true false)
+        audio (generate-audio-bytes-ssml ssml voice)
+        silence15 (silence-bytes 2000 format)
+        silence10 (silence-bytes 500 format)
+        full (concat-audio-streams [silence15 audio audio silence10] format)]
     (AudioSystem/write full AudioFileFormat$Type/WAVE (File. outfile))))
 
 
-
-
+(defn generate-final-wav-auto [text outfile]
+  (if (.startsWith text "<speak>")
+    (generate-final-wav-ssml text outfile)
+    (generate-final-wav-plain text outfile)))

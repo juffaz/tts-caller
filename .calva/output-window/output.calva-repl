@@ -474,3 +474,694 @@ clj꞉tts-caller.audio꞉> 
 ; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
 ; marytts.LocalMaryInterface
 clj꞉tts-caller.audio꞉> 
+; Connecting using "Leiningen" project type.
+; You can make Calva auto-select this.
+;   - See https://calva.io/connect-sequences/
+; 
+
+; Connecting ...
+; Reading port file: file:///home/juff/gitlab/tts-caller/.nrepl-port ...
+; Using host:port localhost:37901 ...
+; Hooking up nREPL sessions ...
+; Connected session: clj
+; Evaluating code from settings: 'calva.autoEvaluateCode.onConnect.clj'
+nil
+clj꞉tts-caller.core꞉> 
+; nREPL Connection was closed
+; Jacking in...
+; Connecting using "Leiningen" project type.
+; You can make Calva auto-select this.
+;   - See https://calva.io/connect-sequences/
+; 
+
+; Starting Jack-in: (cd /home/juff/gitlab/tts-caller; lein update-in :dependencies conj '[nrepl,"1.3.1"]' -- update-in :plugins conj '[cider/cider-nrepl,"0.55.4"]' -- update-in '[:repl-options,:nrepl-middleware]' conj '["cider.nrepl/cider-middleware"]' -- with-profile +dev repl :headless)
+; Using host:port 127.0.0.1:38665 ...
+; Hooking up nREPL sessions ...
+; Connected session: clj
+; Evaluating code from settings: 'calva.autoEvaluateCode.onConnect.clj'
+nil
+clj꞉tts-caller.core꞉> 
+; Jack-in done.
+clj꞉tts-caller.core꞉> 
+#'tts-caller.audio/generate-final-wav
+clj꞉tts-caller.audio꞉> 
+nil
+clj꞉tts-caller.audio꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+#'user/add-lib-jars
+clj꞉user꞉> 
+nil
+clj꞉user꞉> 
+#function[user/add-lib-jars]
+clj꞉user꞉> 
+tts-caller.audio
+clj꞉user꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉user꞉> 
+nil
+clj꞉user꞉> 
+; Execution error (FileNotFoundException) at user/eval10355 (REPL:14).
+; Could not locate user__init.class, user.clj or user.cljc on classpath.
+clj꞉user꞉> 
+; Execution error (FileNotFoundException) at user/eval10376 (REPL:14).
+; Could not locate user__init.class, user.clj or user.cljc on classpath.
+clj꞉user꞉> 
+; Execution error (FileNotFoundException) at user/eval10378 (REPL:14).
+; Could not locate user__init.class, user.clj or user.cljc on classpath.
+clj꞉user꞉> 
+nil
+clj꞉user꞉> 
+nil
+clj꞉user꞉> 
+; SLF4J: No SLF4J providers were found.
+; SLF4J: Defaulting to no-operation (NOP) logger implementation
+; SLF4J: See https://www.slf4j.org/codes.html#noProviders for further details.
+; Execution error (IllegalArgumentException) at marytts.LocalMaryInterface/verifyInputTypeIsText (LocalMaryInterface.java:381).
+; Cannot provide plain-text input for XML-based input type RAWMARYXML
+clj꞉user꞉> 
+marytts.LocalMaryInterface
+clj꞉user꞉> 
+#function[clojure.core/require]
+clj꞉user꞉> 
+#function[user/add-lib-jars]
+clj꞉user꞉> 
+#function[clojure.core/require]
+clj꞉user꞉> 
+#function[tts-caller.audio/generate-final-wav]
+clj꞉user꞉> 
+; Syntax error compiling at (dev/user.clj:0:0).
+; Unable to find static field: forName in class java.lang.Class
+clj꞉user꞉> 
+; Syntax error compiling at (dev/user.clj:0:0).
+; Unable to find static field: forName in class java.lang.Class
+clj꞉user꞉> 
+marytts.LocalMaryInterface
+clj꞉user꞉> 
+; Execution error (IllegalArgumentException) at marytts.LocalMaryInterface/verifyInputTypeIsText (LocalMaryInterface.java:381).
+; Cannot provide plain-text input for XML-based input type RAWMARYXML
+clj꞉user꞉> 
+; Execution error (FileNotFoundException) at user/eval10407 (REPL:14).
+; Could not locate user__init.class, user.clj or user.cljc on classpath.
+clj꞉user꞉> 
+nil
+clj꞉user꞉> 
+nil
+clj꞉user꞉> 
+; Execution error (IllegalArgumentException) at marytts.LocalMaryInterface/verifyInputTypeIsText (LocalMaryInterface.java:381).
+; Cannot provide plain-text input for XML-based input type RAWMARYXML
+clj꞉user꞉> 
+marytts.LocalMaryInterface
+clj꞉user꞉> 
+; Execution error (IllegalArgumentException) at marytts.LocalMaryInterface/verifyInputTypeIsText (LocalMaryInterface.java:381).
+; Cannot provide plain-text input for XML-based input type RAWMARYXML
+clj꞉user꞉> 
+marytts.LocalMaryInterface
+clj꞉user꞉> 
+; Execution error (IllegalArgumentException) at marytts.LocalMaryInterface/verifyInputTypeIsText (LocalMaryInterface.java:381).
+; Cannot provide plain-text input for XML-based input type RAWMARYXML
+clj꞉user꞉> 
+; Execution error (IllegalArgumentException) at marytts.LocalMaryInterface/verifyInputTypeIsText (LocalMaryInterface.java:381).
+; Cannot provide plain-text input for XML-based input type RAWMARYXML
+clj꞉user꞉> 
+; Execution error (IllegalArgumentException) at marytts.LocalMaryInterface/verifyInputTypeIsText (LocalMaryInterface.java:381).
+; Cannot provide plain-text input for XML-based input type RAWMARYXML
+clj꞉user꞉> 
+; Execution error (FileNotFoundException) at user/eval10442 (REPL:19).
+; Could not locate user__init.class, user.clj or user.cljc on classpath.
+clj꞉user꞉> 
+nil
+clj꞉user꞉> 
+; Execution error (FileNotFoundException) at user/eval10446 (REPL:19).
+; Could not locate user__init.class, user.clj or user.cljc on classpath.
+clj꞉user꞉> 
+; Execution error (IllegalArgumentException) at marytts.LocalMaryInterface/verifyInputTypeIsText (LocalMaryInterface.java:381).
+; Cannot provide plain-text input for XML-based input type RAWMARYXML
+clj꞉user꞉> 
+; Execution error (IllegalArgumentException) at marytts.LocalMaryInterface/verifyInputTypeIsText (LocalMaryInterface.java:381).
+; Cannot provide plain-text input for XML-based input type RAWMARYXML
+clj꞉user꞉> 
+marytts.LocalMaryInterface
+clj꞉user꞉> 
+nil
+clj꞉user꞉> 
+; Syntax error compiling at (dev/user.clj:18:3).
+; Unable to resolve symbol: generate-final-wav in this context
+clj꞉user꞉> 
+; Execution error (IllegalArgumentException) at marytts.LocalMaryInterface/verifyInputTypeIsText (LocalMaryInterface.java:381).
+; Cannot provide plain-text input for XML-based input type RAWMARYXML
+clj꞉user꞉> 
+; Execution error (FileNotFoundException) at user/eval10474 (REPL:25).
+; Could not locate user__init.class, user.clj or user.cljc on classpath.
+clj꞉user꞉> 
+nil
+clj꞉user꞉> 
+; Execution error (IllegalArgumentException) at marytts.LocalMaryInterface/verifyInputTypeIsText (LocalMaryInterface.java:381).
+; Cannot provide plain-text input for XML-based input type RAWMARYXML
+clj꞉user꞉> 
+; Execution error (IllegalArgumentException) at marytts.LocalMaryInterface/verifyInputTypeIsText (LocalMaryInterface.java:381).
+; Cannot provide plain-text input for XML-based input type RAWMARYXML
+clj꞉user꞉> 
+marytts.LocalMaryInterface
+clj꞉user꞉> 
+; Execution error (IllegalArgumentException) at marytts.LocalMaryInterface/verifyInputTypeIsText (LocalMaryInterface.java:381).
+; Cannot provide plain-text input for XML-based input type RAWMARYXML
+clj꞉user꞉> 
+#'user/ssml
+clj꞉user꞉> 
+; Execution error (IllegalArgumentException) at marytts.LocalMaryInterface/verifyInputTypeIsText (LocalMaryInterface.java:381).
+; Cannot provide plain-text input for XML-based input type RAWMARYXML
+clj꞉user꞉> 
+nil
+clj꞉user꞉> 
+tts-caller.audio
+clj꞉user꞉> 
+; Syntax error compiling at (dev/user.clj:0:0).
+; Unable to resolve symbol: <speak><prosody in this context
+clj꞉user꞉> 
+#'user/ssml
+clj꞉user꞉> 
+; Execution error (IllegalArgumentException) at marytts.LocalMaryInterface/verifyInputTypeIsText (LocalMaryInterface.java:381).
+; Cannot provide plain-text input for XML-based input type RAWMARYXML
+clj꞉user꞉> 
+#'tts-caller.audio/generate-final-wav
+clj꞉tts-caller.audio꞉> 
+#'user/ssml
+clj꞉user꞉> 
+; Execution error (NoSuchMethodException) at java.lang.Class/getMethod (Class.java:2168).
+; marytts.LocalMaryInterface.generateAudio(java.lang.String,java.lang.String)
+clj꞉user꞉> 
+#'tts-caller.audio/generate-final-wav
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/generate-final-wav
+clj꞉tts-caller.audio꞉> 
+nil
+clj꞉user꞉> 
+#'user/ssml
+clj꞉user꞉> 
+; Execution error (IllegalArgumentException) at marytts.LocalMaryInterface/verifyInputTypeIsText (LocalMaryInterface.java:381).
+; Cannot provide plain-text input for XML-based input type RAWMARYXML
+clj꞉user꞉> 
+#'user/ssml
+clj꞉user꞉> 
+; Execution error (IllegalArgumentException) at marytts.LocalMaryInterface/verifyInputTypeIsText (LocalMaryInterface.java:381).
+; Cannot provide plain-text input for XML-based input type RAWMARYXML
+clj꞉user꞉> 
+#'tts-caller.audio/ssml
+clj꞉tts-caller.audio꞉> 
+; Execution error (IllegalArgumentException) at marytts.LocalMaryInterface/verifyInputTypeIsText (LocalMaryInterface.java:381).
+; Cannot provide plain-text input for XML-based input type RAWMARYXML
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/generate-final-wav
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/ssml
+clj꞉tts-caller.audio꞉> 
+; Execution error (IllegalArgumentException) at marytts.LocalMaryInterface/verifyInputTypeIsText (LocalMaryInterface.java:381).
+; Cannot provide plain-text input for XML-based input type RAWMARYXML
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/ssml
+clj꞉tts-caller.audio꞉> 
+; Execution error (IllegalArgumentException) at marytts.LocalMaryInterface/verifyInputTypeIsText (LocalMaryInterface.java:381).
+; Cannot provide plain-text input for XML-based input type RAWMARYXML
+clj꞉tts-caller.audio꞉> 
+; Syntax error compiling at (src/tts_caller/audio.clj:16:67).
+; Unable to resolve symbol: Document in this context
+clj꞉tts-caller.audio꞉> 
+; nREPL Connection was closed
+; Jacking in...
+; Connecting using "Leiningen" project type.
+; You can make Calva auto-select this.
+;   - See https://calva.io/connect-sequences/
+; 
+
+; Starting Jack-in: (cd /home/juff/gitlab/tts-caller; lein update-in :dependencies conj '[nrepl,"1.3.1"]' -- update-in :plugins conj '[cider/cider-nrepl,"0.55.4"]' -- update-in '[:repl-options,:nrepl-middleware]' conj '["cider.nrepl/cider-middleware"]' -- with-profile +dev repl :headless)
+; Using host:port 127.0.0.1:39329 ...
+; Hooking up nREPL sessions ...
+; Connected session: clj
+; Evaluating code from settings: 'calva.autoEvaluateCode.onConnect.clj'
+nil
+clj꞉tts-caller.core꞉> 
+; Jack-in done.
+clj꞉tts-caller.core꞉> 
+; Syntax error compiling at (src/tts_caller/audio.clj:16:67).
+; Unable to resolve symbol: Document in this context
+clj꞉tts-caller.audio꞉> 
+#'user/ssml
+clj꞉user꞉> 
+; Syntax error compiling at (dev/user.clj:16:1).
+; Unable to resolve symbol: generate-final-wav in this context
+clj꞉user꞉> 
+; Syntax error compiling at (src/tts_caller/audio.clj:23:15).
+; Unable to resolve symbol: ssml->document in this context
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/generate-final-wav
+clj꞉tts-caller.audio꞉> 
+#'user/ssml
+clj꞉user꞉> 
+nil
+clj꞉user꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉user꞉> 
+#'user/ssml
+clj꞉user꞉> 
+nil
+clj꞉user꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉user꞉> 
+#'tts-caller.audio/generate-final-wav
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/ssml
+clj꞉tts-caller.audio꞉> 
+nil
+clj꞉tts-caller.audio꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/ssml
+clj꞉tts-caller.audio꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/generate-final-wav
+clj꞉tts-caller.audio꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+nil
+clj꞉user꞉> 
+#'user/ssml
+clj꞉user꞉> 
+nil
+clj꞉user꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉user꞉> 
+#'user/ssml
+clj꞉user꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉user꞉> 
+#'tts-caller.audio/generate-final-wav
+clj꞉tts-caller.audio꞉> 
+; Syntax error reading source at (REPL:40:1).
+; Invalid token: /tmp/final.wav
+clj꞉tts-caller.audio꞉> 
+#function[tts-caller.audio/generate-audio-bytes-plain]
+clj꞉tts-caller.audio꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/ssml
+clj꞉tts-caller.audio꞉> 
+#function[tts-caller.audio/generate-audio-bytes-plain]
+clj꞉tts-caller.audio꞉> 
+#function[tts-caller.audio/generate-final-wav]
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/generate-final-wav
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/ssml
+clj꞉tts-caller.audio꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/generate-final-wav
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.core/-main
+clj꞉tts-caller.core꞉> 
+#'tts-caller.audio/generate-final-wav
+clj꞉tts-caller.audio꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/generate-final-wav
+clj꞉tts-caller.audio꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/ssml
+clj꞉tts-caller.audio꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/generate-final-wav
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/generate-final-wav
+clj꞉tts-caller.audio꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/ssml
+clj꞉tts-caller.audio꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/ssml
+clj꞉tts-caller.audio꞉> 
+; Syntax error compiling at (src/tts_caller/audio.clj:79:15).
+; Unable to resolve symbol: generate-audio-bytes-ssml in this context
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/generate-final-wav-ssml
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/generate-final-wav-ssml
+clj꞉tts-caller.audio꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/ssml
+clj꞉tts-caller.audio꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+; nREPL Connection was closed
+; Jacking in...
+; Connecting using "Leiningen" project type.
+; You can make Calva auto-select this.
+;   - See https://calva.io/connect-sequences/
+; 
+
+; Starting Jack-in: (cd /home/juff/gitlab/tts-caller; lein update-in :dependencies conj '[nrepl,"1.3.1"]' -- update-in :plugins conj '[cider/cider-nrepl,"0.55.4"]' -- update-in '[:repl-options,:nrepl-middleware]' conj '["cider.nrepl/cider-middleware"]' -- with-profile +dev repl :headless)
+; Using host:port 127.0.0.1:42037 ...
+; Hooking up nREPL sessions ...
+; Connected session: clj
+; Evaluating code from settings: 'calva.autoEvaluateCode.onConnect.clj'
+nil
+clj꞉tts-caller.core꞉> 
+; Jack-in done.
+clj꞉tts-caller.core꞉> 
+#'tts-caller.audio/generate-final-wav-ssml
+clj꞉tts-caller.audio꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/generate-final-wav-ssml
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/generate-final-wav-ssml
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/generate-final-wav-ssml
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/generate-final-wav-ssml
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/generate-final-wav-ssml
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/generate-final-wav-ssml
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/generate-final-wav-ssml
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/generate-final-wav-ssml
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/generate-final-wav-ssml
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/generate-final-wav-ssml
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/generate-final-wav-ssml
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/generate-final-wav-ssml
+clj꞉tts-caller.audio꞉> 
+nil
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/generate-final-wav-ssml
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/generate-final-wav-ssml
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/generate-final-wav-ssml
+clj꞉tts-caller.audio꞉> 
+nil
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/create-mary
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/ssml->document
+clj꞉tts-caller.audio꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/ssml
+clj꞉tts-caller.audio꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/ssml
+clj꞉tts-caller.audio꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/ssml
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/ssml
+clj꞉tts-caller.audio꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/ssml
+clj꞉tts-caller.audio꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+; Syntax error reading source at (REPL:27:8).
+; Unsupported character: \(def
+clj꞉tts-caller.audio꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+; Syntax error reading source at (REPL:27:8).
+; Unsupported character: \(def
+clj꞉tts-caller.audio꞉> 
+; Syntax error reading source at (REPL:27:8).
+; Unsupported character: \(def
+clj꞉tts-caller.audio꞉> 
+; Syntax error compiling at (src/tts_caller/audio.clj:108:5).
+; Unable to resolve symbol: generate-final-wav-ssml in this context
+clj꞉user꞉> 
+; Syntax error reading source at (REPL:27:8).
+; Unsupported character: \(def
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/generate-final-wav-auto
+clj꞉tts-caller.audio꞉> 
+; Syntax error reading source at (REPL:22:65).
+; Unmatched delimiter: )
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/generate-final-wav-auto
+clj꞉tts-caller.audio꞉> 
+; Syntax error compiling at (src/tts_caller/audio.clj:0:0).
+; Unable to resolve symbol: text in this context
+clj꞉tts-caller.audio꞉> 
+; Syntax error reading source at (REPL:101:1).
+; EOF while reading, starting at line 100
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/generate-final-wav-auto
+clj꞉tts-caller.audio꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/generate-final-wav-auto
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/generate-final-wav-auto
+clj꞉tts-caller.audio꞉> 
+; nREPL Connection was closed
+; Jacking in...
+; Connecting using "Leiningen" project type.
+; You can make Calva auto-select this.
+;   - See https://calva.io/connect-sequences/
+; 
+
+; Starting Jack-in: (cd /home/juff/gitlab/tts-caller; lein update-in :dependencies conj '[nrepl,"1.3.1"]' -- update-in :plugins conj '[cider/cider-nrepl,"0.55.4"]' -- update-in '[:repl-options,:nrepl-middleware]' conj '["cider.nrepl/cider-middleware"]' -- with-profile +dev repl :headless)
+; Using host:port 127.0.0.1:40253 ...
+; Hooking up nREPL sessions ...
+; Connected session: clj
+; Evaluating code from settings: 'calva.autoEvaluateCode.onConnect.clj'
+nil
+clj꞉tts-caller.core꞉> 
+; Jack-in done.
+clj꞉tts-caller.core꞉> 
+; Syntax error compiling at (src/tts_caller/audio.clj:21:5).
+; Unable to resolve symbol: generate-final-wav-ssml in this context
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/generate-final-wav-auto
+clj꞉tts-caller.audio꞉> 
+nil
+clj꞉tts-caller.audio꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+nil
+clj꞉tts-caller.audio꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+; Execution error (FileNotFoundException) at tts-caller.audio/eval9619 (REPL:26).
+; Could not locate user__init.class, user.clj or user.cljc on classpath.
+clj꞉tts-caller.audio꞉> 
+; Execution error (FileNotFoundException) at tts-caller.audio/eval9621 (REPL:26).
+; Could not locate user__init.class, user.clj or user.cljc on classpath.
+clj꞉tts-caller.audio꞉> 
+; Execution error (FileNotFoundException) at user/eval9633 (REPL:16).
+; Could not locate user__init.class, user.clj or user.cljc on classpath.
+clj꞉user꞉> 
+; Execution error (FileNotFoundException) at user/eval9635 (REPL:16).
+; Could not locate user__init.class, user.clj or user.cljc on classpath.
+clj꞉user꞉> 
+; Execution error (FileNotFoundException) at user/eval9637 (REPL:16).
+; Could not locate user__init.class, user.clj or user.cljc on classpath.
+clj꞉user꞉> 
+; Execution error (FileNotFoundException) at user/eval9639 (REPL:16).
+; Could not locate user__init.class, user.clj or user.cljc on classpath.
+clj꞉user꞉> 
+; Syntax error compiling at (dev/user.clj:18:3).
+; No such var: user/add-lib-jars!
+clj꞉user꞉> 
+; Syntax error compiling at (dev/user.clj:18:3).
+; No such var: user/add-lib-jars!
+clj꞉user꞉> 
+nil
+clj꞉user꞉> 
+; Execution error (FileNotFoundException) at user/eval9665 (REPL:16).
+; Could not locate user__init.class, user.clj or user.cljc on classpath.
+clj꞉user꞉> 
+; Execution error (FileNotFoundException) at user/eval9667 (REPL:16).
+; Could not locate user__init.class, user.clj or user.cljc on classpath.
+clj꞉user꞉> 
+; Execution error (FileNotFoundException) at user/eval9669 (REPL:16).
+; Could not locate user__init.class, user.clj or user.cljc on classpath.
+clj꞉user꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/generate-final-wav-auto
+clj꞉tts-caller.audio꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+nil
+clj꞉tts-caller.audio꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
+; marytts.LocalMaryInterface
+clj꞉tts-caller.audio꞉> 
+nil
+clj꞉user꞉> 
+nil
+clj꞉user꞉> 
+#'tts-caller.audio/generate-final-wav-auto
+clj꞉tts-caller.audio꞉> 
+462764
+; 
+; SLF4J: No SLF4J providers were found.
+; SLF4J: Defaulting to no-operation (NOP) logger implementation
+; SLF4J: See https://www.slf4j.org/codes.html#noProviders for further details.
+clj꞉tts-caller.audio꞉> 
+#function[tts-caller.audio/generate-final-wav-plain]
+clj꞉tts-caller.audio꞉> 
+589484
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/ssml
+clj꞉tts-caller.audio꞉> 
+; Execution error (IllegalArgumentException) at marytts.server.Request/process (Request.java:279).
+; Mandatory attribute xml:lang is missing from maryxml document element.
+clj꞉tts-caller.audio꞉> 
+; Execution error (IllegalArgumentException) at marytts.server.Request/process (Request.java:279).
+; Mandatory attribute xml:lang is missing from maryxml document element.
+clj꞉tts-caller.audio꞉> 
+#function[clojure.core/require]
+clj꞉tts-caller.audio꞉> 
+589484
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/generate-final-wav-auto
+clj꞉tts-caller.audio꞉> 
+#function[tts-caller.audio/generate-final-wav-plain]
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/generate-final-wav-auto
+clj꞉tts-caller.audio꞉> 
+#function[user/init!]
+clj꞉user꞉> 
+#function[tts-caller.audio/generate-final-wav-plain]
+clj꞉tts-caller.audio꞉> 
+381484
+clj꞉tts-caller.audio꞉> 
+#'tts-caller.audio/generate-final-wav-auto
+clj꞉tts-caller.audio꞉> 
+nil
+clj꞉user꞉> 
+#function[user/init!]
+clj꞉user꞉> 
+229484
+clj꞉tts-caller.audio꞉> 

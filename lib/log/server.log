@@ -1,0 +1,558 @@
+2025-06-15 18:43:37,144 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.main Mary starting up...
+2025-06-15 18:43:37,145 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.main Specification version 5.2
+2025-06-15 18:43:37,145 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.main Implementation version unknown
+2025-06-15 18:43:37,145 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.main Running on a Java 24.0.1 implementation by Arch Linux, on a Linux platform (amd64, 6.15.2-arch1-1)
+2025-06-15 18:43:37,205 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.JPhonemiser(tr.)'
+2025-06-15 18:43:37,215 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.MinimalisticPosTagger(tr,tr.)'
+2025-06-15 18:43:37,215 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.Synthesis'
+2025-06-15 18:43:37,216 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.TextToMaryXML'
+2025-06-15 18:43:37,216 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.SableParser'
+2025-06-15 18:43:37,216 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.SSMLParser'
+2025-06-15 18:43:37,217 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.APMLParser'
+2025-06-15 18:43:37,217 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.EmotionmlParser'
+2025-06-15 18:43:37,217 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.JTokeniser'
+2025-06-15 18:43:37,217 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.DummyTokens2Words'
+2025-06-15 18:43:37,217 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.ProsodyGeneric'
+2025-06-15 18:43:37,219 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.PronunciationModel'
+2025-06-15 18:43:37,220 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.TargetFeatureLister'
+2025-06-15 18:43:37,220 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.HalfPhoneTargetFeatureLister'
+2025-06-15 18:43:37,221 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.AcousticModeller'
+2025-06-15 18:43:37,221 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.RealisedAcoustparamsExtractor'
+2025-06-15 18:43:37,221 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.RealisedDurationsExtractor'
+2025-06-15 18:43:37,222 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.HTSEngine'
+2025-06-15 18:43:37,223 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.PraatTextGridGenerator'
+2025-06-15 18:43:37,225 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.JPhonemiser Module started (PARTSOFSPEECH->PHONEMES, locale tr).
+2025-06-15 18:43:37,225 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.JPhonemiser Starting power-on self test.
+2025-06-15 18:43:37,226 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.JPhonemiser Power-on self test complete.
+2025-06-15 18:43:37,226 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.OpenNLPPosTagger Module started (WORDS->PARTSOFSPEECH, locale tr).
+2025-06-15 18:43:37,227 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.OpenNLPPosTagger Starting power-on self test.
+2025-06-15 18:43:37,227 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.OpenNLPPosTagger Power-on self test complete.
+2025-06-15 18:43:37,228 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.UnitSelectionSynthesizer started.
+2025-06-15 18:43:37,229 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.TargetFeatureLister Module started (ACOUSTPARAMS->TARGETFEATURES, locale null).
+2025-06-15 18:43:37,229 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.HTSEngine Module started (TARGETFEATURES->AUDIO, locale null).
+2025-06-15 18:43:37,236 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.HMMData Loading Tree Set in CARTs:
+2025-06-15 18:43:37,278 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.HMMData Loading GV Model Set:
+2025-06-15 18:43:37,356 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.Voice Registering voice `dfki-ot-hsmm': male, locale tr
+2025-06-15 18:43:37,356 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.Voice New default voice for locale tr: dfki-ot-hsmm (desire 0)
+2025-06-15 18:43:37,356 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.HMMSynthesizer started.
+2025-06-15 18:43:37,356 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.Synthesis Module started (ACOUSTPARAMS->AUDIO, locale null).
+2025-06-15 18:43:37,356 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.HMMSynthesizer Starting power-on self test.
+2025-06-15 18:43:37,357 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.HMMSynthesizer Power-on self test complete.
+2025-06-15 18:43:37,357 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.TextToMaryXML Module started (TEXT->RAWMARYXML, locale null).
+2025-06-15 18:43:37,357 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.TextToMaryXML Starting power-on self test.
+2025-06-15 18:43:37,361 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] WARN  marytts.TextToMaryXML Locale is null, overriding with en_US
+2025-06-15 18:43:37,361 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] WARN  marytts.TextToMaryXML Locale is null, overriding with en_US
+2025-06-15 18:43:37,361 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.TextToMaryXML Power-on self test complete.
+2025-06-15 18:43:37,450 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.SableParser Module started (SABLE->RAWMARYXML, locale null).
+2025-06-15 18:43:37,450 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.SableParser Starting power-on self test.
+2025-06-15 18:43:37,450 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.SableParser Power-on self test complete.
+2025-06-15 18:43:37,474 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.SSMLParser Module started (SSML->RAWMARYXML, locale null).
+2025-06-15 18:43:37,474 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.SSMLParser Starting power-on self test.
+2025-06-15 18:43:37,474 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.SSMLParser Power-on self test complete.
+2025-06-15 18:43:37,497 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.APMLParser Module started (APML->RAWMARYXML, locale null).
+2025-06-15 18:43:37,497 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.APMLParser Starting power-on self test.
+2025-06-15 18:43:37,498 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.APMLParser Power-on self test complete.
+2025-06-15 18:43:37,512 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.EmotionmlParser Module started (EMOTIONML->RAWMARYXML, locale null).
+2025-06-15 18:43:37,512 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.EmotionmlParser Starting power-on self test.
+2025-06-15 18:43:37,512 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.EmotionmlParser Power-on self test complete.
+2025-06-15 18:43:37,512 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.JTokeniser Module started (RAWMARYXML->TOKENS, locale null).
+2025-06-15 18:43:37,530 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.JTokeniser Starting power-on self test.
+2025-06-15 18:43:37,531 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.JTokeniser Power-on self test complete.
+2025-06-15 18:43:37,531 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.DummyTokens2Words Module started (TOKENS->WORDS, locale null).
+2025-06-15 18:43:37,531 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.DummyTokens2Words Starting power-on self test.
+2025-06-15 18:43:37,531 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.DummyTokens2Words Power-on self test complete.
+2025-06-15 18:43:37,533 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.Prosody Module started (PHONEMES->INTONATION, locale null).
+2025-06-15 18:43:37,533 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.Prosody Starting power-on self test.
+2025-06-15 18:43:37,533 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.Prosody Power-on self test complete.
+2025-06-15 18:43:37,533 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.PronunciationModel Module started (INTONATION->ALLOPHONES, locale null).
+2025-06-15 18:43:37,533 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.PronunciationModel Starting power-on self test.
+2025-06-15 18:43:37,533 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.PronunciationModel Power-on self test complete.
+2025-06-15 18:43:37,533 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.TargetFeatureLister Starting power-on self test.
+2025-06-15 18:43:37,533 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.TargetFeatureLister Power-on self test complete.
+2025-06-15 18:43:37,533 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.TargetFeatureLister Module started (ACOUSTPARAMS->HALFPHONE_TARGETFEATURES, locale null).
+2025-06-15 18:43:37,533 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.TargetFeatureLister Starting power-on self test.
+2025-06-15 18:43:37,533 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.TargetFeatureLister Power-on self test complete.
+2025-06-15 18:43:37,533 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.AcousticModeller Module started (ALLOPHONES->ACOUSTPARAMS, locale null).
+2025-06-15 18:43:37,533 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.AcousticModeller Starting power-on self test.
+2025-06-15 18:43:37,533 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.AcousticModeller Power-on self test complete.
+2025-06-15 18:43:37,533 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.Realised acoustparams extractor Module started (AUDIO->REALISED_ACOUSTPARAMS, locale null).
+2025-06-15 18:43:37,533 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.Realised acoustparams extractor Starting power-on self test.
+2025-06-15 18:43:37,533 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.Realised acoustparams extractor Power-on self test complete.
+2025-06-15 18:43:37,533 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.Realised durations extractor Module started (AUDIO->REALISED_DURATIONS, locale null).
+2025-06-15 18:43:37,533 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.Realised durations extractor Starting power-on self test.
+2025-06-15 18:43:37,533 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.Realised durations extractor Power-on self test complete.
+2025-06-15 18:43:37,533 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.Praat TextGrid generator Module started (REALISED_ACOUSTPARAMS->PRAAT_TEXTGRID, locale null).
+2025-06-15 18:43:37,533 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.Praat TextGrid generator Starting power-on self test.
+2025-06-15 18:43:37,533 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.Praat TextGrid generator Power-on self test complete.
+2025-06-15 18:43:37,534 [nREPL-session-e65874dd-2b0f-4d68-a65b-82d0bdb11e70] INFO  marytts.main Startup complete.
+2025-06-15 18:57:57,979 [Thread-14] INFO  marytts.main Shutting down modules...
+2025-06-15 18:57:57,979 [Thread-14] INFO  marytts.JPhonemiser Module shut down.
+2025-06-15 18:57:57,979 [Thread-14] INFO  marytts.OpenNLPPosTagger Module shut down.
+2025-06-15 18:57:57,979 [Thread-14] INFO  marytts.Synthesis Module shut down.
+2025-06-15 18:57:57,979 [Thread-14] INFO  marytts.TextToMaryXML Module shut down.
+2025-06-15 18:57:57,979 [Thread-14] INFO  marytts.SableParser Module shut down.
+2025-06-15 18:57:57,979 [Thread-14] INFO  marytts.SSMLParser Module shut down.
+2025-06-15 18:57:57,979 [Thread-14] INFO  marytts.APMLParser Module shut down.
+2025-06-15 18:57:57,979 [Thread-14] INFO  marytts.EmotionmlParser Module shut down.
+2025-06-15 18:57:57,979 [Thread-14] INFO  marytts.JTokeniser Module shut down.
+2025-06-15 18:57:57,979 [Thread-14] INFO  marytts.DummyTokens2Words Module shut down.
+2025-06-15 18:57:57,979 [Thread-14] INFO  marytts.Prosody Module shut down.
+2025-06-15 18:57:57,980 [Thread-14] INFO  marytts.PronunciationModel Module shut down.
+2025-06-15 18:57:57,980 [Thread-14] INFO  marytts.TargetFeatureLister Module shut down.
+2025-06-15 18:57:57,980 [Thread-14] INFO  marytts.TargetFeatureLister Module shut down.
+2025-06-15 18:57:57,980 [Thread-14] INFO  marytts.AcousticModeller Module shut down.
+2025-06-15 18:57:57,980 [Thread-14] INFO  marytts.Realised acoustparams extractor Module shut down.
+2025-06-15 18:57:57,980 [Thread-14] INFO  marytts.Realised durations extractor Module shut down.
+2025-06-15 18:57:57,980 [Thread-14] INFO  marytts.HTSEngine Module shut down.
+2025-06-15 18:57:57,980 [Thread-14] INFO  marytts.Praat TextGrid generator Module shut down.
+2025-06-15 18:57:57,981 [Thread-14] INFO  marytts.main Shutdown complete.
+2025-06-15 19:27:32,418 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.main Mary starting up...
+2025-06-15 19:27:32,419 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.main Specification version 5.2
+2025-06-15 19:27:32,419 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.main Implementation version unknown
+2025-06-15 19:27:32,419 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.main Running on a Java 24.0.1 implementation by Arch Linux, on a Linux platform (amd64, 6.15.2-arch1-1)
+2025-06-15 19:27:32,475 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.JPhonemiser(tr.)'
+2025-06-15 19:27:32,486 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.MinimalisticPosTagger(tr,tr.)'
+2025-06-15 19:27:32,486 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.Synthesis'
+2025-06-15 19:27:32,487 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.TextToMaryXML'
+2025-06-15 19:27:32,487 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.SableParser'
+2025-06-15 19:27:32,488 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.SSMLParser'
+2025-06-15 19:27:32,488 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.APMLParser'
+2025-06-15 19:27:32,488 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.EmotionmlParser'
+2025-06-15 19:27:32,488 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.JTokeniser'
+2025-06-15 19:27:32,488 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.DummyTokens2Words'
+2025-06-15 19:27:32,488 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.ProsodyGeneric'
+2025-06-15 19:27:32,490 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.PronunciationModel'
+2025-06-15 19:27:32,490 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.TargetFeatureLister'
+2025-06-15 19:27:32,490 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.HalfPhoneTargetFeatureLister'
+2025-06-15 19:27:32,491 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.AcousticModeller'
+2025-06-15 19:27:32,491 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.RealisedAcoustparamsExtractor'
+2025-06-15 19:27:32,491 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.RealisedDurationsExtractor'
+2025-06-15 19:27:32,491 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.HTSEngine'
+2025-06-15 19:27:32,492 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.ModuleRegistry Now initiating mary module 'marytts.modules.PraatTextGridGenerator'
+2025-06-15 19:27:32,493 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.JPhonemiser Module started (PARTSOFSPEECH->PHONEMES, locale tr).
+2025-06-15 19:27:32,493 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.JPhonemiser Starting power-on self test.
+2025-06-15 19:27:32,494 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.JPhonemiser Power-on self test complete.
+2025-06-15 19:27:32,494 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.OpenNLPPosTagger Module started (WORDS->PARTSOFSPEECH, locale tr).
+2025-06-15 19:27:32,494 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.OpenNLPPosTagger Starting power-on self test.
+2025-06-15 19:27:32,494 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.OpenNLPPosTagger Power-on self test complete.
+2025-06-15 19:27:32,495 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.UnitSelectionSynthesizer started.
+2025-06-15 19:27:32,496 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.TargetFeatureLister Module started (ACOUSTPARAMS->TARGETFEATURES, locale null).
+2025-06-15 19:27:32,496 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.HTSEngine Module started (TARGETFEATURES->AUDIO, locale null).
+2025-06-15 19:27:32,502 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.HMMData Loading Tree Set in CARTs:
+2025-06-15 19:27:32,524 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.HMMData Loading GV Model Set:
+2025-06-15 19:27:32,580 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.Voice Registering voice `dfki-ot-hsmm': male, locale tr
+2025-06-15 19:27:32,580 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.Voice New default voice for locale tr: dfki-ot-hsmm (desire 0)
+2025-06-15 19:27:32,580 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.HMMSynthesizer started.
+2025-06-15 19:27:32,580 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.Synthesis Module started (ACOUSTPARAMS->AUDIO, locale null).
+2025-06-15 19:27:32,580 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.HMMSynthesizer Starting power-on self test.
+2025-06-15 19:27:32,580 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.HMMSynthesizer Power-on self test complete.
+2025-06-15 19:27:32,581 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.TextToMaryXML Module started (TEXT->RAWMARYXML, locale null).
+2025-06-15 19:27:32,581 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.TextToMaryXML Starting power-on self test.
+2025-06-15 19:27:32,585 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] WARN  marytts.TextToMaryXML Locale is null, overriding with en_US
+2025-06-15 19:27:32,586 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] WARN  marytts.TextToMaryXML Locale is null, overriding with en_US
+2025-06-15 19:27:32,586 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.TextToMaryXML Power-on self test complete.
+2025-06-15 19:27:32,687 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.SableParser Module started (SABLE->RAWMARYXML, locale null).
+2025-06-15 19:27:32,687 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.SableParser Starting power-on self test.
+2025-06-15 19:27:32,687 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.SableParser Power-on self test complete.
+2025-06-15 19:27:32,720 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.SSMLParser Module started (SSML->RAWMARYXML, locale null).
+2025-06-15 19:27:32,720 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.SSMLParser Starting power-on self test.
+2025-06-15 19:27:32,720 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.SSMLParser Power-on self test complete.
+2025-06-15 19:27:32,742 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.APMLParser Module started (APML->RAWMARYXML, locale null).
+2025-06-15 19:27:32,742 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.APMLParser Starting power-on self test.
+2025-06-15 19:27:32,742 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.APMLParser Power-on self test complete.
+2025-06-15 19:27:32,756 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.EmotionmlParser Module started (EMOTIONML->RAWMARYXML, locale null).
+2025-06-15 19:27:32,756 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.EmotionmlParser Starting power-on self test.
+2025-06-15 19:27:32,756 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.EmotionmlParser Power-on self test complete.
+2025-06-15 19:27:32,756 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.JTokeniser Module started (RAWMARYXML->TOKENS, locale null).
+2025-06-15 19:27:32,772 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.JTokeniser Starting power-on self test.
+2025-06-15 19:27:32,772 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.JTokeniser Power-on self test complete.
+2025-06-15 19:27:32,772 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.DummyTokens2Words Module started (TOKENS->WORDS, locale null).
+2025-06-15 19:27:32,772 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.DummyTokens2Words Starting power-on self test.
+2025-06-15 19:27:32,772 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.DummyTokens2Words Power-on self test complete.
+2025-06-15 19:27:32,774 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.Prosody Module started (PHONEMES->INTONATION, locale null).
+2025-06-15 19:27:32,774 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.Prosody Starting power-on self test.
+2025-06-15 19:27:32,774 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.Prosody Power-on self test complete.
+2025-06-15 19:27:32,774 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PronunciationModel Module started (INTONATION->ALLOPHONES, locale null).
+2025-06-15 19:27:32,774 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PronunciationModel Starting power-on self test.
+2025-06-15 19:27:32,774 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PronunciationModel Power-on self test complete.
+2025-06-15 19:27:32,774 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.TargetFeatureLister Starting power-on self test.
+2025-06-15 19:27:32,774 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.TargetFeatureLister Power-on self test complete.
+2025-06-15 19:27:32,774 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.TargetFeatureLister Module started (ACOUSTPARAMS->HALFPHONE_TARGETFEATURES, locale null).
+2025-06-15 19:27:32,774 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.TargetFeatureLister Starting power-on self test.
+2025-06-15 19:27:32,774 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.TargetFeatureLister Power-on self test complete.
+2025-06-15 19:27:32,774 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.AcousticModeller Module started (ALLOPHONES->ACOUSTPARAMS, locale null).
+2025-06-15 19:27:32,774 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.AcousticModeller Starting power-on self test.
+2025-06-15 19:27:32,774 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.AcousticModeller Power-on self test complete.
+2025-06-15 19:27:32,774 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.Realised acoustparams extractor Module started (AUDIO->REALISED_ACOUSTPARAMS, locale null).
+2025-06-15 19:27:32,774 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.Realised acoustparams extractor Starting power-on self test.
+2025-06-15 19:27:32,774 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.Realised acoustparams extractor Power-on self test complete.
+2025-06-15 19:27:32,774 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.Realised durations extractor Module started (AUDIO->REALISED_DURATIONS, locale null).
+2025-06-15 19:27:32,774 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.Realised durations extractor Starting power-on self test.
+2025-06-15 19:27:32,774 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.Realised durations extractor Power-on self test complete.
+2025-06-15 19:27:32,774 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.Praat TextGrid generator Module started (REALISED_ACOUSTPARAMS->PRAAT_TEXTGRID, locale null).
+2025-06-15 19:27:32,774 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.Praat TextGrid generator Starting power-on self test.
+2025-06-15 19:27:32,774 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.Praat TextGrid generator Power-on self test complete.
+2025-06-15 19:27:32,775 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.main Startup complete.
+2025-06-15 19:27:32,777 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 New request (input type "TEXT", output type "AUDIO", voice "dfki-ot-hsmm", audio "WAVE")
+2025-06-15 19:27:32,777 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Handling request using the following modules:
+2025-06-15 19:27:32,777 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 - TextToMaryXML (marytts.modules.TextToMaryXML)
+2025-06-15 19:27:32,777 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Next module: TextToMaryXML
+2025-06-15 19:27:32,778 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Handling request using the following modules:
+2025-06-15 19:27:32,778 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 - JTokeniser (marytts.modules.JTokeniser)
+2025-06-15 19:27:32,778 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 - DummyTokens2Words (marytts.modules.DummyTokens2Words)
+2025-06-15 19:27:32,778 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 - OpenNLPPosTagger (marytts.modules.MinimalisticPosTagger)
+2025-06-15 19:27:32,778 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 - JPhonemiser (marytts.modules.JPhonemiser)
+2025-06-15 19:27:32,778 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 - Prosody (marytts.modules.ProsodyGeneric)
+2025-06-15 19:27:32,778 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 - PronunciationModel (marytts.modules.PronunciationModel)
+2025-06-15 19:27:32,778 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 - AcousticModeller (marytts.modules.AcousticModeller)
+2025-06-15 19:27:32,778 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 - Synthesis (marytts.modules.Synthesis)
+2025-06-15 19:27:32,778 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Next module: JTokeniser
+2025-06-15 19:27:32,779 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Next module: DummyTokens2Words
+2025-06-15 19:27:32,779 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Next module: OpenNLPPosTagger
+2025-06-15 19:27:32,779 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Next module: JPhonemiser
+2025-06-15 19:27:32,782 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Next module: Prosody
+2025-06-15 19:27:32,783 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Next module: PronunciationModel
+2025-06-15 19:27:32,783 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Next module: AcousticModeller
+2025-06-15 19:27:32,787 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.ParameterGeneration Parameter generation for LF0: 
+2025-06-15 19:27:32,787 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Global variance optimization
+2025-06-15 19:27:32,787 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (0)  number of iterations=15
+2025-06-15 19:27:32,788 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Next module: Synthesis
+2025-06-15 19:27:32,797 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.HMMSynthesizer Synthesizing one sentence.
+2025-06-15 19:27:32,797 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.HTSEngine Using prosody from acoustparams.
+2025-06-15 19:27:32,798 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.HTSEngine Number of models in sentence numModel=5  Total number of states numState=25
+2025-06-15 19:27:32,798 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.HTSEngine Total number of frames=196  Number of voiced frames=16
+2025-06-15 19:27:32,799 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.ParameterGeneration Parameter generation for MGC: 
+2025-06-15 19:27:32,799 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Global variance optimization
+2025-06-15 19:27:32,803 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (0)  number of iterations=41
+2025-06-15 19:27:32,805 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (1)  number of iterations=27
+2025-06-15 19:27:32,807 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (2)  number of iterations=30
+2025-06-15 19:27:32,808 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (3)  number of iterations=53
+2025-06-15 19:27:32,810 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (4)  number of iterations=120
+2025-06-15 19:27:32,811 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (5)  number of iterations=45
+2025-06-15 19:27:32,812 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (6)  number of iterations=12
+2025-06-15 19:27:32,812 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (7)  number of iterations=29
+2025-06-15 19:27:32,813 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (8)  number of iterations=15
+2025-06-15 19:27:32,813 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (9)  number of iterations=23
+2025-06-15 19:27:32,813 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (10)  number of iterations=29
+2025-06-15 19:27:32,814 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (11)  number of iterations=17
+2025-06-15 19:27:32,814 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (12)  number of iterations=14
+2025-06-15 19:27:32,814 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (13)  number of iterations=8
+2025-06-15 19:27:32,815 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (14)  number of iterations=18
+2025-06-15 19:27:32,815 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (15)  number of iterations=8
+2025-06-15 19:27:32,815 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (16)  number of iterations=17
+2025-06-15 19:27:32,816 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (17)  number of iterations=45
+2025-06-15 19:27:32,816 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (18)  number of iterations=22
+2025-06-15 19:27:32,816 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (19)  number of iterations=10
+2025-06-15 19:27:32,817 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (20)  number of iterations=30
+2025-06-15 19:27:32,817 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (21)  number of iterations=2
+2025-06-15 19:27:32,817 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (22)  number of iterations=2
+2025-06-15 19:27:32,817 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (23)  number of iterations=14
+2025-06-15 19:27:32,817 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (24)  number of iterations=13
+2025-06-15 19:27:32,817 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.ParameterGeneration Using f0 from maryXML acoustparams
+2025-06-15 19:27:32,818 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Global variance optimization
+2025-06-15 19:27:32,819 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream    optimization stopped by reaching max number of iterations (no global variance applied)
+2025-06-15 19:27:32,819 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (0)  number of iterations=101
+2025-06-15 19:27:32,819 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (1)  number of iterations=18
+2025-06-15 19:27:32,820 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (2)  number of iterations=72
+2025-06-15 19:27:32,821 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (3)  number of iterations=73
+2025-06-15 19:27:32,822 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (4)  number of iterations=68
+2025-06-15 19:27:32,824 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Request processed in 47 ms.
+2025-06-15 19:27:32,824 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1    TextToMaryXML took 1 ms
+2025-06-15 19:27:32,824 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1    JTokeniser took 1 ms
+2025-06-15 19:27:32,824 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1    DummyTokens2Words took 0 ms
+2025-06-15 19:27:32,824 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1    OpenNLPPosTagger took 0 ms
+2025-06-15 19:27:32,824 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1    JPhonemiser took 3 ms
+2025-06-15 19:27:32,824 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1    Prosody took 1 ms
+2025-06-15 19:27:32,824 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1    PronunciationModel took 0 ms
+2025-06-15 19:27:32,824 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1    AcousticModeller took 5 ms
+2025-06-15 19:27:32,824 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1    Synthesis took 36 ms
+2025-06-15 19:28:52,715 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 New request (input type "TEXT", output type "AUDIO", voice "dfki-ot-hsmm", audio "WAVE")
+2025-06-15 19:28:52,715 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Handling request using the following modules:
+2025-06-15 19:28:52,715 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 - TextToMaryXML (marytts.modules.TextToMaryXML)
+2025-06-15 19:28:52,715 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Next module: TextToMaryXML
+2025-06-15 19:28:52,715 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Handling request using the following modules:
+2025-06-15 19:28:52,715 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 - JTokeniser (marytts.modules.JTokeniser)
+2025-06-15 19:28:52,715 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 - DummyTokens2Words (marytts.modules.DummyTokens2Words)
+2025-06-15 19:28:52,715 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 - OpenNLPPosTagger (marytts.modules.MinimalisticPosTagger)
+2025-06-15 19:28:52,716 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 - JPhonemiser (marytts.modules.JPhonemiser)
+2025-06-15 19:28:52,716 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 - Prosody (marytts.modules.ProsodyGeneric)
+2025-06-15 19:28:52,716 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 - PronunciationModel (marytts.modules.PronunciationModel)
+2025-06-15 19:28:52,716 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 - AcousticModeller (marytts.modules.AcousticModeller)
+2025-06-15 19:28:52,716 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 - Synthesis (marytts.modules.Synthesis)
+2025-06-15 19:28:52,716 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Next module: JTokeniser
+2025-06-15 19:28:52,717 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Next module: DummyTokens2Words
+2025-06-15 19:28:52,717 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Next module: OpenNLPPosTagger
+2025-06-15 19:28:52,717 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Next module: JPhonemiser
+2025-06-15 19:28:52,719 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Next module: Prosody
+2025-06-15 19:28:52,720 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Next module: PronunciationModel
+2025-06-15 19:28:52,720 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Next module: AcousticModeller
+2025-06-15 19:28:52,727 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.ParameterGeneration Parameter generation for LF0: 
+2025-06-15 19:28:52,727 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Global variance optimization
+2025-06-15 19:28:52,728 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (0)  number of iterations=15
+2025-06-15 19:28:52,732 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Next module: Synthesis
+2025-06-15 19:28:52,732 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.HMMSynthesizer Synthesizing one sentence.
+2025-06-15 19:28:52,733 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.HTSEngine Using prosody from acoustparams.
+2025-06-15 19:28:52,733 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.HTSEngine Number of models in sentence numModel=25  Total number of states numState=125
+2025-06-15 19:28:52,733 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.HTSEngine Total number of frames=592  Number of voiced frames=195
+2025-06-15 19:28:52,734 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.ParameterGeneration Parameter generation for MGC: 
+2025-06-15 19:28:52,734 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Global variance optimization
+2025-06-15 19:28:52,739 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (0)  number of iterations=26
+2025-06-15 19:28:52,743 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (1)  number of iterations=24
+2025-06-15 19:28:52,743 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (2)  number of iterations=2
+2025-06-15 19:28:52,747 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (3)  number of iterations=22
+2025-06-15 19:28:52,751 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (4)  number of iterations=22
+2025-06-15 19:28:52,754 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (5)  number of iterations=17
+2025-06-15 19:28:52,756 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (6)  number of iterations=14
+2025-06-15 19:28:52,759 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (7)  number of iterations=15
+2025-06-15 19:28:52,759 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (8)  number of iterations=9
+2025-06-15 19:28:52,759 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (9)  number of iterations=12
+2025-06-15 19:28:52,760 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (10)  number of iterations=10
+2025-06-15 19:28:52,760 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (11)  number of iterations=28
+2025-06-15 19:28:52,761 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (12)  number of iterations=8
+2025-06-15 19:28:52,761 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (13)  number of iterations=31
+2025-06-15 19:28:52,761 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (14)  number of iterations=10
+2025-06-15 19:28:52,762 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (15)  number of iterations=4
+2025-06-15 19:28:52,762 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (16)  number of iterations=13
+2025-06-15 19:28:52,762 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (17)  number of iterations=14
+2025-06-15 19:28:52,763 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (18)  number of iterations=15
+2025-06-15 19:28:52,763 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (19)  number of iterations=20
+2025-06-15 19:28:52,763 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (20)  number of iterations=2
+2025-06-15 19:28:52,764 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (21)  number of iterations=13
+2025-06-15 19:28:52,764 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (22)  number of iterations=6
+2025-06-15 19:28:52,764 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (23)  number of iterations=12
+2025-06-15 19:28:52,765 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (24)  number of iterations=8
+2025-06-15 19:28:52,765 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.ParameterGeneration Using f0 from maryXML acoustparams
+2025-06-15 19:28:52,765 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Global variance optimization
+2025-06-15 19:28:52,766 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (0)  number of iterations=100
+2025-06-15 19:28:52,766 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (1)  number of iterations=5
+2025-06-15 19:28:52,767 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (2)  number of iterations=18
+2025-06-15 19:28:52,768 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (3)  number of iterations=90
+2025-06-15 19:28:52,769 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (4)  number of iterations=100
+2025-06-15 19:28:52,769 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Request processed in 54 ms.
+2025-06-15 19:28:52,769 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1    TextToMaryXML took 0 ms
+2025-06-15 19:28:52,769 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1    JTokeniser took 1 ms
+2025-06-15 19:28:52,769 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1    DummyTokens2Words took 0 ms
+2025-06-15 19:28:52,769 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1    OpenNLPPosTagger took 0 ms
+2025-06-15 19:28:52,769 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1    JPhonemiser took 2 ms
+2025-06-15 19:28:52,769 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1    Prosody took 1 ms
+2025-06-15 19:28:52,769 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1    PronunciationModel took 0 ms
+2025-06-15 19:28:52,769 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1    AcousticModeller took 12 ms
+2025-06-15 19:28:52,769 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1    Synthesis took 37 ms
+2025-06-15 19:30:55,689 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 New request (input type "RAWMARYXML", output type "AUDIO", voice "dfki-ot-hsmm", audio "WAVE")
+2025-06-15 19:30:59,527 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 New request (input type "RAWMARYXML", output type "AUDIO", voice "dfki-ot-hsmm", audio "WAVE")
+2025-06-15 19:31:11,531 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 New request (input type "TEXT", output type "AUDIO", voice "dfki-ot-hsmm", audio "WAVE")
+2025-06-15 19:31:11,531 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Handling request using the following modules:
+2025-06-15 19:31:11,531 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 - TextToMaryXML (marytts.modules.TextToMaryXML)
+2025-06-15 19:31:11,531 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Next module: TextToMaryXML
+2025-06-15 19:31:11,532 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Handling request using the following modules:
+2025-06-15 19:31:11,532 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 - JTokeniser (marytts.modules.JTokeniser)
+2025-06-15 19:31:11,532 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 - DummyTokens2Words (marytts.modules.DummyTokens2Words)
+2025-06-15 19:31:11,532 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 - OpenNLPPosTagger (marytts.modules.MinimalisticPosTagger)
+2025-06-15 19:31:11,532 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 - JPhonemiser (marytts.modules.JPhonemiser)
+2025-06-15 19:31:11,532 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 - Prosody (marytts.modules.ProsodyGeneric)
+2025-06-15 19:31:11,532 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 - PronunciationModel (marytts.modules.PronunciationModel)
+2025-06-15 19:31:11,532 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 - AcousticModeller (marytts.modules.AcousticModeller)
+2025-06-15 19:31:11,532 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 - Synthesis (marytts.modules.Synthesis)
+2025-06-15 19:31:11,532 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Next module: JTokeniser
+2025-06-15 19:31:11,533 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Next module: DummyTokens2Words
+2025-06-15 19:31:11,533 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Next module: OpenNLPPosTagger
+2025-06-15 19:31:11,533 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Next module: JPhonemiser
+2025-06-15 19:31:11,534 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Next module: Prosody
+2025-06-15 19:31:11,536 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Next module: PronunciationModel
+2025-06-15 19:31:11,536 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Next module: AcousticModeller
+2025-06-15 19:31:11,543 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.ParameterGeneration Parameter generation for LF0: 
+2025-06-15 19:31:11,543 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Global variance optimization
+2025-06-15 19:31:11,543 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (0)  number of iterations=15
+2025-06-15 19:31:11,544 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Next module: Synthesis
+2025-06-15 19:31:11,544 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.HMMSynthesizer Synthesizing one sentence.
+2025-06-15 19:31:11,545 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.HTSEngine Using prosody from acoustparams.
+2025-06-15 19:31:11,546 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.HTSEngine Number of models in sentence numModel=25  Total number of states numState=125
+2025-06-15 19:31:11,546 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.HTSEngine Total number of frames=592  Number of voiced frames=195
+2025-06-15 19:31:11,547 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.ParameterGeneration Parameter generation for MGC: 
+2025-06-15 19:31:11,547 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Global variance optimization
+2025-06-15 19:31:11,547 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (0)  number of iterations=26
+2025-06-15 19:31:11,547 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (1)  number of iterations=24
+2025-06-15 19:31:11,547 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (2)  number of iterations=2
+2025-06-15 19:31:11,548 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (3)  number of iterations=22
+2025-06-15 19:31:11,548 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (4)  number of iterations=22
+2025-06-15 19:31:11,548 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (5)  number of iterations=17
+2025-06-15 19:31:11,549 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (6)  number of iterations=14
+2025-06-15 19:31:11,549 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (7)  number of iterations=15
+2025-06-15 19:31:11,549 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (8)  number of iterations=9
+2025-06-15 19:31:11,549 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (9)  number of iterations=12
+2025-06-15 19:31:11,550 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (10)  number of iterations=10
+2025-06-15 19:31:11,550 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (11)  number of iterations=28
+2025-06-15 19:31:11,550 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (12)  number of iterations=8
+2025-06-15 19:31:11,551 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (13)  number of iterations=31
+2025-06-15 19:31:11,551 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (14)  number of iterations=10
+2025-06-15 19:31:11,551 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (15)  number of iterations=4
+2025-06-15 19:31:11,551 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (16)  number of iterations=13
+2025-06-15 19:31:11,551 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (17)  number of iterations=14
+2025-06-15 19:31:11,552 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (18)  number of iterations=15
+2025-06-15 19:31:11,552 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (19)  number of iterations=20
+2025-06-15 19:31:11,552 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (20)  number of iterations=2
+2025-06-15 19:31:11,552 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (21)  number of iterations=13
+2025-06-15 19:31:11,553 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (22)  number of iterations=6
+2025-06-15 19:31:11,553 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (23)  number of iterations=12
+2025-06-15 19:31:11,553 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (24)  number of iterations=8
+2025-06-15 19:31:11,553 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.ParameterGeneration Using f0 from maryXML acoustparams
+2025-06-15 19:31:11,553 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Global variance optimization
+2025-06-15 19:31:11,555 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (0)  number of iterations=100
+2025-06-15 19:31:11,555 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (1)  number of iterations=5
+2025-06-15 19:31:11,555 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (2)  number of iterations=18
+2025-06-15 19:31:11,556 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (3)  number of iterations=90
+2025-06-15 19:31:11,557 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (4)  number of iterations=100
+2025-06-15 19:31:11,557 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Request processed in 26 ms.
+2025-06-15 19:31:11,557 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1    TextToMaryXML took 1 ms
+2025-06-15 19:31:11,557 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1    JTokeniser took 1 ms
+2025-06-15 19:31:11,557 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1    DummyTokens2Words took 0 ms
+2025-06-15 19:31:11,557 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1    OpenNLPPosTagger took 0 ms
+2025-06-15 19:31:11,557 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1    JPhonemiser took 1 ms
+2025-06-15 19:31:11,557 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1    Prosody took 1 ms
+2025-06-15 19:31:11,557 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1    PronunciationModel took 1 ms
+2025-06-15 19:31:11,557 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1    AcousticModeller took 8 ms
+2025-06-15 19:31:11,557 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1    Synthesis took 13 ms
+2025-06-15 19:34:28,296 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 New request (input type "TEXT", output type "AUDIO", voice "dfki-ot-hsmm", audio "WAVE")
+2025-06-15 19:34:28,296 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Handling request using the following modules:
+2025-06-15 19:34:28,296 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 - TextToMaryXML (marytts.modules.TextToMaryXML)
+2025-06-15 19:34:28,296 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Next module: TextToMaryXML
+2025-06-15 19:34:28,297 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Handling request using the following modules:
+2025-06-15 19:34:28,297 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 - JTokeniser (marytts.modules.JTokeniser)
+2025-06-15 19:34:28,297 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 - DummyTokens2Words (marytts.modules.DummyTokens2Words)
+2025-06-15 19:34:28,297 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 - OpenNLPPosTagger (marytts.modules.MinimalisticPosTagger)
+2025-06-15 19:34:28,297 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 - JPhonemiser (marytts.modules.JPhonemiser)
+2025-06-15 19:34:28,297 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 - Prosody (marytts.modules.ProsodyGeneric)
+2025-06-15 19:34:28,297 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 - PronunciationModel (marytts.modules.PronunciationModel)
+2025-06-15 19:34:28,297 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 - AcousticModeller (marytts.modules.AcousticModeller)
+2025-06-15 19:34:28,297 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 - Synthesis (marytts.modules.Synthesis)
+2025-06-15 19:34:28,297 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Next module: JTokeniser
+2025-06-15 19:34:28,297 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Next module: DummyTokens2Words
+2025-06-15 19:34:28,297 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Next module: OpenNLPPosTagger
+2025-06-15 19:34:28,298 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Next module: JPhonemiser
+2025-06-15 19:34:28,298 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Next module: Prosody
+2025-06-15 19:34:28,299 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Next module: PronunciationModel
+2025-06-15 19:34:28,300 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Next module: AcousticModeller
+2025-06-15 19:34:28,305 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.ParameterGeneration Parameter generation for LF0: 
+2025-06-15 19:34:28,305 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Global variance optimization
+2025-06-15 19:34:28,306 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (0)  number of iterations=15
+2025-06-15 19:34:28,308 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Next module: Synthesis
+2025-06-15 19:34:28,308 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.HMMSynthesizer Synthesizing one sentence.
+2025-06-15 19:34:28,308 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.HTSEngine Using prosody from acoustparams.
+2025-06-15 19:34:28,310 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.HTSEngine Number of models in sentence numModel=25  Total number of states numState=125
+2025-06-15 19:34:28,310 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.HTSEngine Total number of frames=592  Number of voiced frames=195
+2025-06-15 19:34:28,311 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.ParameterGeneration Parameter generation for MGC: 
+2025-06-15 19:34:28,311 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Global variance optimization
+2025-06-15 19:34:28,311 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (0)  number of iterations=26
+2025-06-15 19:34:28,312 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (1)  number of iterations=24
+2025-06-15 19:34:28,312 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (2)  number of iterations=2
+2025-06-15 19:34:28,312 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (3)  number of iterations=22
+2025-06-15 19:34:28,313 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (4)  number of iterations=22
+2025-06-15 19:34:28,313 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (5)  number of iterations=17
+2025-06-15 19:34:28,314 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (6)  number of iterations=14
+2025-06-15 19:34:28,314 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (7)  number of iterations=15
+2025-06-15 19:34:28,314 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (8)  number of iterations=9
+2025-06-15 19:34:28,314 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (9)  number of iterations=12
+2025-06-15 19:34:28,315 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (10)  number of iterations=10
+2025-06-15 19:34:28,315 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (11)  number of iterations=28
+2025-06-15 19:34:28,315 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (12)  number of iterations=8
+2025-06-15 19:34:28,316 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (13)  number of iterations=31
+2025-06-15 19:34:28,316 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (14)  number of iterations=10
+2025-06-15 19:34:28,316 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (15)  number of iterations=4
+2025-06-15 19:34:28,317 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (16)  number of iterations=13
+2025-06-15 19:34:28,317 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (17)  number of iterations=14
+2025-06-15 19:34:28,317 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (18)  number of iterations=15
+2025-06-15 19:34:28,317 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (19)  number of iterations=20
+2025-06-15 19:34:28,318 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (20)  number of iterations=2
+2025-06-15 19:34:28,318 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (21)  number of iterations=13
+2025-06-15 19:34:28,318 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (22)  number of iterations=6
+2025-06-15 19:34:28,318 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (23)  number of iterations=12
+2025-06-15 19:34:28,319 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (24)  number of iterations=8
+2025-06-15 19:34:28,319 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.ParameterGeneration Using f0 from maryXML acoustparams
+2025-06-15 19:34:28,319 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Global variance optimization
+2025-06-15 19:34:28,320 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (0)  number of iterations=100
+2025-06-15 19:34:28,320 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (1)  number of iterations=5
+2025-06-15 19:34:28,320 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (2)  number of iterations=18
+2025-06-15 19:34:28,321 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (3)  number of iterations=90
+2025-06-15 19:34:28,322 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (4)  number of iterations=100
+2025-06-15 19:34:28,323 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Request processed in 27 ms.
+2025-06-15 19:34:28,323 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1    TextToMaryXML took 1 ms
+2025-06-15 19:34:28,323 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1    JTokeniser took 0 ms
+2025-06-15 19:34:28,323 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1    DummyTokens2Words took 0 ms
+2025-06-15 19:34:28,323 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1    OpenNLPPosTagger took 1 ms
+2025-06-15 19:34:28,323 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1    JPhonemiser took 0 ms
+2025-06-15 19:34:28,323 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1    Prosody took 1 ms
+2025-06-15 19:34:28,323 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1    PronunciationModel took 1 ms
+2025-06-15 19:34:28,323 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1    AcousticModeller took 8 ms
+2025-06-15 19:34:28,323 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1    Synthesis took 15 ms
+2025-06-15 19:36:00,318 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 New request (input type "TEXT", output type "AUDIO", voice "dfki-ot-hsmm", audio "WAVE")
+2025-06-15 19:36:00,319 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Handling request using the following modules:
+2025-06-15 19:36:00,319 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 - TextToMaryXML (marytts.modules.TextToMaryXML)
+2025-06-15 19:36:00,319 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Next module: TextToMaryXML
+2025-06-15 19:36:00,319 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Handling request using the following modules:
+2025-06-15 19:36:00,319 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 - JTokeniser (marytts.modules.JTokeniser)
+2025-06-15 19:36:00,319 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 - DummyTokens2Words (marytts.modules.DummyTokens2Words)
+2025-06-15 19:36:00,319 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 - OpenNLPPosTagger (marytts.modules.MinimalisticPosTagger)
+2025-06-15 19:36:00,319 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 - JPhonemiser (marytts.modules.JPhonemiser)
+2025-06-15 19:36:00,319 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 - Prosody (marytts.modules.ProsodyGeneric)
+2025-06-15 19:36:00,319 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 - PronunciationModel (marytts.modules.PronunciationModel)
+2025-06-15 19:36:00,319 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 - AcousticModeller (marytts.modules.AcousticModeller)
+2025-06-15 19:36:00,319 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 - Synthesis (marytts.modules.Synthesis)
+2025-06-15 19:36:00,319 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Next module: JTokeniser
+2025-06-15 19:36:00,320 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Next module: DummyTokens2Words
+2025-06-15 19:36:00,320 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Next module: OpenNLPPosTagger
+2025-06-15 19:36:00,320 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Next module: JPhonemiser
+2025-06-15 19:36:00,320 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Next module: Prosody
+2025-06-15 19:36:00,323 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Next module: PronunciationModel
+2025-06-15 19:36:00,323 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Next module: AcousticModeller
+2025-06-15 19:36:00,327 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.ParameterGeneration Parameter generation for LF0: 
+2025-06-15 19:36:00,327 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Global variance optimization
+2025-06-15 19:36:00,327 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (0)  number of iterations=15
+2025-06-15 19:36:00,328 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Next module: Synthesis
+2025-06-15 19:36:00,328 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.HMMSynthesizer Synthesizing one sentence.
+2025-06-15 19:36:00,328 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.HTSEngine Using prosody from acoustparams.
+2025-06-15 19:36:00,329 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.HTSEngine Number of models in sentence numModel=25  Total number of states numState=125
+2025-06-15 19:36:00,329 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.HTSEngine Total number of frames=592  Number of voiced frames=195
+2025-06-15 19:36:00,329 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.ParameterGeneration Parameter generation for MGC: 
+2025-06-15 19:36:00,329 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Global variance optimization
+2025-06-15 19:36:00,330 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (0)  number of iterations=26
+2025-06-15 19:36:00,330 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (1)  number of iterations=24
+2025-06-15 19:36:00,330 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (2)  number of iterations=2
+2025-06-15 19:36:00,330 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (3)  number of iterations=22
+2025-06-15 19:36:00,331 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (4)  number of iterations=22
+2025-06-15 19:36:00,331 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (5)  number of iterations=17
+2025-06-15 19:36:00,331 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (6)  number of iterations=14
+2025-06-15 19:36:00,332 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (7)  number of iterations=15
+2025-06-15 19:36:00,332 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (8)  number of iterations=9
+2025-06-15 19:36:00,332 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (9)  number of iterations=12
+2025-06-15 19:36:00,332 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (10)  number of iterations=10
+2025-06-15 19:36:00,333 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (11)  number of iterations=28
+2025-06-15 19:36:00,333 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (12)  number of iterations=8
+2025-06-15 19:36:00,333 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (13)  number of iterations=31
+2025-06-15 19:36:00,334 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (14)  number of iterations=10
+2025-06-15 19:36:00,334 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (15)  number of iterations=4
+2025-06-15 19:36:00,334 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (16)  number of iterations=13
+2025-06-15 19:36:00,335 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (17)  number of iterations=14
+2025-06-15 19:36:00,335 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (18)  number of iterations=15
+2025-06-15 19:36:00,335 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (19)  number of iterations=20
+2025-06-15 19:36:00,335 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (20)  number of iterations=2
+2025-06-15 19:36:00,336 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (21)  number of iterations=13
+2025-06-15 19:36:00,336 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (22)  number of iterations=6
+2025-06-15 19:36:00,336 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (23)  number of iterations=12
+2025-06-15 19:36:00,336 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (24)  number of iterations=8
+2025-06-15 19:36:00,336 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.ParameterGeneration Using f0 from maryXML acoustparams
+2025-06-15 19:36:00,336 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Global variance optimization
+2025-06-15 19:36:00,337 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (0)  number of iterations=100
+2025-06-15 19:36:00,338 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (1)  number of iterations=5
+2025-06-15 19:36:00,338 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (2)  number of iterations=18
+2025-06-15 19:36:00,339 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (3)  number of iterations=90
+2025-06-15 19:36:00,340 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.PStream Gradient GV optimization for feature: (4)  number of iterations=100
+2025-06-15 19:36:00,340 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1 Request processed in 21 ms.
+2025-06-15 19:36:00,340 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1    TextToMaryXML took 0 ms
+2025-06-15 19:36:00,340 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1    JTokeniser took 1 ms
+2025-06-15 19:36:00,340 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1    DummyTokens2Words took 0 ms
+2025-06-15 19:36:00,340 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1    OpenNLPPosTagger took 0 ms
+2025-06-15 19:36:00,340 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1    JPhonemiser took 0 ms
+2025-06-15 19:36:00,340 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1    Prosody took 3 ms
+2025-06-15 19:36:00,340 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1    PronunciationModel took 0 ms
+2025-06-15 19:36:00,340 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1    AcousticModeller took 5 ms
+2025-06-15 19:36:00,340 [nREPL-session-c11fc1c6-2e66-4721-9c11-8ce288c664bf] INFO  marytts.R 1    Synthesis took 12 ms
