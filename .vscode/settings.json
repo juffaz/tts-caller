@@ -1,0 +1,4 @@
+{
+  "calva.jackInLeiningenArguments": ["--extra-classpath-dirs", "lib"]
+}
+
