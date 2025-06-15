@@ -4,6 +4,9 @@
            [org.w3c.dom Document]
            [javax.xml.parsers DocumentBuilderFactory]))
 
+;; ✅ Установи нужный голос здесь:
+(def voice "cmu-slt-hsmm")
+
 (defn create-mary []
   (let [cls (Class/forName "marytts.LocalMaryInterface")
         ctor (.getConstructor cls (into-array Class []))]
@@ -14,38 +17,6 @@
         builder (.newDocumentBuilder factory)
         is (ByteArrayInputStream. (.getBytes ssml "UTF-8"))]
     (.parse builder is)))
-
-
-(defn generate-final-wav-auto [text outfile]
-  (if (.startsWith text "<speak>")
-    (generate-final-wav-ssml text outfile)
-    (generate-final-wav-plain text outfile)))
-
-(comment
-
-  (audio/generate-final-wav-plain "Salam, Sphere və ATLAS işləmir." "/tmp/test.wav")
-
-
-
-  (require '[tts-caller.audio :as audio] :reload)
-  
-  (audio/generate-final-wav-plain "Test" "/tmp/test.wav")
-
-  (audio/generate-final-wav-plain "Salam, Sphere və ATLAS işləmir." "/tmp/test.wav")
-
-(def ssml "<speak><prosody rate='x-fast'>Salam, Sphere və ATLAS işləmir.</prosody></speak>")
-
-  
-(tts-caller.audio/generate-final-wav-auto "<speak><prosody rate='x-fast'>Salam, Sphere və ATLAS işləmir.</prosody></speak>" "/tmp/test.wav")
-
-
-
-  (generate-final-wav-auto "Salam Sphere və ATLAS" "/tmp/x.wav")
-
- 
-  
-  )
-
 
 (defn generate-audio-bytes-plain [text voice]
   (let [mary (create-mary)
@@ -97,8 +68,7 @@
               (* (.getSampleSizeInBits format) 0.125 (.getChannels format)))))))
 
 (defn generate-final-wav-plain [text outfile]
-  (let [voice "dfki-ot-hsmm"
-        format (AudioFormat. 8000 16 1 true false)
+  (let [format (AudioFormat. 8000 16 1 true false)
         audio (generate-audio-bytes-plain text voice)
         silence15 (silence-bytes 2000 format)
         silence10 (silence-bytes 500 format)
@@ -106,16 +76,23 @@
     (AudioSystem/write full AudioFileFormat$Type/WAVE (File. outfile))))
 
 (defn generate-final-wav-ssml [ssml outfile]
-  (let [voice "dfki-ot-hsmm"
-        format (AudioFormat. 8000 16 1 true false)
+  (let [format (AudioFormat. 8000 16 1 true false)
         audio (generate-audio-bytes-ssml ssml voice)
         silence15 (silence-bytes 2000 format)
         silence10 (silence-bytes 500 format)
         full (concat-audio-streams [silence15 audio audio silence10] format)]
     (AudioSystem/write full AudioFileFormat$Type/WAVE (File. outfile))))
 
-
 (defn generate-final-wav-auto [text outfile]
   (if (.startsWith text "<speak>")
     (generate-final-wav-ssml text outfile)
     (generate-final-wav-plain text outfile)))
+
+(comment
+  ;; 🔁 Пример быстрой проверки
+
+  ;; Проверка обычного текста:
+  (generate-final-wav-auto "Salam, Sphere və Atlas işləmir!" "/tmp/plain.wav")
+
+  ;; Проверка SSML с быстрой скоростью:
+  (generate-final-wav-auto "<speak><prosody rate='x-fast'>Salam, Sphere və Atlas işləmir!</prosody></speak>" "/tmp/ssml.wav"))
