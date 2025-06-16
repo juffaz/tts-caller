@@ -53,12 +53,11 @@
 
 (defn generate-audio-bytes-plain [text voice]
   (let [mary (create-mary)
-        set-voice (.getMethod (class mary) "setVoice" (into-array Class [String]))
-        generate-audio (.getMethod (class mary) "generateAudio" (into-array Class [String]))]
-    (.invoke set-voice mary (object-array [voice]))
-    (with-open [ais (.invoke generate-audio mary (object-array [text]))]
-      (let [ais ^AudioInputStream ais
-            buffer (byte-array 1024)
+        _ (.setVoice mary voice)
+        _ (.setAudioEffects mary "Rate(durScale:1.5)")
+        audio (.generateAudio mary text)]
+    (with-open [ais audio]
+      (let [buffer (byte-array 1024)
             out (java.io.ByteArrayOutputStream.)]
         (loop [n (.read ais buffer)]
           (when (pos? n)
