@@ -37,18 +37,24 @@
       (.destroy process))))
 
 
+(defn split-phones [s]
+  (->> (clojure.string/split s #"[,\s]+")
+       (remove clojure.string/blank?)))
+
 (defn handle-call [{:keys [query-params]}]
   (let [{:strs [text phone]} query-params
         final "/tmp/final.wav"]
     (if (and text phone)
-      (do
+      (let [phones (split-phones phone)]
         (println "🗣  Synthesizing text:" text)
         (audio/generate-final-wav-auto text final)
         (println "📁 WAV file created at:" final)
-        (call-sip final phone)
-        (println "📞 Call requested to:" phone)
-        (resp/response (str "📞 Calling " phone " from " sip-user "@" sip-domain)))
+        (doseq [p phones]
+          (call-sip final p)
+          (println "📞 Call requested to:" p))
+        (resp/response (str "📞 Calling " (clojure.string/join ", " phones) " from " sip-user "@" sip-domain)))
       (resp/bad-request "❌ Missing ?text=...&phone=..."))))
+
 
 (defroutes app-routes
   (GET "/call" [] handle-call)
