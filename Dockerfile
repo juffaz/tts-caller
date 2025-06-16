@@ -5,6 +5,7 @@ WORKDIR /app
 # Установим зависимости
 RUN apt-get update && apt-get install -y \
     baresip \
+    baresip-modules \
     alsa-utils \
     curl \
  && apt-get clean && rm -rf /var/lib/apt/lists/*

@@ -23,16 +23,12 @@
              "sip_contact sip:" sip-user "@" sip-domain "\n"
              "\n"
              "audio_player aufile\n"
-             "audio_source aufile\n"
+             "audio_source auffile\n"
              "audio_path " final-wav "\n"
              "\n"
-             ;; Модули для поддержки WAV
              "module stdio.so\n"
-             "module sndfile.so\n"
-             "module alsa.so\n"
-             "module opus.so\n"
-             "module aucodec.so\n"
-             "module tone.so\n")
+             "module aufile.so\n"
+             "module aucodec.so\n")
         cmd (str "/ausrc aufile," final-wav "\n"
                  "/dial sip:" phone "@" sip-domain "\n")]
     (.mkdirs (java.io.File. cfg-dir))
@@ -57,7 +53,7 @@
         (println "⚠️ Failed to read WAV metadata:" (.getMessage e))))
 
     ;; baresip запуск
-    (let [pb (doto (ProcessBuilder. ["baresip" "-f" cfg-dir])
+    (let [pb (doto (ProcessBuilder. ["baresip" "-f" cfg-dir "-m" "/usr/lib/baresip/modules"])
                (.redirectOutput ProcessBuilder$Redirect/INHERIT)
                (.redirectError ProcessBuilder$Redirect/INHERIT))
           process (.start pb)]
