@@ -6,8 +6,10 @@
                  [compojure "1.7.1"]
                  [clout "2.2.1"]
                  [instaparse "1.4.8"]
-                 [medley "1.4.0"]]
+                 [medley "1.4.0"]
+                 ]
   :main tts-caller.core                      ;; <- используется при uberjar
+  :uberjar-name "tts-caller-standalone.jar"           ;; <--- добавлено
   :aot [tts-caller.core]                     ;; <- обязательно для .jar
   :resource-paths ["resources"]
   :extra-classpath-dirs ["lib"]

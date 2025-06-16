@@ -5,7 +5,6 @@
 # Leiningen
 /target/
 /.lein-repl-history
-/lib/
 *.jar
 *.class
 /checkouts/
@@ -29,3 +28,6 @@ README
 
 # macOS
 .DS_Store
+
+# nREPL
+.nrepl-port

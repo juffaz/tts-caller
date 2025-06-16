@@ -1,4 +1,0 @@
-(require 'tts-caller.audio :reload)
-(tts-caller.audio/generate-final-wav "Salam, bu səsli zəng testidir." "/tmp/test.wav")
-(require 'tts-caller.audio :reload)
-(tts-caller.audio/generate-final-wav "Salam, bu səsli zəng testidir." "/tmp/test.wav")

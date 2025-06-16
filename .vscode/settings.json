@@ -1,6 +1,0 @@
-{
-  "calva.jackInLeiningenArguments": [
-    "--extra-classpath-dirs", "lib",
-    "--jvm-opts=-Dmary.base=lib"
-  ]
-}

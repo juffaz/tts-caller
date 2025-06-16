@@ -2,20 +2,21 @@ FROM clojure:temurin-17-lein
 
 WORKDIR /app
 
-# Копируем deps и lib сначала — это кэшируется
-COPY project.clj .
-COPY lib ./lib/
-RUN lein deps
+# Установим зависимости
+RUN apt-get update && apt-get install -y \
+    baresip \
+    alsa-utils \
+    curl \
+ && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Копируем остальной код
-COPY . .
+# Копируем проект (с учетом .dockerignore)
+COPY . /app
 
-# Собираем uberjar внутри Docker
+# Собираем uberjar
 RUN lein uberjar
 
-# Healthcheck
-HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
-  CMD curl -sf http://localhost:8899/health || exit 1
+# Указываем порт API
+EXPOSE 8899
 
-# Запускаем
-CMD ["java", "-cp", "lib/*:target/uberjar/tts-caller-0.1.0-SNAPSHOT-standalone.jar", "tts-caller.core"]
+# Запуск приложения
+CMD ["java", "-cp", "target/tts-caller-standalone.jar:lib/*", "clojure.main", "-m", "tts-caller.core"]

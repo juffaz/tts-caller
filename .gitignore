@@ -1,7 +1,6 @@
 # Leiningen
 /target/
 /.lein-repl-history
-/lib/
 *.jar
 *.class
 
@@ -24,3 +23,6 @@
 
 # Локальные зависимости (если используются)
 /checkouts/
+
+# nREPL, Calva temp
+/.nrepl-port
