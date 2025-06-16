@@ -15,11 +15,24 @@
 (defn call-sip [final-wav phone]
   (let [cfg-dir "/tmp/baresip_config"
         cfg-path (str cfg-dir "/config")
-        cfg (str "auth_user " sip-user "\n"
-                 "auth_pass " sip-pass "\n"
-                 "sip_transp udp\n"
-                 "sip_listen 0.0.0.0\n"
-                 "sip_contact sip:" sip-user "@" sip-domain)
+        cfg (str
+             "auth_user " sip-user "\n"
+             "auth_pass " sip-pass "\n"
+             "sip_transp udp\n"
+             "sip_listen 0.0.0.0\n"
+             "sip_contact sip:" sip-user "@" sip-domain "\n"
+             "\n"
+             "audio_player aufile\n"
+             "audio_source aufile\n"
+             "audio_path " final-wav "\n"
+             "\n"
+             ;; Модули для поддержки WAV
+             "module stdio.so\n"
+             "module sndfile.so\n"
+             "module alsa.so\n"
+             "module opus.so\n"
+             "module aucodec.so\n"
+             "module tone.so\n")
         cmd (str "/ausrc aufile," final-wav "\n"
                  "/dial sip:" phone "@" sip-domain "\n")]
     (.mkdirs (java.io.File. cfg-dir))
@@ -27,7 +40,6 @@
     (println "🛠  baresip config written to:" cfg-path)
     (println "📨 baresip commands:\n" cmd)
 
-    ;; 👇 Добавляем логи о логине и .wav
     (println "📞 Connecting as:" sip-user "@" sip-domain)
     (println "📤 Sending WAV file:" final-wav)
     (when-let [file (java.io.File. final-wav)]
@@ -54,6 +66,7 @@
         (.flush writer))
       (Thread/sleep 20000)
       (.destroy process))))
+
 
 
 
