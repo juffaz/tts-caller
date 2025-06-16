@@ -13,8 +13,12 @@ RUN apt-get update && apt-get install -y \
 # Создадим рабочую директорию
 WORKDIR /app
 
-# Копируем проект (с учётом .dockerignore)
+# Копируем проект
 COPY . /app
+
+# Копируем baresip-модули в /tmp/baresip_config (туда, где будет config)
+RUN mkdir -p /tmp/baresip_config && \
+    cp /usr/lib/baresip/modules/*.so /tmp/baresip_config/
 
 # Собираем uberjar
 RUN lein uberjar
