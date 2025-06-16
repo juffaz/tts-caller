@@ -1,12 +1,30 @@
-# 📞 TTS Caller (Clojure + MaryTTS + Baresip)
+TTS Caller (Clojure + MaryTTS + Baresip)
 
-Сервис для голосовых оповещений с преобразованием текста в речь (TTS) и SIP-звонком. Реализован на Clojure с использованием MaryTTS и Baresip. Подходит для интеграции с Zabbix, ElastAlert, Alertmanager, Centreon и другими системами мониторинга.
+A lightweight voice alert service that converts text to speech (TTS) and initiates SIP phone calls. Built with Clojure, using MaryTTS for speech synthesis and Baresip for SIP call handling.
 
----
+Perfect for integration with monitoring systems like Zabbix, ElastAlert, Alertmanager, and Centreon.
+🚀 How to Run
+1. Build the Docker Image
 
-## 🚀 Как запустить
-
-### 1. Сборка Docker-образа
-
-```bash
 docker build -t tts-caller .
+
+2. Start the Service
+
+docker run --rm -p 8899:8899 --name tts-caller tts-caller
+
+To pass SIP credentials and SIP server host:
+
+docker run --rm -p 8899:8899 \
+  -e SIP_USER="0201011221" \
+  -e SIP_PASS="yourpassword" \
+  -e SIP_HOST="10.22.6.249" \
+  --name tts-caller tts-caller
+
+📞 Test the Service
+
+Make a test call using curl:
+
+curl --get "http://localhost:8899/call" \
+  --data-urlencode "text=Mobile işləmir!" \
+  --data-urlencode "phone=0722111111"
+
