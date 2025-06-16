@@ -1,23 +1,24 @@
-# 📢 TTS Caller (Clojure + MaryTTS + Baresip)
+# TTS Caller (Clojure + MaryTTS + Baresip)
 
-A lightweight voice alert service that converts text to speech (TTS) and initiates SIP phone calls.  
-Built with **Clojure**, using **MaryTTS** for speech synthesis and **Baresip** for SIP call handling.
+TTS Caller is a simple voice alert service that converts text to speech (TTS) and makes SIP phone calls.  
+It is written in Clojure, using MaryTTS for speech synthesis and Baresip for SIP call handling.
 
-Perfect for integration with monitoring systems like **Zabbix**, **ElastAlert**, **Alertmanager**, **Centreon**, and others.
+It is designed for integration with monitoring systems such as Zabbix, ElastAlert, Alertmanager, Centreon, and others.
 
 ---
 
-## 🚀 How to Run
+## How to Run
 
-### 🧱 1. Build the Docker Image
+### 1. Build the Docker Image
 
 ```bash
 docker build -t tts-caller .
-▶️ 2. Start the Service (Default)
+
+2. Start the Service (Default)
 
 docker run --rm -p 8899:8899 --name tts-caller tts-caller
 
-🔐 3. Start with SIP Credentials
+3. Start with SIP Credentials
 
 docker run --rm -p 8899:8899 \
   -e SIP_USER="0201011221" \
@@ -25,33 +26,29 @@ docker run --rm -p 8899:8899 \
   -e SIP_HOST="10.22.6.249" \
   --name tts-caller tts-caller
 
-📞 Trigger a Call via HTTP API
+Trigger a Call via HTTP API
 
 curl --get "http://localhost:8899/call" \
   --data-urlencode "text=Mobile işləmir!" \
   --data-urlencode "phone=0722111111"
 
-⚙️ Environment Variables
+Environment Variables
 Variable	Description
 SIP_USER	SIP username/login
 SIP_PASS	SIP password
 SIP_HOST	SIP server IP or FQDN
-✅ Example Use Cases
+Example Use Cases
 
-    🔔 Critical incident voice alerts
+    Critical incident voice alerts
 
-    ☎️ SIP integration with monitoring tools
+    SIP integration with monitoring systems
 
-    🚨 Automated emergency call notifications
+    Automated emergency call notifications
 
-🛠️ Technologies Used
+Technologies Used
 
     Clojure
 
     MaryTTS
 
     Baresip
-
-📬 Contributions
-
-Feel free to fork, open issues, or submit PRs for new features like CLI mode, SSML support, or multi-language voices.
