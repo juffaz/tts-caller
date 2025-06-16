@@ -10,16 +10,14 @@ This service is ideal for integration with monitoring systems like Zabbix, Elast
 ## How to Run
 
 ### 1. Build the Docker image
-
 ```bash
 docker build -t tts-caller .
 
-### 2. Start the service (default)
-
+#### 2. Start the service (default)
+```bash
 docker run --rm -p 8899:8899 --name tts-caller tts-caller
 
-### 3. Start with SIP credentials
-
+##### 3. Start with SIP credentials
 ```bash
 docker run --rm -p 8899:8899 \
   -e SIP_USER="0201011221" \
@@ -27,8 +25,7 @@ docker run --rm -p 8899:8899 \
   -e SIP_HOST="10.22.6.249" \
   --name tts-caller tts-caller
 
-### Trigger a call via HTTP API
-
+####### Trigger a call via HTTP API
 ```bash
 curl --get "http://localhost:8899/call" \
   --data-urlencode "text=Mobile işləmir!" \
