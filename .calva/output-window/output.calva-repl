@@ -36,8 +36,8 @@ You can configure this with the setting:
 ;   - See https://calva.io/connect-sequences/
 ; 
 
-; Starting Jack-in: (cd /home/juff/gitlab/tts-caller; lein update-in :dependencies conj '[nrepl,"1.3.1"]' -- update-in :plugins conj '[cider/cider-nrepl,"0.55.4"]' -- update-in '[:repl-options,:nrepl-middleware]' conj '["cider.nrepl/cider-middleware"]' -- with-profile +dev repl :headless)
-; Using host:port 127.0.0.1:43949 ...
+; Starting Jack-in: (cd /home/juff/github/tts-caller; lein update-in :dependencies conj '[nrepl,"1.3.1"]' -- update-in :plugins conj '[cider/cider-nrepl,"0.55.4"]' -- update-in '[:repl-options,:nrepl-middleware]' conj '["cider.nrepl/cider-middleware"]' -- repl :headless)
+; Using host:port 127.0.0.1:41607 ...
 ; Hooking up nREPL sessions ...
 ; Connected session: clj
 ; Evaluating code from settings: 'calva.autoEvaluateCode.onConnect.clj'
@@ -48,495 +48,146 @@ about why stdout printed to this file is prepended with `;` to be line comments.
 clj꞉tts-caller.core꞉> 
 ; Jack-in done.
 clj꞉tts-caller.core꞉> 
-#'tts-caller.audio/voice
-clj꞉tts-caller.audio꞉> 
-; Syntax error compiling at (src/tts_caller/audio.clj:43:1).
-; No such namespace: audio
-clj꞉tts-caller.audio꞉> 
-; Syntax error compiling at (src/tts_caller/audio.clj:0:0).
-; Unable to resolve symbol: generate-final-wav-auto in this context
-clj꞉tts-caller.audio꞉> 
-; Syntax error compiling at (src/tts_caller/audio.clj:43:1).
-; Unable to resolve symbol: generate-final-wav-auto in this context
-clj꞉tts-caller.audio꞉> 
-; Syntax error compiling at (src/tts_caller/audio.clj:21:5).
-; Unable to resolve symbol: generate-final-wav-ssml in this context
-clj꞉tts-caller.audio꞉> 
-#'tts-caller.audio/generate-final-wav-auto
-clj꞉tts-caller.audio꞉> 
-; nREPL Connection was closed
-; Connecting using "Leiningen" project type.
-; You can make Calva auto-select this.
-;   - See https://calva.io/connect-sequences/
+; Syntax error compiling at (dev/user.clj:22:1).
+; No such var: user/init!
+clj꞉user꞉> 
+; Available voices: #object[java.util.HashSet 0x5a4cbb35 [dfki-ot-hsmm, cmu-slt-hsmm]]
+nil
 ; 
-
-; Connecting ...
-; Reading port file: file:///home/juff/gitlab/tts-caller/.nrepl-port ...
-; Using host:port localhost:43949 ...
-; Hooking up nREPL sessions ...
-; Connected session: clj
-; Evaluating code from settings: 'calva.autoEvaluateCode.onConnect.clj'
-nil
-clj꞉tts-caller.core꞉> 
-#'tts-caller.audio/generate-final-wav-auto
-clj꞉tts-caller.audio꞉> 
-#'tts-caller.audio/voice
-clj꞉tts-caller.audio꞉> 
-; Syntax error compiling at (src/tts_caller/audio.clj:28:3).
-; No such namespace: audio
-clj꞉tts-caller.audio꞉> 
-; Syntax error compiling at (src/tts_caller/audio.clj:0:0).
-; No such namespace: audio
-clj꞉tts-caller.audio꞉> 
-nil
-clj꞉tts-caller.audio꞉> 
-; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
-; marytts.LocalMaryInterface
-clj꞉tts-caller.audio꞉> 
-; nREPL Connection was closed
-; Connecting using "Leiningen" project type.
-; You can make Calva auto-select this.
-;   - See https://calva.io/connect-sequences/
-; 
-
-; Connecting ...
-; Reading port file: file:///home/juff/gitlab/tts-caller/.nrepl-port ...
-; Using host:port localhost:43949 ...
-; Hooking up nREPL sessions ...
-; Connected session: clj
-; Evaluating code from settings: 'calva.autoEvaluateCode.onConnect.clj'
-nil
-clj꞉tts-caller.core꞉> 
-nil
-clj꞉tts-caller.audio꞉> 
-; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
-; marytts.LocalMaryInterface
-clj꞉tts-caller.audio꞉> 
-; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
-; marytts.LocalMaryInterface
-; 
-; Syntax error reading source at (REPL:98:127).
-; Unmatched delimiter: )
-clj꞉tts-caller.audio꞉> 
-nil
-clj꞉tts-caller.audio꞉> 
-; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
-; marytts.LocalMaryInterface
-clj꞉tts-caller.audio꞉> 
-nil
-clj꞉tts-caller.audio꞉> 
-; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
-; marytts.LocalMaryInterface
-clj꞉tts-caller.audio꞉> 
-; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
-; marytts.LocalMaryInterface
-clj꞉tts-caller.audio꞉> 
-; nREPL Connection was closed
-; Jacking in...
-; Connecting using "Leiningen" project type.
-; You can make Calva auto-select this.
-;   - See https://calva.io/connect-sequences/
-; 
-
-; Starting Jack-in: (cd /home/juff/gitlab/tts-caller; lein update-in :dependencies conj '[nrepl,"1.3.1"]' -- update-in :plugins conj '[cider/cider-nrepl,"0.55.4"]' -- update-in '[:repl-options,:nrepl-middleware]' conj '["cider.nrepl/cider-middleware"]' -- with-profile +dev repl :headless)
-; Using host:port 127.0.0.1:41789 ...
-; Hooking up nREPL sessions ...
-; Connected session: clj
-; Evaluating code from settings: 'calva.autoEvaluateCode.onConnect.clj'
-nil
-clj꞉tts-caller.core꞉> 
-; Jack-in done.
-clj꞉tts-caller.core꞉> 
-; Syntax error compiling at (src/tts_caller/audio.clj:100:4).
-; No such var: tts-caller.audio/generate-final-wav-auto
-clj꞉tts-caller.audio꞉> 
-nil
-clj꞉tts-caller.audio꞉> (tts-caller.audio/generate-final-wav-auto
-   "<speak><prosody rate='fast'>Sphere və ATLAS işləmir.</prosody></speak>"
-   "/tmp/test.wav")
-; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
-; marytts.LocalMaryInterface
-clj꞉tts-caller.audio꞉> 
+; SLF4J: No SLF4J providers were found.
+; SLF4J: Defaulting to no-operation (NOP) logger implementation
+; SLF4J: See https://www.slf4j.org/codes.html#noProviders for further details.
+clj꞉user꞉> 
+; Available voices: #object[java.util.HashSet 0xd517d84 [dfki-ot-hsmm, cmu-slt-hsmm]]
 nil
 clj꞉user꞉> 
+nil
+clj꞉user꞉> 
+nil
+clj꞉user꞉> 
+; Available voices: #object[java.util.HashSet 0x6f0b50ee [dfki-ot-hsmm, cmu-slt-hsmm]]
+nil
+clj꞉user꞉> 
+nil
+clj꞉tts-caller.audio꞉> 
+; Execution error (IllegalArgumentException) at marytts.server.Request/process (Request.java:279).
+; Mandatory attribute xml:lang is missing from maryxml document element.
+clj꞉tts-caller.audio꞉> 
+; Syntax error compiling at (src/tts_caller/audio.clj:25:1).
+; No such namespace: audio
+clj꞉tts-caller.audio꞉> 
 #'tts-caller.core/-main
 clj꞉tts-caller.core꞉> 
 nil
+clj꞉user꞉> 
+nil
+clj꞉user꞉> 
+; Available voices: #object[java.util.HashSet 0x2300ef4b [dfki-ot-hsmm, cmu-slt-hsmm]]
+nil
+clj꞉user꞉> 
+; Execution error (IllegalArgumentException) at marytts.server.Request/process (Request.java:279).
+; Mandatory attribute xml:lang is missing from maryxml document element.
 clj꞉tts-caller.audio꞉> 
-nil
-clj꞉user꞉> 
-#function[user/init!]
-clj꞉user꞉> 
-; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
-; marytts.LocalMaryInterface
+4218924
 clj꞉tts-caller.audio꞉> 
-; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
-; marytts.LocalMaryInterface
-clj꞉user꞉> 
-; Execution error (ClassNotFoundException) at java.net.URLClassLoader/findClass (URLClassLoader.java:349).
-; marytts.LocalMaryInterface
-clj꞉user꞉> 
-nil
-clj꞉user꞉> 
-; Execution error (MaryConfigurationException) at marytts.util.MaryRuntimeUtils/needAllophoneSet (MaryRuntimeUtils.java:315).
-; No such property: en_US.allophoneset
-clj꞉user꞉> 
-; Execution error (IllegalArgumentException) at marytts.LocalMaryInterface/setVoice (LocalMaryInterface.java:182).
-; No such voice: cmu-slt-hsmm
-clj꞉user꞉> 
-nil
-clj꞉user꞉> 
-; Execution error (IllegalArgumentException) at marytts.LocalMaryInterface/setVoice (LocalMaryInterface.java:182).
-; No such voice: cmu-slt-hsmm
-clj꞉user꞉> 
-nil
+4218924
 clj꞉tts-caller.audio꞉> 
-; Syntax error compiling at (src/tts_caller/audio.clj:0:0).
-; Unable to resolve symbol: cmu-slt-hsmm in this context
+3466284
 clj꞉tts-caller.audio꞉> 
-"cmu-slt-hsmm"
+3391404
 clj꞉tts-caller.audio꞉> 
-nil
+#'tts-caller.audio/voice
 clj꞉tts-caller.audio꞉> 
-nil
-clj꞉user꞉> 
-; Execution error (IllegalArgumentException) at marytts.LocalMaryInterface/setVoice (LocalMaryInterface.java:182).
-; No such voice: cmu-slt-hsmm
-clj꞉user꞉> 
-nil
-clj꞉user꞉> 
-; Execution error (IllegalArgumentException) at marytts.LocalMaryInterface/setVoice (LocalMaryInterface.java:182).
-; No such voice: cmu-slt-hsmm
+429164
 clj꞉tts-caller.audio꞉> 
-; Syntax error compiling at (dev/user.clj:12:3).
-; Unable to resolve symbol: add-lib-jars in this context
-clj꞉user꞉> 
-#'user/init!
-clj꞉user꞉> 
-; Syntax error compiling at (dev/user.clj:16:1).
-; No such var: user/init
-clj꞉user꞉> 
-nil
-clj꞉user꞉> 
-#'user/init!
-clj꞉user꞉> 
-nil
-clj꞉user꞉> 
-nil
+#object[javax.sound.sampled.AudioFormat 0x3cd1bc6 "PCM_SIGNED 16000.0 Hz, 16 bit, mono, 2 bytes/frame, little-endian"]
 clj꞉tts-caller.audio꞉> 
-; Execution error (IllegalArgumentException) at marytts.LocalMaryInterface/setVoice (LocalMaryInterface.java:182).
-; No such voice: cmu-slt-hsmm
+429164
 clj꞉tts-caller.audio꞉> 
-; nREPL Connection was closed
-; Connecting using "Leiningen" project type.
-; You can make Calva auto-select this.
-;   - See https://calva.io/connect-sequences/
-; 
-
-; Connecting ...
-; Reading port file: file:///home/juff/gitlab/tts-caller/.nrepl-port ...
-; Using host:port localhost:41789 ...
-; Hooking up nREPL sessions ...
-; Connected session: clj
-; Evaluating code from settings: 'calva.autoEvaluateCode.onConnect.clj'
-nil
-clj꞉tts-caller.core꞉> 
-nil
+429164
 clj꞉tts-caller.audio꞉> 
-nil
-clj꞉user꞉> 
-#function[user/init!]
-clj꞉user꞉> 
-nil
+460204
 clj꞉tts-caller.audio꞉> 
-; Execution error (IllegalArgumentException) at marytts.LocalMaryInterface/setVoice (LocalMaryInterface.java:182).
-; No such voice: cmu-slt-hsmm
+460204
 clj꞉tts-caller.audio꞉> 
-nil
-clj꞉user꞉> 
-; Execution error (IllegalArgumentException) at marytts.LocalMaryInterface/setVoice (LocalMaryInterface.java:182).
-; No such voice: cmu-slt-hsmm
-clj꞉user꞉> 
-; Execution error (IllegalArgumentException) at marytts.LocalMaryInterface/setVoice (LocalMaryInterface.java:182).
-; No such voice: cmu-slt-hsmm
-clj꞉user꞉> 
-nil
-clj꞉user꞉> 
-; Syntax error compiling at (dev/user.clj:27:14).
-; Unable to resolve symbol: create-mary in this context
-clj꞉user꞉> 
-; Syntax error compiling at (dev/user.clj:27:14).
-; Unable to resolve symbol: create-mary in this context
-clj꞉user꞉> 
-; Syntax error compiling at (dev/user.clj:31:14).
-; Unable to resolve symbol: create-mary in this context
-clj꞉user꞉> 
-; Syntax error compiling at (dev/user.clj:31:14).
-; Unable to resolve symbol: create-mary in this context
-clj꞉user꞉> 
-nil
-clj꞉tts-caller.audio꞉> (require '[tts-caller.audio :as audio] :reload)
-nil
-clj꞉tts-caller.audio꞉> (audio/list-voices)
-; Available voices: #object[java.util.HashSet 0xcef373d [dfki-ot-hsmm]]
-nil
+460204
 clj꞉tts-caller.audio꞉> 
-; nREPL Connection was closed
-; Connecting using "Leiningen" project type.
-; You can make Calva auto-select this.
-;   - See https://calva.io/connect-sequences/
-; 
-
-; Connecting ...
-; Reading port file: file:///home/juff/gitlab/tts-caller/.nrepl-port ...
-; Using host:port localhost:41789 ...
-; Hooking up nREPL sessions ...
-; Connected session: clj
-; Evaluating code from settings: 'calva.autoEvaluateCode.onConnect.clj'
-nil
-clj꞉tts-caller.core꞉> 
-nil
-clj꞉tts-caller.core꞉> (user/init!)
-nil
-clj꞉tts-caller.core꞉> (audio/list-voices)
-; Syntax error compiling at (.calva/output-window/output.calva-repl:301:23).
+460204
+clj꞉tts-caller.audio꞉> 
+460204
+clj꞉tts-caller.audio꞉> 
+; Syntax error compiling at (src/tts_caller/audio.clj:23:3).
 ; No such namespace: audio
-clj꞉tts-caller.core꞉> 
-nil
-clj꞉tts-caller.audio꞉> (audio/list-voices)
-; Available voices: #object[java.util.HashSet 0x121bdb26 [dfki-ot-hsmm]]
-nil
-clj꞉tts-caller.audio꞉> 
-nil
-clj꞉user꞉> 
-nil
-clj꞉user꞉> 
-nil
-clj꞉user꞉> 
-; Available voices: #object[java.util.HashSet 0x2499fc7a [dfki-ot-hsmm]]
-nil
-clj꞉user꞉> 
-; Available voices: #object[java.util.HashSet 0x43a2e4e8 [dfki-ot-hsmm]]
-nil
-clj꞉user꞉> 
-#function[user/init!]
-clj꞉user꞉> 
-#function[clojure.core/require]
-clj꞉user꞉> 
-#function[tts-caller.audio/list-voices]
-clj꞉user꞉> 
-; Available voices: #object[java.util.HashSet 0x6b21b4b0 [dfki-ot-hsmm]]
-nil
-clj꞉user꞉> 
-; nREPL Connection was closed
-; Connecting using "Leiningen" project type.
-; You can make Calva auto-select this.
-;   - See https://calva.io/connect-sequences/
-; 
-
-; Connecting ...
-; Reading port file: file:///home/juff/gitlab/tts-caller/.nrepl-port ...
-; Using host:port localhost:41789 ...
-; Hooking up nREPL sessions ...
-; Connected session: clj
-; Evaluating code from settings: 'calva.autoEvaluateCode.onConnect.clj'
-nil
-clj꞉tts-caller.core꞉> 
-; Available voices: #object[java.util.HashSet 0x5f75fd05 [dfki-ot-hsmm]]
-nil
-clj꞉user꞉> 
-; Available voices: #object[java.util.HashSet 0x5aa2d74c [dfki-ot-hsmm]]
-nil
-clj꞉user꞉> 
-#function[user/init!]
-clj꞉user꞉> 
-#function[clojure.core/require]
-clj꞉user꞉> 
-#function[tts-caller.audio/list-voices]
-clj꞉user꞉> 
-; Available voices: #object[java.util.HashSet 0x5743cdcc [dfki-ot-hsmm]]
-nil
-clj꞉user꞉> 
-nil
-clj꞉tts-caller.audio꞉> 
-; Available voices: #object[java.util.HashSet 0x19aba200 [dfki-ot-hsmm]]
-nil
-clj꞉tts-caller.audio꞉> 
-:as
 clj꞉tts-caller.audio꞉> 
 nil
 clj꞉tts-caller.audio꞉> 
-; Available voices: #object[java.util.HashSet 0x47979ff0 [dfki-ot-hsmm]]
-nil
-clj꞉tts-caller.audio꞉> 
-; Syntax error compiling at (src/tts_caller/audio.clj:0:0).
-; Unable to resolve symbol: dfki-ot-hsmm in this context
-clj꞉tts-caller.audio꞉> 
-; Syntax error compiling at (src/tts_caller/audio.clj:0:0).
-; Unable to resolve symbol: dfki-ot-hsmm in this context
-clj꞉tts-caller.audio꞉> 
-; nREPL Connection was closed
-; Connecting using "Leiningen" project type.
-; You can make Calva auto-select this.
-;   - See https://calva.io/connect-sequences/
-; 
-
-; Connecting ...
-; Reading port file: file:///home/juff/gitlab/tts-caller/.nrepl-port ...
-; Using host:port localhost:41789 ...
-; Hooking up nREPL sessions ...
-; Connected session: clj
-; Evaluating code from settings: 'calva.autoEvaluateCode.onConnect.clj'
-nil
-clj꞉tts-caller.core꞉> 
-nil
-clj꞉tts-caller.audio꞉> 
-#function[tts-caller.audio/list-voices]
-clj꞉tts-caller.audio꞉> 
-; Available voices: #object[java.util.HashSet 0x56830828 [dfki-ot-hsmm]]
-nil
+; Syntax error compiling at (src/tts_caller/audio.clj:23:3).
+; No such namespace: audio
 clj꞉tts-caller.audio꞉> 
 nil
-clj꞉tts-caller.audio꞉> 
-; Syntax error compiling at (src/tts_caller/audio.clj:0:0).
-; Unable to resolve symbol: cmu-slt-hsmm in this context
-clj꞉tts-caller.audio꞉> 
-; Syntax error compiling at (src/tts_caller/audio.clj:0:0).
-; Unable to resolve symbol: cmu-slt-hsmm in this context
-clj꞉tts-caller.audio꞉> 
+clj꞉user꞉> 
+; Available voices: #object[java.util.HashSet 0x2984d1e2 [dfki-ot-hsmm, cmu-slt-hsmm]]
+nil
+clj꞉user꞉> 
+; Available voices: #object[java.util.HashSet 0x37c83e61 [dfki-ot-hsmm, cmu-slt-hsmm]]
+nil
+clj꞉user꞉> 
+; Available voices: #object[java.util.HashSet 0x22ccd925 [dfki-ot-hsmm, cmu-slt-hsmm]]
+nil
+clj꞉user꞉> 
+; Available voices: #object[java.util.HashSet 0x61706fee [dfki-ot-hsmm, cmu-slt-hsmm]]
+nil
+clj꞉user꞉> 
+; Available voices: #object[java.util.HashSet 0x1ff65d9c [dfki-ot-hsmm, cmu-slt-hsmm]]
+nil
+clj꞉user꞉> 
 #'tts-caller.audio/voice
 clj꞉tts-caller.audio꞉> 
-nil
+503404
 clj꞉tts-caller.audio꞉> 
-; Available voices: #object[java.util.HashSet 0x5b963d12 [dfki-ot-hsmm]]
-nil
-clj꞉tts-caller.audio꞉> 
-; Syntax error compiling at (src/tts_caller/audio.clj:0:0).
-; Unable to resolve symbol: cmu-slt-hsmm in this context
-clj꞉tts-caller.audio꞉> 
-#'tts-caller.audio/voice
-clj꞉tts-caller.audio꞉> 
-nil
-clj꞉tts-caller.audio꞉> 
-nil
-clj꞉tts-caller.audio꞉> 
-; Available voices: #object[java.util.HashSet 0x61f7f482 [dfki-ot-hsmm]]
-nil
-clj꞉tts-caller.audio꞉> 
-; Available voices: #object[java.util.HashSet 0x5b8fd9bb [dfki-ot-hsmm]]
-nil
-clj꞉user꞉> 
-#'user/add-lib-jars
-clj꞉user꞉> 
-#'user/init!
-clj꞉user꞉> 
-nil
-clj꞉user꞉> 
-nil
-clj꞉user꞉> 
-; Available voices: #object[java.util.HashSet 0x688f9a84 [dfki-ot-hsmm]]
-nil
-clj꞉user꞉> 
-nil
-clj꞉tts-caller.audio꞉> 
-nil
-clj꞉tts-caller.audio꞉> 
-nil
-clj꞉tts-caller.audio꞉> 
-nil
-clj꞉tts-caller.audio꞉> 
-nil
-clj꞉tts-caller.audio꞉> 
-nil
-clj꞉tts-caller.audio꞉> 
-; Syntax error compiling at (src/tts_caller/audio.clj:0:0).
-; Unable to resolve symbol: cmu-slt-hsmm in this context
-clj꞉tts-caller.audio꞉> 
-#'tts-caller.audio/voice
-clj꞉tts-caller.audio꞉> 
-nil
-clj꞉tts-caller.audio꞉> 
-; Available voices: #object[java.util.HashSet 0x52cd6fb4 [dfki-ot-hsmm]]
 nil
 clj꞉tts-caller.audio꞉> 
 #'tts-caller.audio/voice
 clj꞉tts-caller.audio꞉> 
-#'tts-caller.audio/voice
+543404
 clj꞉tts-caller.audio꞉> 
-#'tts-caller.audio/voice
+531244
 clj꞉tts-caller.audio꞉> 
-nil
+532524
 clj꞉tts-caller.audio꞉> 
-; Available voices: #object[java.util.HashSet 0x39c11bc7 [dfki-ot-hsmm]]
-nil
+532524
 clj꞉tts-caller.audio꞉> 
-#'tts-caller.audio/voice
+290284
 clj꞉tts-caller.audio꞉> 
-#'tts-caller.audio/voice
+216364
 clj꞉tts-caller.audio꞉> 
-nil
+263404
 clj꞉tts-caller.audio꞉> 
-; Syntax error reading source at (REPL:20:1).
-; EOF while reading, starting at line 19
+263404
 clj꞉tts-caller.audio꞉> 
-; Syntax error reading source at (REPL:15:13).
-; Unmatched delimiter: )
+189484
 clj꞉tts-caller.audio꞉> 
-nil
+326764
 clj꞉tts-caller.audio꞉> 
-nil
+274924
 clj꞉tts-caller.audio꞉> 
-nil
+201324
 clj꞉tts-caller.audio꞉> 
-; Available voices: #object[java.util.HashSet 0x15ae9fb7 [dfki-ot-hsmm]]
-nil
+250604
 clj꞉tts-caller.audio꞉> 
-#'tts-caller.audio/voice
+198764
 clj꞉tts-caller.audio꞉> 
-; Available voices: #object[java.util.HashSet 0x27e6cbf [dfki-ot-hsmm]]
-nil
+202604
 clj꞉tts-caller.audio꞉> 
 nil
 clj꞉tts-caller.audio꞉> 
+202604
+clj꞉tts-caller.audio꞉> 
+220524
+clj꞉tts-caller.audio꞉> 
 nil
 clj꞉tts-caller.audio꞉> 
-; Available voices: #object[java.util.HashSet 0x3d99cf46 [dfki-ot-hsmm]]
 nil
 clj꞉tts-caller.audio꞉> 
-; Available voices: #object[java.util.HashSet 0x7111d998 [dfki-ot-hsmm]]
 nil
 clj꞉tts-caller.audio꞉> 
-; Execution error (IllegalArgumentException) at marytts.LocalMaryInterface/setVoice (LocalMaryInterface.java:182).
-; No such voice: cmu-slt-hsmm
-clj꞉tts-caller.audio꞉> 
-; Execution error (IllegalArgumentException) at marytts.LocalMaryInterface/setVoice (LocalMaryInterface.java:182).
-; No such voice: cmu-slt-hsmm
-clj꞉tts-caller.audio꞉> 
-; Execution error (IllegalArgumentException) at marytts.LocalMaryInterface/setVoice (LocalMaryInterface.java:182).
-; No such voice: cmu-slt-hsmm
-clj꞉tts-caller.audio꞉> 
-; Syntax error compiling at (src/tts_caller/audio.clj:21:12).
-; No such namespace: io
-clj꞉tts-caller.audio꞉> 
-; Syntax error compiling at (src/tts_caller/audio.clj:21:12).
-; No such namespace: io
-clj꞉tts-caller.audio꞉> 
-; Syntax error compiling at (src/tts_caller/audio.clj:21:12).
-; No such namespace: io
-clj꞉tts-caller.audio꞉> 
-; Syntax error reading source at (REPL:38:1).
-; EOF while reading, starting at line 4
-clj꞉user꞉> 
-; Available voices: #object[java.util.HashSet 0x1d55c4a2 [dfki-ot-hsmm]]
-nil
-clj꞉user꞉> 
-nil
-clj꞉user꞉> 
-nil
-clj꞉user꞉> 
-; Syntax error reading source at (REPL:37:1).
-; EOF while reading, starting at line 36
-clj꞉user꞉> 
-; Available voices: #object[java.util.HashSet 0x40dafeb3 [dfki-ot-hsmm]]
-nil
-clj꞉user꞉> 

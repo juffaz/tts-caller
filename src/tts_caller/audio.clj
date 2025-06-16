@@ -7,24 +7,31 @@
 ;; ✅ Установи нужный голос здесь:
 
 
-(def voice "cmu-slt-hsmm")
+(def voice "dfki-ot-hsmm")
 
 (comment
 
 
-(user/init!)
+  (user/init!)
   
- 
   
-(require '[tts-caller.audio :as audio] :reload)
-
- (.getName (io/file "lib/voice-cmu-slt-hsmm-5.2.jar"))
   
-  (audio/list-voices)
+  (require '[tts-caller.audio :as audio] :reload)
 
-(audio/generate-final-wav-auto "Hello, this is fast!" "/tmp/test.wav")
+  (def voice "cmu-slt-hsmm")
+  (def voice "dfki-ot-hsmm")
 
- )
+  (generate-final-wav-auto
+   "Sphera və Atlas  işləmir problem var !!!"
+   "/tmp/alert.wav")
+  
+  (generate-final-wav-auto
+   "Salam Mobil Şöbəyə işləmir -!!!"
+   "/tmp/alert.wav")
+  
+
+
+  )
 
 
 
@@ -94,7 +101,7 @@
               (* (.getSampleSizeInBits format) 0.125 (.getChannels format)))))))
 
 (defn generate-final-wav-plain [text outfile]
-  (let [format (AudioFormat. 8000 16 1 true false)
+  (let [format (AudioFormat. 16000 16 1 true false)
         audio (generate-audio-bytes-plain text voice)
         silence15 (silence-bytes 2000 format)
         silence10 (silence-bytes 500 format)
@@ -102,7 +109,7 @@
     (AudioSystem/write full AudioFileFormat$Type/WAVE (File. outfile))))
 
 (defn generate-final-wav-ssml [ssml outfile]
-  (let [format (AudioFormat. 8000 16 1 true false)
+  (let [format (AudioFormat. 16000 16 1 true false)
         audio (generate-audio-bytes-ssml ssml voice)
         silence15 (silence-bytes 2000 format)
         silence10 (silence-bytes 500 format)
