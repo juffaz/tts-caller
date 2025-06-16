@@ -1,26 +1,26 @@
-FROM clojure:temurin-17-lein
+FROM ubuntu:22.04
 
-WORKDIR /app
-
-# Установим baresip и нужные библиотеки
+# Установим нужные зависимости
 RUN apt-get update && apt-get install -y \
+    openjdk-17-jdk \
+    curl \
     baresip \
-    libbaresip-dev \
-    librem-dev \
-    libre-dev \
     libasound2 \
     alsa-utils \
-    curl \
+    leiningen \
  && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Копируем проект
+# Создадим рабочую директорию
+WORKDIR /app
+
+# Копируем проект (с учётом .dockerignore)
 COPY . /app
 
 # Собираем uberjar
 RUN lein uberjar
 
-# Порт API
+# API-порт
 EXPOSE 8899
 
-# Запуск приложения
+# Запуск
 CMD ["java", "-cp", "target/tts-caller-standalone.jar:lib/*", "clojure.main", "-m", "tts-caller.core"]
