@@ -1,0 +1,26 @@
+# Leiningen
+/target/
+/.lein-repl-history
+/lib/
+*.jar
+*.class
+
+# Логи
+/log/
+
+# Локальные настройки и кэши редакторов/IDE
+/.calva/
+/.clj-kondo/
+/.lsp/
+/.vscode/
+
+# Временные файлы
+*~
+*.bak
+*.swp
+
+# macOS
+.DS_Store
+
+# Локальные зависимости (если используются)
+/checkouts/

@@ -1,0 +1,31 @@
+# Git
+.git
+.gitignore
+
+# Leiningen
+/target/
+/.lein-repl-history
+/lib/
+*.jar
+*.class
+/checkouts/
+
+# Логи
+/log/
+
+# Локальные настройки и кэши редакторов/IDE
+/.calva/
+/.clj-kondo/
+/.lsp/
+/.vscode/
+
+# Временные файлы
+*~
+*.bak
+*.swp
+
+# Документация и прочее
+README
+
+# macOS
+.DS_Store
