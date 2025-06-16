@@ -33,7 +33,7 @@
       (with-open [writer (java.io.OutputStreamWriter. (.getOutputStream process))]
         (.write writer cmd)
         (.flush writer))
-      (Thread/sleep 8000)
+      (Thread/sleep 20000)
       (.destroy process))))
 
 
