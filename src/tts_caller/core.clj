@@ -53,7 +53,7 @@
         (println "⚠️ Failed to read WAV metadata:" (.getMessage e))))
 
     ;; baresip запуск
-    (let [pb (doto (ProcessBuilder. ["baresip" "-f" cfg-dir "-m" "/usr/lib/baresip/modules"])
+    (let [pb (doto (ProcessBuilder. ["baresip" "-f" cfg-dir "-m" "/usr/lib/x86_64-linux-gnu/baresip/modules"])
                (.redirectOutput ProcessBuilder$Redirect/INHERIT)
                (.redirectError ProcessBuilder$Redirect/INHERIT))
           process (.start pb)]
