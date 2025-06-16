@@ -26,6 +26,25 @@
     (spit cfg-path cfg)
     (println "🛠  baresip config written to:" cfg-path)
     (println "📨 baresip commands:\n" cmd)
+
+    ;; 👇 Добавляем логи о логине и .wav
+    (println "📞 Connecting as:" sip-user "@" sip-domain)
+    (println "📤 Sending WAV file:" final-wav)
+    (when-let [file (java.io.File. final-wav)]
+      (println "📦 File size:" (.length file) "bytes"))
+    (try
+      (let [audio-in (javax.sound.sampled.AudioSystem/getAudioInputStream (java.io.File. final-wav))
+            format (.getFormat audio-in)]
+        (println "🔊 WAV format:"
+                 {:sample-rate (.getSampleRate format)
+                  :channels (.getChannels format)
+                  :encoding (.toString (.getEncoding format))
+                  :sample-size (.getSampleSizeInBits format)})
+        (.close audio-in))
+      (catch Exception e
+        (println "⚠️ Failed to read WAV metadata:" (.getMessage e))))
+
+    ;; baresip запуск
     (let [pb (doto (ProcessBuilder. ["baresip" "-f" cfg-dir])
                (.redirectOutput ProcessBuilder$Redirect/INHERIT)
                (.redirectError ProcessBuilder$Redirect/INHERIT))
@@ -35,6 +54,7 @@
         (.flush writer))
       (Thread/sleep 20000)
       (.destroy process))))
+
 
 
 (defn split-phones [s]
