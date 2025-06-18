@@ -33,38 +33,37 @@
              "audio_source aufile\n"
              "audio_path " final-wav "\n")]
 
-    ;; гарантируем наличие директории
+    ;; создаём конфиг
     (.mkdirs (java.io.File. cfg-dir))
     (spit cfg-path cfg)
 
-    (println "📤 Sending WAV file:" final-wav)
-    (println "📞 Calling:" phone)
-    (when-let [file (java.io.File. final-wav)]
-      (println "📦 File size:" (.length file) "bytes"))
-    (try
-      (let [audio-in (javax.sound.sampled.AudioSystem/getAudioInputStream (java.io.File. final-wav))
-            format (.getFormat audio-in)]
-        (println "🔊 WAV format:"
-                 {:sample-rate (.getSampleRate format)
-                  :channels (.getChannels format)
-                  :encoding (.toString (.getEncoding format))
-                  :sample-size (.getSampleSizeInBits format)}))
-      (catch Exception e
-        (println "⚠️ Failed to read WAV metadata:" (.getMessage e))))
+    ;; команды для stdin
+    (let [commands (str
+                    (format "ausrc aufile,%s\n" final-wav)
+                    (format "dial sip:%s@%s\n" phone sip-domain))]
 
-    ;; запуск baresip с config
-    (let [pb (doto
-              (ProcessBuilder.
-               ["baresip"
-                "-f" cfg-dir
-                "-e" (str "/ausrc aufile," final-wav)
-                "-e" (str "/dial sip:" phone "@" sip-domain)
-                "-t" "45"])
-               (.redirectOutput ProcessBuilder$Redirect/INHERIT)
-               (.redirectError ProcessBuilder$Redirect/INHERIT))
-          process (.start pb)]
-      (Thread/sleep 20000)
-      (.destroy process))))
+      (println "📨 baresip config written to:" cfg-path)
+      (println "📞 Calling:" phone)
+      (println "📤 Sending WAV file:" final-wav)
+
+      ;; subprocess
+      (let [pb (ProcessBuilder. ["baresip" "-f" cfg-dir])
+            process (.start pb)
+            stdin-writer (-> process
+                             .getOutputStream
+                             java.io.OutputStreamWriter.
+                             java.io.BufferedWriter.)]
+
+        ;; отправка команд
+        (.write stdin-writer commands)
+        (.flush stdin-writer)
+
+        ;; подождём
+        (Thread/sleep 20000)
+
+        ;; завершаем baresip
+        (.destroy process)))))
+
 
 
 
