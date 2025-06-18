@@ -42,14 +42,21 @@
 (defn call-sip [final-wav phone]
   (ensure-baresip-config)
   (println "📞 Calling via baresip:" phone)
-  (let [pb (ProcessBuilder.
-            ["baresip"
-             "-f" baresip-home
-             "-e" (str "dial sip:" phone "@" sip-domain)
-             "-e" "quit"
-             "-t" "45"])]
-    (.inheritIO pb)
-    (.start pb)))
+  (let [command ["baresip" "-f" baresip-home]
+        pb (doto (ProcessBuilder. command)
+             (.redirectErrorStream true))
+        process (.start pb)
+        writer (java.io.OutputStreamWriter. (.getOutputStream process))]
+    ;; Пишем команды в интерактивную сессию baresip
+    (doto writer
+      (.write (str "ausrc aufile," final-wav "\n"))
+      (.write (str "dial sip:" phone "@" sip-domain "\n"))
+      (.write "sleep 5\n") ;; можно увеличить
+      (.write "q\n")
+      (.flush)
+      (.close))
+    (.waitFor process)))
+
 
 (defn split-phones [s]
   (->> (clojure.string/split s #"[,\s]+")
