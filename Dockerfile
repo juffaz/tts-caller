@@ -4,10 +4,14 @@ FROM quay.io/centos/centos:stream9
 RUN dnf install -y \
     java-17-openjdk \
     baresip \
-    leiningen \
     alsa-utils \
     curl \
  && dnf clean all
+
+RUN curl -O https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein && \
+    mv lein /usr/local/bin/lein && \
+    chmod +x /usr/local/bin/lein && \
+    lein
 
 # Рабочая директория
 WORKDIR /app
