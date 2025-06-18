@@ -5,58 +5,44 @@
             [ring.util.response :as resp]
             [tts-caller.audio :as audio]
             [ring.middleware.params :refer [wrap-params]])
-  (:import [java.lang ProcessBuilder]
-           [java.lang ProcessBuilder ProcessBuilder$Redirect]))
+  (:import [java.io File BufferedWriter OutputStreamWriter]
+           [java.lang ProcessBuilder]))
 
-(def sip-user (or (System/getenv "SIP_USER") "0201011221"))
-(def sip-pass (or (System/getenv "SIP_PASS") "pass1234"))
-(def sip-domain (or (System/getenv "SIP_DOMAIN") "10.22.6.249"))
+(def sip-user (or (System/getenv "SIP_USER") "python_client"))
+(def sip-pass (or (System/getenv "SIP_PASS") "1234pass"))
+(def sip-domain (or (System/getenv "SIP_HOST") "10.22.6.249"))
 
-(def cfg-dir "/tmp/baresip_config")
-(def cfg-path (str cfg-dir "/config"))
+(def baresip-home "/root/.baresip")
+(def accounts-path (str baresip-home "/accounts"))
+(def config-path (str baresip-home "/config"))
 
+(defn ensure-baresip-config []
+  ;; Create ~/.baresip/accounts if not exists
+  (let [accounts-file (File. accounts-path)
+        config-file (File. config-path)]
+    (.mkdirs (File. baresip-home))
+    (when-not (.exists accounts-file)
+      (spit accounts-file (str "sip:" sip-user "@" sip-domain ":5060"
+                               ";auth_user=" sip-user
+                               ";auth_pass=" sip-pass
+                               ";transport=udp;regint=0\n")))
+    (when (.exists config-file)
+      (let [cfg (slurp config-file)]
+        (when (.contains cfg "module stdio.so")
+          (spit config-path (clojure.string/replace cfg "module stdio.so" "module cons.so")))))))
 
 (defn call-sip [final-wav phone]
-  (let [cfg (str
-             "module_path /usr/lib64/baresip/modules\n"
-             "module g711.so\n"
-             "module aufile.so\n"
-             "module stdio.so\n"
-             "auth_user " sip-user "\n"
-             "auth_pass " sip-pass "\n"
-             "sip_transp udp\n"
-             "sip_listen 0.0.0.0\n"
-             "sip_contact sip:" sip-user "@" sip-domain "\n"
-             "audio_player aufile\n"
-             "audio_source aufile\n"
-             "audio_path " final-wav "\n")
-        commands (str
-                  "/ausrc aufile," final-wav "\n"
-                  "/dial sip:" phone "@" sip-domain "\n")
-        pb (ProcessBuilder. ["baresip" "-f" cfg-dir])
-        _ (.mkdirs (java.io.File. cfg-dir))
-        _ (spit cfg-path cfg)]
-
-    (println "📞 Calling:" phone)
-    (println "🛠 Writing config to:" cfg-path)
-
-    (let [process (.start pb)
-          stdin-writer (-> process
-                           .getOutputStream
-                           java.io.OutputStreamWriter.
-                           java.io.BufferedWriter.)]
-      ;; Подаем команды
-      (.write stdin-writer commands)
-      (.flush stdin-writer)
-      (.close stdin-writer) ;; ⚠️ ОБЯЗАТЕЛЬНО ЗАКРЫТЬ
-
-      ;; ждём вызов
-      (Thread/sleep 20000)
-      (.destroy process))))
-
-
-
-
+  (ensure-baresip-config)
+  (println "📞 Calling via baresip:" phone)
+  (let [pb (ProcessBuilder.
+            ["baresip"
+             "-f" baresip-home
+             "-e" (str "/ausrc aufile," final-wav)
+             "-e" (str "/dial sip:" phone "@" sip-domain)
+             "-e" "/quit"
+             "-t" "45"])]
+    (.inheritIO pb)
+    (.start pb)))
 
 (defn split-phones [s]
   (->> (clojure.string/split s #"[,\s]+")
@@ -75,7 +61,6 @@
           (println "📞 Call requested to:" p))
         (resp/response (str "📞 Calling " (clojure.string/join ", " phones) " from " sip-user "@" sip-domain)))
       (resp/bad-request "❌ Missing ?text=...&phone=..."))))
-
 
 (defroutes app-routes
   (GET "/call" [] handle-call)
