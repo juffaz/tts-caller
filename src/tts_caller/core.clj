@@ -41,18 +41,16 @@
 (defn call-sip [final-wav phone]
   (ensure-baresip-config)
   (println "📞 Calling via baresip:" phone)
-  (let [command ["baresip"
-                 "-f" baresip-home
-                 "-e" (str "/ausrc aufile," final-wav)
-                 "-e" (str "/dial sip:" phone "@" sip-domain)
-                 "-e" "/sleep 15"
-                 "-e" "/quit"]
+  (let [commands (str "/ausrc aufile," final-wav ";"
+                      "/dial sip:" phone "@" sip-domain ";"
+                      "/sleep 15;"
+                      "/quit")
+        command ["baresip" "-f" baresip-home "-e" commands]
         pb (doto (ProcessBuilder. command)
              (.redirectErrorStream true))
         process (.start pb)
         reader (clojure.java.io/reader (.getInputStream process))]
 
-    ;; читаем stdout baresip
     (doseq [line (line-seq reader)]
       (println "[BARESIP]:" line))
 
