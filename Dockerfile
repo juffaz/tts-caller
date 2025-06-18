@@ -1,4 +1,4 @@
-FROM centos:stream9
+FROM quay.io/centos/centos:stream9
 
 # Устанавливаем системные зависимости и baresip
 RUN dnf install -y \
