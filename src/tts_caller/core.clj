@@ -20,37 +20,23 @@
   (let [accounts-file (File. accounts-path)
         config-file (File. config-path)]
     (.mkdirs (File. baresip-home))
-    ;; Создать аккаунт при первом запуске
-    (when-not (.exists accounts-file)
-      (spit accounts-path
-            (str "sip:" sip-user "@" sip-domain ":5060"
-                 ";auth_user=" sip-user
-                 ";auth_pass=" sip-pass
-                 ";transport=udp;regint=0\n")))
-    ;; Создать или исправить config
-    (if-not (.exists config-file)
-      (spit config-path
-            (str "module_path /usr/lib64/baresip/modules\n"
-                 "module g711.so\n"
-                 "module aufile.so\n"
-                 "module cons.so\n\n"
-                 "sip_transp udp\n"
-                 "sip_listen 0.0.0.0\n"
-                 "audio_player aufile\n"
-                 "audio_source aufile\n"
-                 "audio_path /tmp/final.wav\n"))
-      (let [cfg (slurp config-path)
-            cfg* (-> cfg
-                     (clojure.string/replace "module stdio.so" "module cons.so")
-                     (clojure.string/replace #"(?m)^audio_source .*$" "")
-                     (clojure.string/replace #"(?m)^audio_player .*$" "")
-                     (clojure.string/replace #"(?m)^audio_path .*$" "")
-                     (clojure.string/replace #"(?m)^module aufile.so$" "")
-                     (str "\nmodule aufile.so\n"
-                          "audio_source aufile\n"
-                          "audio_player aufile\n"
-                          "audio_path /tmp/final.wav\n"))]
-        (spit config-path cfg*)))))
+    ;; Перезаписываем accounts
+    (spit accounts-file
+          (str "sip:" sip-user "@" sip-domain ":5060"
+               ";auth_user=" sip-user
+               ";auth_pass=" sip-pass
+               ";transport=udp;regint=0\n"))
+    ;; Полностью пересоздаём config
+    (spit config-path
+          (str "module_path /usr/lib64/baresip/modules\n"
+               "module g711.so\n"
+               "module aufile.so\n"
+               "module cons.so\n\n"
+               "sip_transp udp\n"
+               "sip_listen 0.0.0.0\n"
+               "audio_player aufile\n"
+               "audio_source aufile\n"
+               "audio_path /tmp/final.wav\n"))))
 
 (defn call-sip [final-wav phone]
   (ensure-baresip-config)
