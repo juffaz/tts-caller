@@ -45,7 +45,6 @@
   (let [pb (ProcessBuilder.
             ["baresip"
              "-f" baresip-home
-             "-e" (str "ausrc aufile," final-wav)
              "-e" (str "dial sip:" phone "@" sip-domain)
              "-e" "quit"
              "-t" "45"])]
