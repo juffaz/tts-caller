@@ -1,30 +1,36 @@
-FROM ubuntu:22.04
+FROM centos:stream9
 
-# Установим нужные зависимости
-RUN apt-get update && apt-get install -y \
-    openjdk-17-jdk \
-    curl \
+# Устанавливаем системные зависимости и baresip
+RUN dnf install -y \
+    java-17-openjdk \
     baresip \
-    libasound2 \
-    alsa-utils \
     leiningen \
- && apt-get clean && rm -rf /var/lib/apt/lists/*
+    alsa-utils \
+    curl \
+ && dnf clean all
 
-# Создадим рабочую директорию
+# Рабочая директория
 WORKDIR /app
-
-# Копируем проект
 COPY . /app
 
-# Копируем baresip-модули в /tmp/baresip_config (туда, где будет config)
-RUN mkdir -p /tmp/baresip_config && \
-    cp /usr/lib/baresip/modules/*.so /tmp/baresip_config/
-
-# Собираем uberjar
+# Сборка проекта
 RUN lein uberjar
 
-# API-порт
+# Копируем baresip модули (если надо)
+RUN mkdir -p /tmp/baresip_config && \
+    cp /usr/lib64/baresip/modules/*.so /tmp/baresip_config || true && \
+    echo "\
+module_path /tmp/baresip_config\n\
+module aufile.so\n\
+module g711.so\n\
+module stdio.so\n\
+sip_transp udp\n\
+sip_listen 0.0.0.0" > /tmp/baresip_config/config && \
+    mkdir -p /root/.baresip && \
+    touch /root/.baresip/accounts
+
+# Порт API
 EXPOSE 8899
 
-# Запуск
+# Запуск сервиса
 CMD ["java", "-cp", "target/tts-caller-standalone.jar:lib/*", "clojure.main", "-m", "tts-caller.core"]
