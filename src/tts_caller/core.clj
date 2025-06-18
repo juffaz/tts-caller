@@ -54,19 +54,25 @@
       (doseq [line (line-seq reader)]
         (println "[BARESIP]:" line)))
 
-    ;; отправляем команды в stdin baresip
-    (Thread/sleep 1000) ; подождать, пока baresip стартует
+    ;; подождать запуска baresip
+    (Thread/sleep 1500)
+
+    ;; отправить команды
     (.write writer (str "/ausrc aufile," final-wav "\n"))
     (.flush writer)
-    (Thread/sleep 500) ; чуть подождать, чтобы он применил ausrc
+    (Thread/sleep 1000)
+
     (.write writer (str "/dial sip:" phone "@" sip-domain "\n"))
     (.flush writer)
-    (Thread/sleep 15000) ; время звонка
+    (Thread/sleep 15000)
+
+    ;; завершение baresip
     (.write writer "/quit\n")
     (.flush writer)
     (.close writer)
 
     (.waitFor process)))
+
 
 
 
