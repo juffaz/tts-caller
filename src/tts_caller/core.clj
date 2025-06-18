@@ -26,11 +26,13 @@
              "auth_pass " sip-pass "\n"
              "sip_transp udp\n"
              "sip_listen 0.0.0.0\n"
-             "sip_contact sip:" sip-user "@" sip-domain "\n"
-             "\n"
+             "sip_contact sip:" sip-user "@" sip-domain "\n\n"
              "audio_player aufile\n"
              "audio_source auffile\n"
-             "audio_path " final-wav "\n")]
+             "audio_path " final-wav "\n")
+  
+        cmd (str "/ausrc aufile," final-wav "\n"
+                 "/dial sip:" phone "@" sip-domain "\n")]
     (.mkdirs (java.io.File. cfg-dir))
     (spit cfg-path cfg) 
 
