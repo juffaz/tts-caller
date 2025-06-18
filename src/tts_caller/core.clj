@@ -12,6 +12,10 @@
 (def sip-pass (or (System/getenv "SIP_PASS") "pass1234"))
 (def sip-domain (or (System/getenv "SIP_DOMAIN") "10.22.6.249"))
 
+(def cfg-dir "/tmp/baresip_config")
+(def cfg-path (str cfg-dir "/config"))
+
+
 (defn call-sip [final-wav phone] 
   (let [cfg (str
              "module_path /usr/lib64/baresip/modules\n"
