@@ -13,6 +13,9 @@
 (def sip-domain (or (System/getenv "SIP_DOMAIN") "10.22.6.249"))
 
 (defn call-sip [final-wav phone]
+ 
+ (comment
+   
   (let [cfg-dir "/tmp/baresip_config"
         cfg-path (str cfg-dir "/config")
         cfg (str
@@ -29,6 +32,26 @@
                  "/dial sip:" phone "@" sip-domain "\n")]
     (.mkdirs (java.io.File. cfg-dir))
     (spit cfg-path cfg :append true)
+
+    )
+    
+  (let [cfg (str
+             "module_path /usr/lib64/baresip/modules\n"
+             "module g711.so\n"
+             "module aufile.so\n"
+             "module stdio.so\n\n"
+             "auth_user " sip-user "\n"
+             "auth_pass " sip-pass "\n"
+             "sip_transp udp\n"
+             "sip_listen 0.0.0.0\n"
+             "sip_contact sip:" sip-user "@" sip-domain "\n"
+             "\n"
+             "audio_player aufile\n"
+             "audio_source auffile\n"
+             "audio_path " final-wav "\n")]
+    (.mkdirs (java.io.File. cfg-dir))
+    (spit cfg-path cfg) 
+
     (println "🛠  baresip config written to:" cfg-path)
     (println "📨 baresip commands:\n" cmd)
 
