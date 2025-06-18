@@ -56,7 +56,7 @@
     (let [pb (doto
               (ProcessBuilder.
                ["baresip"
-                "-c" cfg-path
+                "-f" cfg-dir
                 "-e" (str "/ausrc aufile," final-wav)
                 "-e" (str "/dial sip:" phone "@" sip-domain)
                 "-t" "45"])
@@ -64,7 +64,7 @@
                (.redirectError ProcessBuilder$Redirect/INHERIT))
           process (.start pb)]
       (Thread/sleep 20000)
-      (.destroy process))))
+      (.destroy process))
 
 
 
