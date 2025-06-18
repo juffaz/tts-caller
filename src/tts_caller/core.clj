@@ -5,7 +5,7 @@
             [ring.util.response :as resp]
             [tts-caller.audio :as audio]
             [ring.middleware.params :refer [wrap-params]])
-  (:import [java.io File BufferedWriter OutputStreamWriter]
+  (:import [java.io File]
            [java.lang ProcessBuilder]))
 
 (def sip-user (or (System/getenv "SIP_USER") "python_client"))
@@ -17,19 +17,21 @@
 (def config-path (str baresip-home "/config"))
 
 (defn ensure-baresip-config []
-  ;; Create ~/.baresip/accounts if not exists
   (let [accounts-file (File. accounts-path)
         config-file (File. config-path)]
     (.mkdirs (File. baresip-home))
     (when-not (.exists accounts-file)
-      (spit accounts-file (str "sip:" sip-user "@" sip-domain ":5060"
-                               ";auth_user=" sip-user
-                               ";auth_pass=" sip-pass
-                               ";transport=udp;regint=0\n")))
+      (spit accounts-path
+            (str "sip:" sip-user "@" sip-domain ":5060"
+                 ";auth_user=" sip-user
+                 ";auth_pass=" sip-pass
+                 ";transport=udp;regint=0\n")))
+    ;; Патчим stdio → cons
     (when (.exists config-file)
-      (let [cfg (slurp config-file)]
-        (when (.contains cfg "module stdio.so")
-          (spit config-path (clojure.string/replace cfg "module stdio.so" "module cons.so")))))))
+      (let [cfg (slurp config-path)]
+        (when (clojure.string/includes? cfg "module stdio.so")
+          (spit config-path
+                (clojure.string/replace cfg "module stdio.so" "module cons.so")))))))
 
 (defn call-sip [final-wav phone]
   (ensure-baresip-config)
