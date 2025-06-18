@@ -17,25 +17,27 @@
 (def config-path (str baresip-home "/config"))
 
 (defn ensure-baresip-config []
-  (.mkdirs (File. baresip-home))
-  ;; всегда перезаписываем accounts
-  (spit accounts-path
-        (str "sip:" sip-user "@" sip-domain ":5060"
-             ";auth_user=" sip-user
-             ";auth_pass=" sip-pass
-             ";transport=udp;regint=0\n"))
-  ;; всегда пересоздаём config
-  (spit config-path
-        (str "module_path /usr/lib64/baresip/modules\n"
-             "module g711.so\n"
-             "module aufile.so\n"
-             "module cons.so\n\n"
-             "sip_transp udp\n"
-             "sip_listen 0.0.0.0\n"
-             "audio_player aufile\n"
-             "audio_source aufile\n"
-             "audio_path /tmp/final.wav\n")))
-
+  (let [accounts-file (File. accounts-path)
+        config-file (File. config-path)]
+    (.mkdirs (File. baresip-home))
+    ;; accounts
+    (when-not (.exists accounts-file)
+      (spit accounts-path
+            (str "sip:" sip-user "@" sip-domain ":5060"
+                 ";auth_user=" sip-user
+                 ";auth_pass=" sip-pass
+                 ";transport=udp;regint=0\n")))
+    ;; config
+    (spit config-path
+          (str "module_path /usr/lib64/baresip/modules\n"
+               "module g711.so\n"
+               "module aufile.so\n"
+               "module cons.so\n\n"
+               "sip_transp udp\n"
+               "sip_listen 0.0.0.0\n"
+               "audio_player aufile\n"
+               "audio_source aufile\n"
+               "audio_path /tmp/final.wav\n"))))
 
 (defn call-sip [final-wav phone]
   (ensure-baresip-config)
@@ -43,9 +45,9 @@
   (let [pb (ProcessBuilder.
             ["baresip"
              "-f" baresip-home
-             "-e" (str "/ausrc aufile," final-wav)
-             "-e" (str "/dial sip:" phone "@" sip-domain)
-             "-e" "/quit"
+             "-e" (str "ausrc aufile," final-wav)
+             "-e" (str "dial sip:" phone "@" sip-domain)
+             "-e" "quit"
              "-t" "45"])]
     (.inheritIO pb)
     (.start pb)))
@@ -65,7 +67,8 @@
         (doseq [p phones]
           (call-sip final p)
           (println "📞 Call requested to:" p))
-        (resp/response (str "📞 Calling " (clojure.string/join ", " phones) " from " sip-user "@" sip-domain)))
+        (resp/response (str "📞 Calling " (clojure.string/join ", " phones)
+                            " from " sip-user "@" sip-domain)))
       (resp/bad-request "❌ Missing ?text=...&phone=..."))))
 
 (defroutes app-routes
