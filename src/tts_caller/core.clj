@@ -19,7 +19,11 @@
 (defn call-sip [final-wav phone]
   (let [cfg-dir "/tmp/baresip_config"
         cfg-path (str cfg-dir "/config")
-        commands-path (str cfg-dir "/commands")
+        baresip-cmd ["baresip"
+                     "-v"
+                     "-e" (str "/ausrc aufile," final-wav)
+                     "-e" (str "/dial sip:" phone "@" sip-domain)
+                     "-t" "45"]
         cfg (str
              "module_path /usr/lib64/baresip/modules\n"
              "module g711.so\n"
@@ -32,19 +36,15 @@
              "sip_contact sip:" sip-user "@" sip-domain "\n\n"
              "audio_player aufile\n"
              "audio_source aufile\n"
-             "audio_path " final-wav "\n")
-        cmd (str "/ausrc aufile," final-wav "\n"
-                 "/dial sip:" phone "@" sip-domain "\n")]
+             "audio_path " final-wav "\n")]
 
+    ;; Write config
     (.mkdirs (java.io.File. cfg-dir))
     (spit cfg-path cfg)
-    (spit commands-path cmd)
 
-    (println "🛠  baresip config written to:" cfg-path)
-    (println "📨 baresip commands written to:" commands-path)
-
-    (println "📞 Connecting as:" sip-user "@" sip-domain)
+    ;; Debug info
     (println "📤 Sending WAV file:" final-wav)
+    (println "📦 Calling:" phone)
     (when-let [file (java.io.File. final-wav)]
       (println "📦 File size:" (.length file) "bytes"))
     (try
@@ -58,16 +58,13 @@
       (catch Exception e
         (println "⚠️ Failed to read WAV metadata:" (.getMessage e))))
 
-    ;; запуск baresip с конфигом и автокомандами
-    (let [pb (doto (ProcessBuilder. ["baresip" "-f" cfg-dir])
+    ;; Запуск baresip с параметрами
+    (let [pb (doto (ProcessBuilder. baresip-cmd)
+               (.directory (java.io.File. cfg-dir))
                (.redirectOutput ProcessBuilder$Redirect/INHERIT)
                (.redirectError ProcessBuilder$Redirect/INHERIT))
           process (.start pb)]
-      (Thread/sleep 20000)
-      (.destroy process))))
-
-
-
+      (.waitFor process))))
 
 
 (defn split-phones [s]
