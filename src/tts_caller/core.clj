@@ -21,6 +21,7 @@
         cfg-path (str cfg-dir "/config")
         baresip-cmd ["baresip"
                      "-v"
+                     "-c" cfg-path
                      "-e" (str "/ausrc aufile," final-wav)
                      "-e" (str "/dial sip:" phone "@" sip-domain)
                      "-t" "45"]
@@ -38,11 +39,9 @@
              "audio_source aufile\n"
              "audio_path " final-wav "\n")]
 
-    ;; Write config
     (.mkdirs (java.io.File. cfg-dir))
     (spit cfg-path cfg)
 
-    ;; Debug info
     (println "📤 Sending WAV file:" final-wav)
     (println "📦 Calling:" phone)
     (when-let [file (java.io.File. final-wav)]
@@ -58,13 +57,13 @@
       (catch Exception e
         (println "⚠️ Failed to read WAV metadata:" (.getMessage e))))
 
-    ;; Запуск baresip с параметрами
+    ;; Запуск baresip
     (let [pb (doto (ProcessBuilder. baresip-cmd)
-               (.directory (java.io.File. cfg-dir))
                (.redirectOutput ProcessBuilder$Redirect/INHERIT)
                (.redirectError ProcessBuilder$Redirect/INHERIT))
           process (.start pb)]
       (.waitFor process))))
+
 
 
 (defn split-phones [s]
