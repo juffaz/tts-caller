@@ -64,7 +64,7 @@
                (.redirectError ProcessBuilder$Redirect/INHERIT))
           process (.start pb)]
       (Thread/sleep 20000)
-      (.destroy process))
+      (.destroy process))))
 
 
 
