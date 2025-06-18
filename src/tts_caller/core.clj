@@ -28,7 +28,7 @@
         cmd (str "/ausrc aufile," final-wav "\n"
                  "/dial sip:" phone "@" sip-domain "\n")]
     (.mkdirs (java.io.File. cfg-dir))
-    (spit cfg-path cfg)
+    (spit cfg-path cfg :append true)
     (println "🛠  baresip config written to:" cfg-path)
     (println "📨 baresip commands:\n" cmd)
 
