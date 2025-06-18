@@ -43,10 +43,10 @@
   (println "📞 Calling via baresip:" phone)
   (let [command ["baresip"
                  "-f" baresip-home
-                 "-e" (str "ausrc aufile," final-wav)
-                 "-e" (str "dial sip:" phone "@" sip-domain)
-                 "-e" "sleep 15"
-                 "-e" "q"]
+                 "-e" (str "/ausrc aufile," final-wav)
+                 "-e" (str "/dial sip:" phone "@" sip-domain)
+                 "-e" "/sleep 15"
+                 "-e" "/quit"]
         pb (doto (ProcessBuilder. command)
              (.redirectErrorStream true))
         process (.start pb)
@@ -57,8 +57,6 @@
       (println "[BARESIP]:" line))
 
     (.waitFor process)))
-
-
 
 
 (defn split-phones [s]
