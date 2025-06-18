@@ -19,12 +19,6 @@
 (defn call-sip [final-wav phone]
   (let [cfg-dir "/tmp/baresip_config"
         cfg-path (str cfg-dir "/config")
-        baresip-cmd ["baresip"
-                     "-v"
-                     "-c" cfg-path
-                     "-e" (str "/ausrc aufile," final-wav)
-                     "-e" (str "/dial sip:" phone "@" sip-domain)
-                     "-t" "45"]
         cfg (str
              "module_path /usr/lib64/baresip/modules\n"
              "module g711.so\n"
@@ -39,11 +33,12 @@
              "audio_source aufile\n"
              "audio_path " final-wav "\n")]
 
+    ;; гарантируем наличие директории
     (.mkdirs (java.io.File. cfg-dir))
     (spit cfg-path cfg)
 
     (println "📤 Sending WAV file:" final-wav)
-    (println "📦 Calling:" phone)
+    (println "📞 Calling:" phone)
     (when-let [file (java.io.File. final-wav)]
       (println "📦 File size:" (.length file) "bytes"))
     (try
@@ -57,12 +52,20 @@
       (catch Exception e
         (println "⚠️ Failed to read WAV metadata:" (.getMessage e))))
 
-    ;; Запуск baresip
-    (let [pb (doto (ProcessBuilder. baresip-cmd)
+    ;; запуск baresip с config
+    (let [pb (doto
+              (ProcessBuilder.
+               ["baresip"
+                "-c" cfg-path
+                "-e" (str "/ausrc aufile," final-wav)
+                "-e" (str "/dial sip:" phone "@" sip-domain)
+                "-t" "45"])
                (.redirectOutput ProcessBuilder$Redirect/INHERIT)
                (.redirectError ProcessBuilder$Redirect/INHERIT))
           process (.start pb)]
-      (.waitFor process))))
+      (Thread/sleep 20000)
+      (.destroy process))))
+
 
 
 
