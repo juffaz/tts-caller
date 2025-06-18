@@ -45,16 +45,25 @@
         pb (doto (ProcessBuilder. command)
              (.redirectErrorStream true))
         process (.start pb)
-        writer (java.io.OutputStreamWriter. (.getOutputStream process))]
-    ;; Пишем команды в интерактивную сессию baresip
+        writer (java.io.OutputStreamWriter. (.getOutputStream process))
+        reader (clojure.java.io/reader (.getInputStream process))]
+
+    ;; асинхронно читаем stdout baresip
+    (future
+      (doseq [line (line-seq reader)]
+        (println "[BARESIP]:" line)))
+
+    ;; команды в baresip
     (doto writer
       (.write (str "ausrc aufile," final-wav "\n"))
       (.write (str "dial sip:" phone "@" sip-domain "\n"))
-      (.write "sleep 5\n") ;; можно увеличить
+      (.write "sleep 15\n") ;; время можно увеличивать
       (.write "q\n")
       (.flush)
       (.close))
+
     (.waitFor process)))
+
 
 
 (defn split-phones [s]
