@@ -56,7 +56,9 @@
 
         ;; отправка команд
         (.write stdin-writer commands)
-        (.flush stdin-writer)
+        (.flush stdin-writer) 
+        (.close stdin-writer)  ;; close stdin bugfix
+
 
         ;; подождём
         (Thread/sleep 20000)
