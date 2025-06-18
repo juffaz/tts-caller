@@ -1,12 +1,9 @@
 FROM quay.io/centos/centos:stream9
 
 # Устанавливаем системные зависимости и baresip
-RUN dnf install -y \
-    java-17-openjdk \
-    baresip \
-    alsa-utils \
-    curl \
- && dnf clean all
+RUN dnf install -y epel-release && \
+    dnf install -y baresip baresip-alsa baresip-pulse baresip-sndfile alsa-utils java-17-openjdk curl \
+    && dnf clean all
 
 RUN curl -O https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein && \
     mv lein /usr/local/bin/lein && \
