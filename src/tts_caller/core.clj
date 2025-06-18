@@ -16,8 +16,11 @@
 (def cfg-path (str cfg-dir "/config"))
 
 
-(defn call-sip [final-wav phone] 
-  (let [cfg (str
+(defn call-sip [final-wav phone]
+  (let [cfg-dir "/tmp/baresip_config"
+        cfg-path (str cfg-dir "/config")
+        commands-path (str cfg-dir "/commands")
+        cfg (str
              "module_path /usr/lib64/baresip/modules\n"
              "module g711.so\n"
              "module aufile.so\n"
@@ -28,16 +31,17 @@
              "sip_listen 0.0.0.0\n"
              "sip_contact sip:" sip-user "@" sip-domain "\n\n"
              "audio_player aufile\n"
-             "audio_source auffile\n"
+             "audio_source aufile\n"
              "audio_path " final-wav "\n")
-  
         cmd (str "/ausrc aufile," final-wav "\n"
                  "/dial sip:" phone "@" sip-domain "\n")]
+
     (.mkdirs (java.io.File. cfg-dir))
-    (spit cfg-path cfg) 
+    (spit cfg-path cfg)
+    (spit commands-path cmd)
 
     (println "🛠  baresip config written to:" cfg-path)
-    (println "📨 baresip commands:\n" cmd)
+    (println "📨 baresip commands written to:" commands-path)
 
     (println "📞 Connecting as:" sip-user "@" sip-domain)
     (println "📤 Sending WAV file:" final-wav)
@@ -50,21 +54,18 @@
                  {:sample-rate (.getSampleRate format)
                   :channels (.getChannels format)
                   :encoding (.toString (.getEncoding format))
-                  :sample-size (.getSampleSizeInBits format)})
-        (.close audio-in))
+                  :sample-size (.getSampleSizeInBits format)}))
       (catch Exception e
         (println "⚠️ Failed to read WAV metadata:" (.getMessage e))))
 
-    ;; baresip запуск
-    (let [pb (doto (ProcessBuilder. ["baresip" "-f" cfg-dir ])
+    ;; запуск baresip с конфигом и автокомандами
+    (let [pb (doto (ProcessBuilder. ["baresip" "-f" cfg-dir])
                (.redirectOutput ProcessBuilder$Redirect/INHERIT)
                (.redirectError ProcessBuilder$Redirect/INHERIT))
           process (.start pb)]
-      (with-open [writer (java.io.OutputStreamWriter. (.getOutputStream process))]
-        (.write writer cmd)
-        (.flush writer))
       (Thread/sleep 20000)
       (.destroy process))))
+
 
 
 
