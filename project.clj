@@ -1,6 +1,7 @@
 (defproject tts-caller "0.1.0-SNAPSHOT"
   :description "TTS Caller using MaryTTS and Baresip"
   :dependencies [[org.clojure/clojure "1.11.1"]
+                 [org.clojure/core.async "1.6.681"]
                  [ring/ring-core "1.11.0"]
                  [ring/ring-jetty-adapter "1.11.0"]
                  [compojure "1.7.1"]
