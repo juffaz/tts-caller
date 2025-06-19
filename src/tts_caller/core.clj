@@ -29,10 +29,11 @@
     (spit acc-file acc-content)
     ;; fsync после записи
     (with-open [raf (java.io.RandomAccessFile. acc-file "rw")]
-      (.getFD raf)
-      (.sync (.getFD raf))))
+      (let [fd (.getFD raf)]
+        (.sync fd)))
+    (println "✅ accounts записан и fsync выполнен"))
 
-  ;; Записываем config (без fsync, но можно добавить если нужно)
+  ;; Записываем config
   (spit config-path
         (str "module_path /usr/lib64/baresip/modules\n"
              "module g711.so\n"
@@ -42,7 +43,9 @@
              "sip_listen 0.0.0.0\n"
              "audio_player aufile\n"
              "audio_source aufile\n"
-             "audio_path " final-wav "\n")))
+             "audio_path " final-wav "\n"))
+  (println "✅ config записан"))
+
 
 
 
