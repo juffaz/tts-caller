@@ -14,53 +14,51 @@
 (def sip-user (or (System/getenv "SIP_USER") "python_client"))
 (def sip-pass (or (System/getenv "SIP_PASS") "1234pass"))
 (def sip-domain (or (System/getenv "SIP_HOST") "10.22.6.249"))
-(def sip-port (or (System/getenv "SIP_PORT") "5062")) ; Align with SIP server port
+(def sip-port (or (System/getenv "SIP_PORT") "5062"))
 
 (def baresip-home "/tmp/baresip_config")
 (def accounts-path (str baresip-home "/accounts"))
 (def config-path (str baresip-home "/config"))
 
 (defn kill-existing-baresip []
-  (println "🛑 Killing existing baresip processes")
+  (println "🛑 Убиваем старые процессы baresip")
   (try
     (let [{:keys [exit out err]} (sh "pkill" "-f" "baresip")]
       (if (zero? exit)
-        (println "✅ Existing baresip processes killed")
-        (println "⚠ No baresip processes found or error:" err)))
-    (Thread/sleep 1000) ; Wait for processes to terminate
+        (println "✅ Процессы baresip убиты")
+        (println "⚠ Процессы не найдены или ошибка:" err)))
+    (Thread/sleep 1000)
     (catch Exception e
-      (println "⚠ Error killing baresip with pkill:" (.getMessage e))
+      (println "⚠ Ошибка при убийстве через pkill:" (.getMessage e))
       (try
         (let [{:keys [exit out err]} (sh "killall" "baresip")]
           (if (zero? exit)
-            (println "✅ Killed baresip processes with killall")
-            (println "⚠ No baresip processes found or error with killall:" err)))
+            (println "✅ Убиты через killall")
+            (println "⚠ Ошибка killall:" err)))
         (Thread/sleep 1000)
         (catch Exception e2
-          (println "⚠ Error killing baresip with killall:" (.getMessage e2)))))))
+          (println "⚠ Ошибка killall:" (.getMessage e2)))))))
 
 (defn ensure-baresip-config [final-wav]
-  (println "📁 Ensuring baresip config directory exists")
+  (println "📁 Создаем папку конфигурации baresip")
   (.mkdirs (File. baresip-home))
   (when (.exists (File. baresip-home))
-    (println "✅ Config directory exists at" baresip-home))
+    (println "✅ Папка существует:" baresip-home))
 
-  ;; Ensure accounts file is created
-  (println "📝 Creating SIP accounts file at" accounts-path)
+  (println "📝 Создаем файл accounts:" accounts-path)
   (let [acc-content (str "<sip:" sip-user "@" sip-domain ":" sip-port ">"
                          ";auth_user=" sip-user
                          ";auth_pass=" sip-pass
                          ";transport=udp\n")
         acc-file (File. accounts-path)]
-    (.createNewFile acc-file) ; Explicitly create the file
+    (.createNewFile acc-file)
     (spit acc-file acc-content)
     (with-open [raf (java.io.RandomAccessFile. acc-file "rw")]
       (let [fd (.getFD raf)]
         (.sync fd)))
-    (println "✅ Accounts file created and synced"))
+    (println "✅ Файл accounts создан"))
 
-  ;; Write config file
-  (println "📝 Writing config file at" config-path)
+  (println "📝 Пишем config:" config-path)
   (spit config-path
         (str "module_path /usr/lib64/baresip/modules\n"
              "module g711.so\n"
@@ -71,24 +69,23 @@
              "audio_player aufile\n"
              "audio_source aufile\n"
              "audio_path " final-wav "\n"))
-  (println "✅ Config file written"))
+  (println "✅ Config записан"))
 
 (defn call-sip [final-wav phone]
-  (kill-existing-baresip) ; Ensure no old processes
+  (kill-existing-baresip)
   (ensure-baresip-config final-wav)
-  (println "📞 Initiating SIP call to:" phone)
+  (println "📞 Начинаем SIP-вызов:" phone)
 
-  ;; Test SIP server reachability
-  (println "🔍 Checking SIP server reachability:" sip-domain)
+  (println "🔍 Проверяем доступность SIP-сервера:" sip-domain)
   (try
     (let [{:keys [exit out err]} (sh "nc" "-z" "-u" sip-domain "5060")]
       (if (zero? exit)
-        (println "✅ SIP server is reachable")
-        (println "⚠ SIP server may not be reachable:" err)))
+        (println "✅ Сервер доступен")
+        (println "⚠ Сервер недоступен:" err)))
     (catch Exception e
-      (println "⚠ Error checking SIP server:" (.getMessage e))))
+      (println "⚠ Ошибка проверки сервера:" (.getMessage e))))
 
-  (let [command ["baresip" "-f" baresip-home "-v"] ; Add -v for verbose logging
+  (let [command ["baresip" "-f" baresip-home "-v" "-d"] ; -d для доп. логов
         pb (doto (ProcessBuilder. command)
              (.redirectErrorStream true))
         process (.start pb)
@@ -98,7 +95,6 @@
         output (atom [])]
 
     (try
-      ;; Read baresip output in a separate thread
       (let [reader-thread
             (future
               (try
@@ -106,63 +102,52 @@
                   (swap! output conj line)
                   (println "[BARESIP]:" line))
                 (catch Exception e
-                  (println "⚠ Error reading baresip output:" (.getMessage e)))))]
+                  (println "⚠ Ошибка чтения вывода baresip:" (.getMessage e)))))]
 
-        ;; Wait for baresip to initialize
-        (println "⏳ Waiting for baresip to initialize...")
-        (Thread/sleep 10000) ; 10s for stability
+        (println "⏳ Ждем инициализации baresip...")
+        (Thread/sleep 10000)
 
-        ;; Check if process is still alive
         (if-not (.isAlive process)
-          (throw (Exception. "❌ Baresip process terminated unexpectedly")))
+          (throw (Exception. "❌ Baresip завершился неожиданно")))
 
-        ;; Verify WAV file exists
         (if (.exists (java.io.File. final-wav))
-          (println "✅ WAV exists at:" final-wav)
-          (throw (Exception. (str "❌ WAV not found at: " final-wav))))
+          (println "✅ WAV-файл существует:" final-wav)
+          (throw (Exception. (str "❌ WAV не найден: " final-wav))))
 
-        ;; Send commands
-        (println "⚙ Sending /ausrc")
+        (println "⚙ Отправляем /ausrc")
         (.write writer (str "/ausrc aufile," final-wav "\n"))
         (.flush writer)
         (Thread/sleep 2000)
 
-        (println "📞 Sending /dial sip:" phone "@" sip-domain)
+        (println "📞 Отправляем /dial sip:" phone "@" sip-domain)
         (.write writer (str "/dial sip:" phone "@" sip-domain "\n"))
         (.flush writer)
-        (Thread/sleep 30000) ; 30s for call completion
+        (Thread/sleep 60000) ; 60с для звонка
 
-        (println "👋 Sending /quit")
+        (println "👋 Отправляем /quit")
         (.write writer "/quit\n")
         (.flush writer)
 
-        ;; Wait for process to terminate
-        (println "⏳ Waiting for baresip to terminate...")
+        (println "⏳ Ждем завершения baresip...")
         (let [exit-code (.waitFor process 10000 TimeUnit/MILLISECONDS)]
-          (println "ℹ Baresip process exited with code:" exit-code))
+          (println "ℹ Baresip завершился с кодом:" exit-code))
 
-        ;; Wait for reader thread to finish
         (future-cancel reader-thread))
 
       (catch Exception e
-        (println "❌ Error during SIP call:" (.getMessage e))
+        (println "❌ Ошибка SIP-вызова:" (.getMessage e))
         (throw e))
       (finally
-        ;; Ensure streams and process are closed
-        (try
-          (.close writer)
-          (catch Exception _))
-        (try
-          (.close reader)
-          (catch Exception _))
+        (try (.close writer) (catch Exception _))
+        (try (.close reader) (catch Exception _))
         (try
           (when (.isAlive process)
-            (println "🛑 Forcing baresip process to terminate")
+            (println "🛑 Принудительно завершаем baresip")
             (.destroy process)
             (.waitFor process 2000 TimeUnit/MILLISECONDS))
           (catch Exception e
-            (println "⚠ Error terminating baresip process:" (.getMessage e))))
-        (println "📜 Baresip output log:" (clojure.string/join "\n" @output))))))
+            (println "⚠ Ошибка завершения baresip:" (.getMessage e))))
+        (println "📜 Лог baresip:" (clojure.string/join "\n" @output))))))
 
 (defn split-phones [s]
   (->> (clojure.string/split s #"[,\s]+")
@@ -173,20 +158,19 @@
         final "/tmp/final.wav"]
     (if (and text phone)
       (let [phones (split-phones phone)]
-        (println "🗣 Synthesizing text:" text)
+        (println "🗣 Синтез текста:" text)
         (audio/generate-final-wav-auto text final)
-        (println "📁 WAV file created at:" final)
-        ;; Run calls asynchronously
+        (println "📁 WAV создан:" final)
         (go
           (doseq [p phones]
             (try
               (call-sip final p)
-              (println "📞 Call requested to:" p)
+              (println "📞 Вызов отправлен:" p)
               (catch Exception e
-                (println "❌ Failed to call" p ":" (.getMessage e))))))
-        (resp/response (str "📞 Queued call to " (clojure.string/join ", " phones)
-                            " from " sip-user "@" sip-domain)))
-      (resp/bad-request "❌ Missing ?text=...&phone=..."))))
+                (println "❌ Ошибка вызова" p ":" (.getMessage e))))))
+        (resp/response (str "📞 Вызов в очереди: " (clojure.string/join ", " phones)
+                            " от " sip-user "@" sip-domain)))
+      (resp/bad-request "❌ Нет ?text=...&phone=..."))))
 
 (defroutes app-routes
   (GET "/call" [] handle-call)
@@ -196,5 +180,5 @@
   (wrap-params app-routes))
 
 (defn -main []
-  (println (str "✅ TTS SIP Caller on port 8899 using " sip-user "@" sip-domain ":" sip-port))
+  (println (str "✅ TTS SIP Caller на порту 8899: " sip-user "@" sip-domain ":" sip-port))
   (run-jetty app {:port 8899}))
