@@ -34,17 +34,19 @@
     (println "✅ accounts записан и fsync выполнен"))
 
   ;; Записываем config
-  (spit config-path
-        (str "module_path /usr/lib64/baresip/modules\n"
-             "module g711.so\n"
-             "module aufile.so\n"
-             "module cons.so\n\n"
-             "sip_transp udp\n"
-             "sip_listen 0.0.0.0\n"
-             "audio_player aufile\n"
-             "audio_source aufile\n"
-             "audio_path " final-wav "\n"))
-  (println "✅ config записан"))
+  ;; Записываем config
+    (spit config-path
+      (str "module_path /usr/lib64/baresip/modules\n"
+           "module g711.so\n"
+           "module aufile.so\n"
+           ;; "module cons.so\n"  ; 🔥 отключаем, чтобы не конфликтовал с другим Baresip
+           "\n"
+           "sip_transp udp\n"
+           "sip_listen 0.0.0.0\n"
+           "audio_player aufile\n"
+           "audio_source aufile\n"
+           "audio_path " final-wav "\n"))
+
 
 
 
