@@ -4,9 +4,9 @@ FROM quay.io/centos/centos:stream9
 RUN dnf install -y epel-release && \
     dnf install -y --allowerasing \
     baresip baresip-alsa baresip-pulse baresip-sndfile \
-    alsa-utils java-17-openjdk curl procps-ng psmisc && \
+    alsa-utils java-17-openjdk curl procps-ng psmisc nmap-ncat && \
     dnf clean all
-    
+
 
 # Установка Leiningen
 RUN curl -O https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein && \

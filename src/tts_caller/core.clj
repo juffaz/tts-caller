@@ -11,12 +11,10 @@
            [java.lang ProcessBuilder]
            [java.util.concurrent TimeUnit]))
 
-(def sip-user (or (System/getenv "SIP_USER") "client"))
-(def sip-pass (or (System/getenv "SIP_PASS") "passss"))
+(def sip-user (or (System/getenv "SIP_USER") "python_client"))
+(def sip-pass (or (System/getenv "SIP_PASS") "1234pass"))
 (def sip-domain (or (System/getenv "SIP_HOST") "10.22.6.249"))
-(def sip-port
-  (or (System/getenv "SIP_PORT")
-      (str (+ 5062 (rand-int 1000))))) ; Random port between 5062 and 6062
+(def sip-port (or (System/getenv "SIP_PORT") "5062")) ; Align with SIP server port
 
 (def baresip-home "/tmp/baresip_config")
 (def accounts-path (str baresip-home "/accounts"))
@@ -81,7 +79,7 @@
   (println "📞 Initiating SIP call to:" phone)
 
   ;; Test SIP server reachability
-  (println "🔍 Checking SIP server reachability: " sip-domain)
+  (println "🔍 Checking SIP server reachability:" sip-domain)
   (try
     (let [{:keys [exit out err]} (sh "nc" "-z" "-u" sip-domain "5060")]
       (if (zero? exit)
@@ -90,7 +88,7 @@
     (catch Exception e
       (println "⚠ Error checking SIP server:" (.getMessage e))))
 
-  (let [command ["baresip" "-f" baresip-home]
+  (let [command ["baresip" "-f" baresip-home "-v"] ; Add -v for verbose logging
         pb (doto (ProcessBuilder. command)
              (.redirectErrorStream true))
         process (.start pb)
@@ -112,7 +110,7 @@
 
         ;; Wait for baresip to initialize
         (println "⏳ Waiting for baresip to initialize...")
-        (Thread/sleep 10000) ; Increased to 10s for stability
+        (Thread/sleep 10000) ; 10s for stability
 
         ;; Check if process is still alive
         (if-not (.isAlive process)
@@ -132,7 +130,7 @@
         (println "📞 Sending /dial sip:" phone "@" sip-domain)
         (.write writer (str "/dial sip:" phone "@" sip-domain "\n"))
         (.flush writer)
-        (Thread/sleep 30000) ; Increased to 30s for call completion
+        (Thread/sleep 30000) ; 30s for call completion
 
         (println "👋 Sending /quit")
         (.write writer "/quit\n")
