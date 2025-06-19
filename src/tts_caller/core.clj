@@ -23,16 +23,16 @@
              ";auth_user=" sip-user
              ";auth_pass=" sip-pass
              ";transport=udp;regint=0\n"))
-  (spit config-path
-        (str "module_path /usr/lib64/baresip/modules\n"
-             "module g711.so\n"
-             "module aufile.so\n"
-             "module stdin.so\n\n"
-             "sip_transp udp\n"
-             "sip_listen 0.0.0.0\n"
-             "audio_player aufile\n"
-             "audio_source aufile\n"
-             "audio_path " final-wav "\n")))
+(spit config-path
+      (str "module_path /usr/lib64/baresip/modules\n"
+           "module g711.so\n"
+           "module aufile.so\n"
+           "module cons.so\n\n"
+           "sip_transp udp\n"
+           "sip_listen 0.0.0.0\n"
+           "audio_player aufile\n"
+           "audio_source aufile\n"
+           "audio_path " final-wav "\n"))
 
 
 
