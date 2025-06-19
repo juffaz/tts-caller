@@ -29,12 +29,13 @@
         (str "module_path /usr/lib64/baresip/modules\n"
              "module g711.so\n"
              "module aufile.so\n"
-             "module cons.so\n\n"
+             "module stdin.so\n\n"      ;; Заменили cons.so на stdin.so
              "sip_transp udp\n"
              "sip_listen 0.0.0.0\n"
              "audio_player aufile\n"
              "audio_source aufile\n"
-             "audio_path /tmp/final.wav\n")))
+             "audio_path " final-wav "\n"))) ;; финальный путь универсально
+
 
 
 
@@ -58,20 +59,21 @@
     (Thread/sleep 1500)
 
     ;; отправить команды
-    (.write writer (str "/ausrc aufile," final-wav "\n"))
+    (.write writer (str "ausrc aufile," final-wav "\n"))
     (.flush writer)
     (Thread/sleep 1000)
 
-    (.write writer (str "/dial sip:" phone "@" sip-domain "\n"))
+    (.write writer (str "dial sip:" phone "@" sip-domain "\n"))
     (.flush writer)
     (Thread/sleep 15000)
 
     ;; завершение baresip
-    (.write writer "/quit\n")
+    (.write writer "quit\n")
     (.flush writer)
     (.close writer)
 
     (.waitFor process)))
+
 
 
 
