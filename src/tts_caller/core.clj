@@ -35,7 +35,7 @@
              "audio_path " final-wav "\n")))
 
 (defn call-sip [final-wav phone]
-  (ensure-baresip-config)
+  (ensure-baresip-config final-wav)
   (println "📞 Calling via baresip:" phone)
   (let [command ["baresip" "-f" baresip-home]
         pb (doto (ProcessBuilder. command)
