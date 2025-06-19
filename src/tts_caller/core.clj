@@ -12,12 +12,13 @@
 (def sip-pass (or (System/getenv "SIP_PASS") "1234pass"))
 (def sip-domain (or (System/getenv "SIP_HOST") "10.22.6.249"))
 
-(def baresip-home "/root/.baresip")
+(def baresip-home "/tmp/baresip_config")
 (def accounts-path (str baresip-home "/accounts"))
 (def config-path (str baresip-home "/config"))
 
 (defn ensure-baresip-config [final-wav]
   (.mkdirs (File. baresip-home))
+  (println "📁 Writing SIP config to" accounts-path)
   (spit accounts-path
         (str "sip:" sip-user "@" sip-domain ":5060"
              ";auth_user=" sip-user
@@ -33,6 +34,7 @@
              "audio_player aufile\n"
              "audio_source aufile\n"
              "audio_path " final-wav "\n")))
+
 
 (defn call-sip [final-wav phone]
   (ensure-baresip-config final-wav)
