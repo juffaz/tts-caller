@@ -4,61 +4,65 @@
             [ring.adapter.jetty :refer [run-jetty]]
             [ring.util.response :as resp]
             [tts-caller.audio :as audio]
-            [ring.middleware.params :refer [wrap-params]])
+            [ring.middleware.params :refer [wrap-params]]
+            [clojure.java.shell :refer [sh]])
   (:import [java.io File]
            [java.lang ProcessBuilder]))
 
 (def sip-user (or (System/getenv "SIP_USER") "python_client"))
 (def sip-pass (or (System/getenv "SIP_PASS") "1234pass"))
 (def sip-domain (or (System/getenv "SIP_HOST") "10.22.6.249"))
+(def sip-port (or (System/getenv "SIP_PORT") "5062")) ; Уникальный порт для этого экземпляра
 
 (def baresip-home "/tmp/baresip_config")
 (def accounts-path (str baresip-home "/accounts"))
 (def config-path (str baresip-home "/config"))
+
+(defn kill-existing-baresip []
+  (println "🛑 Killing existing baresip processes")
+  (try
+    (sh "pkill" "-f" "baresip")
+    (Thread/sleep 1000) ; Даем время на завершение
+    (println "✅ Existing baresip processes killed")
+    (catch Exception e
+      (println "⚠ No baresip processes found or error:" (.getMessage e)))))
 
 (defn ensure-baresip-config [final-wav]
   (.mkdirs (File. baresip-home))
   (println "📁 Writing SIP config to" accounts-path)
 
   ;; Записываем accounts
-  (let [acc-content (str "<sip:" sip-user "@" sip-domain ":5060>"
+  (let [acc-content (str "<sip:" sip-user "@" sip-domain ":" sip-port ">"
                          ";auth_user=" sip-user
                          ";auth_pass=" sip-pass
                          ";transport=udp\n")
         acc-file (File. accounts-path)]
     (spit acc-file acc-content)
-    ;; fsync после записи
     (with-open [raf (java.io.RandomAccessFile. acc-file "rw")]
       (let [fd (.getFD raf)]
         (.sync fd)))
     (println "✅ accounts записан и fsync выполнен"))
 
   ;; Записываем config
-  ;; Записываем config
-    (spit config-path
-      (str "module_path /usr/lib64/baresip/modules\n"
-           "module g711.so\n"
-           "module aufile.so\n"
-           ;; "module cons.so\n"  ; 🔥 отключаем, чтобы не конфликтовал с другим Baresip
-           "\n"
-           "sip_transp udp\n"
-           "sip_listen 0.0.0.0\n"
-           "audio_player aufile\n"
-           "audio_source aufile\n"
-           "audio_path " final-wav "\n"))
-
-
-
-
+  (spit config-path
+        (str "module_path /usr/lib64/baresip/modules\n"
+             "module g711.so\n"
+             "module aufile.so\n"
+             "module cons.so\n\n"
+             "sip_transp udp\n"
+             "sip_listen 0.0.0.0:" sip-port "\n" ; Уникальный порт
+             "audio_player aufile\n"
+             "audio_source aufile\n"
+             "audio_path " final-wav "\n"))
+  (println "✅ config записан"))
 
 (defn call-sip [final-wav phone]
+  (kill-existing-baresip) ; Убиваем старые процессы
   (ensure-baresip-config final-wav)
   (println "📞 Calling via baresip:" phone)
 
-  ;; ⏳ Ждём, чтобы config-файлы точно записались на диск
-  (Thread/sleep 1000)
+  (Thread/sleep 1000) ; Ждем записи конфигурации
 
-  ;; Запускаем baresip
   (let [command ["baresip" "-f" baresip-home]
         pb (doto (ProcessBuilder. command)
              (.redirectErrorStream true))
@@ -67,40 +71,32 @@
                 (java.io.OutputStreamWriter. (.getOutputStream process)))
         reader (clojure.java.io/reader (.getInputStream process))]
 
-    ;; читаем baresip stdout
     (future
       (doseq [line (line-seq reader)]
         (println "[BARESIP]:" line)))
 
-    ;; ⏳ ждём инициализацию baresip
-    (Thread/sleep 3000)
+    (Thread/sleep 5000) ; Увеличиваем время для инициализации
 
-    ;; проверка WAV
     (if (.exists (java.io.File. final-wav))
       (println "✅ WAV exists at:" final-wav)
-      (println "❌ WAV not found at:" final-wav))
+      (throw (Exception. (str "❌ WAV not found at: " final-wav))))
 
-    ;; выбираем источник
     (println "⚙ Sending /ausrc")
     (.write writer (str "/ausrc aufile," final-wav "\n"))
     (.flush writer)
-    (Thread/sleep 1500)
+    (Thread/sleep 2000)
 
-    ;; вызываем номер
     (println "📞 Sending /dial")
     (.write writer (str "/dial sip:" phone "@" sip-domain "\n"))
     (.flush writer)
-    (Thread/sleep 15000)
+    (Thread/sleep 20000) ; Увеличиваем время для вызова
 
-    ;; завершаем
     (println "👋 Sending /quit")
     (.write writer "/quit\n")
     (.flush writer)
     (.close writer)
 
-    ;; ждём завершения baresip
     (.waitFor process)))
-
 
 (defn split-phones [s]
   (->> (clojure.string/split s #"[,\s]+")
@@ -111,7 +107,7 @@
         final "/tmp/final.wav"]
     (if (and text phone)
       (let [phones (split-phones phone)]
-        (println "🗣  Synthesizing text:" text)
+        (println "🗣 Synthesizing text:" text)
         (audio/generate-final-wav-auto text final)
         (println "📁 WAV file created at:" final)
         (doseq [p phones]
@@ -129,8 +125,5 @@
   (wrap-params app-routes))
 
 (defn -main []
-  (println (str "✅ TTS SIP Caller on port 8899 using " sip-user "@" sip-domain))
+  (println (str "✅ TTS SIP Caller on port 8899 using " sip-user "@" sip-domain ":" sip-port))
   (run-jetty app {:port 8899}))
-
-
-
