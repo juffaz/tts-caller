@@ -17,26 +17,22 @@
 (def config-path (str baresip-home "/config"))
 
 (defn ensure-baresip-config [final-wav]
-  (.mkdirs (File. baresip-home)) ; если /root/.baresip нет
+  (.mkdirs (File. baresip-home))
   (spit accounts-path
         (str "sip:" sip-user "@" sip-domain ":5060"
              ";auth_user=" sip-user
              ";auth_pass=" sip-pass
              ";transport=udp;regint=0\n"))
-(spit config-path
-      (str "module_path /usr/lib64/baresip/modules\n"
-           "module g711.so\n"
-           "module aufile.so\n"
-           "module cons.so\n\n"
-           "sip_transp udp\n"
-           "sip_listen 0.0.0.0\n"
-           "audio_player aufile\n"
-           "audio_source aufile\n"
-           "audio_path " final-wav "\n"))
-
-
-
-
+  (spit config-path
+        (str "module_path /usr/lib64/baresip/modules\n"
+             "module g711.so\n"
+             "module aufile.so\n"
+             "module cons.so\n\n"
+             "sip_transp udp\n"
+             "sip_listen 0.0.0.0\n"
+             "audio_player aufile\n"
+             "audio_source aufile\n"
+             "audio_path " final-wav "\n")))
 
 (defn call-sip [final-wav phone]
   (ensure-baresip-config final-wav)
@@ -49,34 +45,25 @@
                 (java.io.OutputStreamWriter. (.getOutputStream process)))
         reader (clojure.java.io/reader (.getInputStream process))]
 
-    ;; читаем baresip stdout
     (future
       (doseq [line (line-seq reader)]
         (println "[BARESIP]:" line)))
 
-    ;; подождать запуска baresip
     (Thread/sleep 1500)
 
-    ;; отправить команды
-    (.write writer (str "ausrc aufile," final-wav "\n"))
+    (.write writer (str "/ausrc aufile," final-wav "\n"))
     (.flush writer)
     (Thread/sleep 1000)
 
-    (.write writer (str "dial sip:" phone "@" sip-domain "\n"))
+    (.write writer (str "/dial sip:" phone "@" sip-domain "\n"))
     (.flush writer)
     (Thread/sleep 15000)
 
-    ;; завершение baresip
-    (.write writer "quit\n")
+    (.write writer "/quit\n")
     (.flush writer)
     (.close writer)
 
     (.waitFor process)))
-
-
-
-
-
 
 (defn split-phones [s]
   (->> (clojure.string/split s #"[,\s]+")
