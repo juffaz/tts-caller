@@ -19,11 +19,20 @@
 (defn ensure-baresip-config [final-wav]
   (.mkdirs (File. baresip-home))
   (println "📁 Writing SIP config to" accounts-path)
-  (spit accounts-path
-        (str "<sip:" sip-user "@" sip-domain ":5060>"
-             ";auth_user=" sip-user
-             ";auth_pass=" sip-pass
-             ";transport=udp\n"))
+
+  ;; Записываем accounts
+  (let [acc-content (str "<sip:" sip-user "@" sip-domain ":5060>"
+                         ";auth_user=" sip-user
+                         ";auth_pass=" sip-pass
+                         ";transport=udp\n")
+        acc-file (File. accounts-path)]
+    (spit acc-file acc-content)
+    ;; fsync после записи
+    (with-open [raf (java.io.RandomAccessFile. acc-file "rw")]
+      (.getFD raf)
+      (.sync (.getFD raf))))
+
+  ;; Записываем config (без fsync, но можно добавить если нужно)
   (spit config-path
         (str "module_path /usr/lib64/baresip/modules\n"
              "module g711.so\n"
@@ -34,6 +43,7 @@
              "audio_player aufile\n"
              "audio_source aufile\n"
              "audio_path " final-wav "\n")))
+
 
 
 (defn call-sip [final-wav phone]
