@@ -39,6 +39,11 @@
 (defn call-sip [final-wav phone]
   (ensure-baresip-config final-wav)
   (println "📞 Calling via baresip:" phone)
+
+  ;; ⏳ Ждём, чтобы config-файлы точно записались на диск
+  (Thread/sleep 1000)
+
+  ;; Запускаем baresip
   (let [command ["baresip" "-f" baresip-home]
         pb (doto (ProcessBuilder. command)
              (.redirectErrorStream true))
@@ -52,29 +57,35 @@
       (doseq [line (line-seq reader)]
         (println "[BARESIP]:" line)))
 
+    ;; ⏳ ждём инициализацию baresip
     (Thread/sleep 3000)
 
+    ;; проверка WAV
     (if (.exists (java.io.File. final-wav))
       (println "✅ WAV exists at:" final-wav)
       (println "❌ WAV not found at:" final-wav))
 
-    ;; отправка команд
+    ;; выбираем источник
     (println "⚙ Sending /ausrc")
     (.write writer (str "/ausrc aufile," final-wav "\n"))
     (.flush writer)
     (Thread/sleep 1500)
 
+    ;; вызываем номер
     (println "📞 Sending /dial")
     (.write writer (str "/dial sip:" phone "@" sip-domain "\n"))
     (.flush writer)
     (Thread/sleep 15000)
 
+    ;; завершаем
     (println "👋 Sending /quit")
     (.write writer "/quit\n")
     (.flush writer)
     (.close writer)
 
+    ;; ждём завершения baresip
     (.waitFor process)))
+
 
 (defn split-phones [s]
   (->> (clojure.string/split s #"[,\s]+")
