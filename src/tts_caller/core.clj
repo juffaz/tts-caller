@@ -5,12 +5,14 @@
             [ring.util.response :as resp]
             [tts-caller.audio :as audio]
             [ring.middleware.params :refer [wrap-params]]
-            [clojure.java.shell :refer [sh]])
+            [clojure.java.shell :refer [sh]]
+            [clojure.core.async :refer [go]])
   (:import [java.io File]
-           [java.lang ProcessBuilder]))
+           [java.lang ProcessBuilder]
+           [java.util.concurrent TimeUnit]))
 
-(def sip-user (or (System/getenv "SIP_USER") "python_client"))
-(def sip-pass (or (System/getenv "SIP_PASS") "1234pass"))
+(def sip-user (or (System/getenv "SIP_USER") "client"))
+(def sip-pass (or (System/getenv "SIP_PASS") "passss"))
 (def sip-domain (or (System/getenv "SIP_HOST") "10.22.6.249"))
 (def sip-port
   (or (System/getenv "SIP_PORT")
@@ -76,7 +78,17 @@
 (defn call-sip [final-wav phone]
   (kill-existing-baresip) ; Ensure no old processes
   (ensure-baresip-config final-wav)
-  (println "📞 Calling via baresip:" phone)
+  (println "📞 Initiating SIP call to:" phone)
+
+  ;; Test SIP server reachability
+  (println "🔍 Checking SIP server reachability: " sip-domain)
+  (try
+    (let [{:keys [exit out err]} (sh "nc" "-z" "-u" sip-domain "5060")]
+      (if (zero? exit)
+        (println "✅ SIP server is reachable")
+        (println "⚠ SIP server may not be reachable:" err)))
+    (catch Exception e
+      (println "⚠ Error checking SIP server:" (.getMessage e))))
 
   (let [command ["baresip" "-f" baresip-home]
         pb (doto (ProcessBuilder. command)
@@ -84,48 +96,55 @@
         process (.start pb)
         writer (java.io.BufferedWriter.
                 (java.io.OutputStreamWriter. (.getOutputStream process)))
-        reader (clojure.java.io/reader (.getInputStream process))]
+        reader (clojure.java.io/reader (.getInputStream process))
+        output (atom [])]
 
     (try
       ;; Read baresip output in a separate thread
-      (future
-        (try
-          (doseq [line (line-seq reader)]
-            (println "[BARESIP]:" line))
-          (catch Exception e
-            (println "⚠ Error reading baresip output:" (.getMessage e)))))
+      (let [reader-thread
+            (future
+              (try
+                (doseq [line (line-seq reader)]
+                  (swap! output conj line)
+                  (println "[BARESIP]:" line))
+                (catch Exception e
+                  (println "⚠ Error reading baresip output:" (.getMessage e)))))]
 
-      ;; Wait for baresip to initialize
-      (println "⏳ Waiting for baresip to initialize...")
-      (Thread/sleep 5000)
+        ;; Wait for baresip to initialize
+        (println "⏳ Waiting for baresip to initialize...")
+        (Thread/sleep 10000) ; Increased to 10s for stability
 
-      ;; Check if process is still alive
-      (if-not (.isAlive process)
-        (throw (Exception. "❌ Baresip process terminated unexpectedly")))
+        ;; Check if process is still alive
+        (if-not (.isAlive process)
+          (throw (Exception. "❌ Baresip process terminated unexpectedly")))
 
-      ;; Verify WAV file exists
-      (if (.exists (java.io.File. final-wav))
-        (println "✅ WAV exists at:" final-wav)
-        (throw (Exception. (str "❌ WAV not found at: " final-wav))))
+        ;; Verify WAV file exists
+        (if (.exists (java.io.File. final-wav))
+          (println "✅ WAV exists at:" final-wav)
+          (throw (Exception. (str "❌ WAV not found at: " final-wav))))
 
-      ;; Send commands
-      (println "⚙ Sending /ausrc")
-      (.write writer (str "/ausrc aufile," final-wav "\n"))
-      (.flush writer)
-      (Thread/sleep 2000)
+        ;; Send commands
+        (println "⚙ Sending /ausrc")
+        (.write writer (str "/ausrc aufile," final-wav "\n"))
+        (.flush writer)
+        (Thread/sleep 2000)
 
-      (println "📞 Sending /dial")
-      (.write writer (str "/dial sip:" phone "@" sip-domain "\n"))
-      (.flush writer)
-      (Thread/sleep 20000) ; Wait for call to complete
+        (println "📞 Sending /dial sip:" phone "@" sip-domain)
+        (.write writer (str "/dial sip:" phone "@" sip-domain "\n"))
+        (.flush writer)
+        (Thread/sleep 30000) ; Increased to 30s for call completion
 
-      (println "👋 Sending /quit")
-      (.write writer "/quit\n")
-      (.flush writer)
+        (println "👋 Sending /quit")
+        (.write writer "/quit\n")
+        (.flush writer)
 
-      ;; Wait for process to terminate
-      (println "⏳ Waiting for baresip to terminate...")
-      (.waitFor process 5000 java.util.concurrent.TimeUnit/MILLISECONDS)
+        ;; Wait for process to terminate
+        (println "⏳ Waiting for baresip to terminate...")
+        (let [exit-code (.waitFor process 10000 TimeUnit/MILLISECONDS)]
+          (println "ℹ Baresip process exited with code:" exit-code))
+
+        ;; Wait for reader thread to finish
+        (future-cancel reader-thread))
 
       (catch Exception e
         (println "❌ Error during SIP call:" (.getMessage e))
@@ -142,9 +161,10 @@
           (when (.isAlive process)
             (println "🛑 Forcing baresip process to terminate")
             (.destroy process)
-            (.waitFor process 2000 java.util.concurrent.TimeUnit/MILLISECONDS))
+            (.waitFor process 2000 TimeUnit/MILLISECONDS))
           (catch Exception e
-            (println "⚠ Error terminating baresip process:" (.getMessage e))))))))
+            (println "⚠ Error terminating baresip process:" (.getMessage e))))
+        (println "📜 Baresip output log:" (clojure.string/join "\n" @output))))))
 
 (defn split-phones [s]
   (->> (clojure.string/split s #"[,\s]+")
@@ -158,10 +178,15 @@
         (println "🗣 Synthesizing text:" text)
         (audio/generate-final-wav-auto text final)
         (println "📁 WAV file created at:" final)
-        (doseq [p phones]
-          (call-sip final p)
-          (println "📞 Call requested to:" p))
-        (resp/response (str "📞 Calling " (clojure.string/join ", " phones)
+        ;; Run calls asynchronously
+        (go
+          (doseq [p phones]
+            (try
+              (call-sip final p)
+              (println "📞 Call requested to:" p)
+              (catch Exception e
+                (println "❌ Failed to call" p ":" (.getMessage e))))))
+        (resp/response (str "📞 Queued call to " (clojure.string/join ", " phones)
                             " from " sip-user "@" sip-domain)))
       (resp/bad-request "❌ Missing ?text=...&phone=..."))))
 

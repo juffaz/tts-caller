@@ -6,6 +6,7 @@ RUN dnf install -y epel-release && \
     baresip baresip-alsa baresip-pulse baresip-sndfile \
     alsa-utils java-17-openjdk curl procps-ng psmisc && \
     dnf clean all
+    
 
 # Установка Leiningen
 RUN curl -O https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein && \
