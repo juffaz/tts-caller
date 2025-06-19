@@ -20,7 +20,7 @@
   (.mkdirs (File. baresip-home))
   (println "📁 Writing SIP config to" accounts-path)
   (spit accounts-path
-        (str "sip:" sip-user "@" sip-domain ":5060"
+        (str "<sip:" sip-user "@" sip-domain ":5060>"
              ";auth_user=" sip-user
              ";auth_pass=" sip-pass
              ";transport=udp\n"))
