@@ -22,7 +22,7 @@
         (str "sip:" sip-user "@" sip-domain ":5060"
              ";auth_user=" sip-user
              ";auth_pass=" sip-pass
-             ";transport=udp;regint=0\n"))
+             ";transport=udp\n"))
   (spit config-path
         (str "module_path /usr/lib64/baresip/modules\n"
              "module g711.so\n"
@@ -50,15 +50,13 @@
       (doseq [line (line-seq reader)]
         (println "[BARESIP]:" line)))
 
-    ;; дольше ждём запуска baresip
     (Thread/sleep 3000)
 
-    ;; проверим, что файл существует
     (if (.exists (java.io.File. final-wav))
       (println "✅ WAV exists at:" final-wav)
       (println "❌ WAV not found at:" final-wav))
 
-    ;; отправить команды
+    ;; отправка команд
     (println "⚙ Sending /ausrc")
     (.write writer (str "/ausrc aufile," final-wav "\n"))
     (.flush writer)
@@ -69,14 +67,12 @@
     (.flush writer)
     (Thread/sleep 15000)
 
-    ;; завершение baresip
     (println "👋 Sending /quit")
     (.write writer "/quit\n")
     (.flush writer)
     (.close writer)
 
     (.waitFor process)))
-
 
 (defn split-phones [s]
   (->> (clojure.string/split s #"[,\s]+")
@@ -107,3 +103,6 @@
 (defn -main []
   (println (str "✅ TTS SIP Caller on port 8899 using " sip-user "@" sip-domain))
   (run-jetty app {:port 8899}))
+
+
+
