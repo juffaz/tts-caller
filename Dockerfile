@@ -25,6 +25,14 @@ RUN lein uberjar
 RUN mkdir -p /root/.baresip && \
     cp /usr/lib64/baresip/modules/*.so /root/.baresip || true
 
+# Копируем baresip-модули (если baresip будет искать их локально)
+RUN mkdir -p /root/.baresip && \
+    cp /usr/lib64/baresip/modules/*.so /root/.baresip || true
+
+# Конфиг для baresip в /tmp (наш кастомный путь)
+RUN mkdir -p /tmp/baresip_config && \
+    cp /usr/lib64/baresip/modules/*.so /tmp/baresip_config || true
+
 EXPOSE 8899
 
 CMD ["java", "-cp", "target/tts-caller-standalone.jar:lib/*", "clojure.main", "-m", "tts-caller.core"]
