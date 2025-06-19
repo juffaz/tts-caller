@@ -12,7 +12,9 @@
 (def sip-user (or (System/getenv "SIP_USER") "python_client"))
 (def sip-pass (or (System/getenv "SIP_PASS") "1234pass"))
 (def sip-domain (or (System/getenv "SIP_HOST") "10.22.6.249"))
-(def sip-port (or (System/getenv "SIP_PORT") "5062")) ; Уникальный порт для этого экземпляра
+(def sip-port
+  (or (System/getenv "SIP_PORT")
+      (str (+ 5062 (rand-int 1000))))) ; Random port between 5062 and 6062
 
 (def baresip-home "/tmp/baresip_config")
 (def accounts-path (str baresip-home "/accounts"))
@@ -21,47 +23,60 @@
 (defn kill-existing-baresip []
   (println "🛑 Killing existing baresip processes")
   (try
-    (sh "pkill" "-f" "baresip")
-    (Thread/sleep 1000) ; Даем время на завершение
-    (println "✅ Existing baresip processes killed")
+    (let [{:keys [exit out err]} (sh "pkill" "-f" "baresip")]
+      (if (zero? exit)
+        (println "✅ Existing baresip processes killed")
+        (println "⚠ No baresip processes found or error:" err)))
+    (Thread/sleep 1000) ; Wait for processes to terminate
     (catch Exception e
-      (println "⚠ No baresip processes found or error:" (.getMessage e)))))
+      (println "⚠ Error killing baresip with pkill:" (.getMessage e))
+      (try
+        (let [{:keys [exit out err]} (sh "killall" "baresip")]
+          (if (zero? exit)
+            (println "✅ Killed baresip processes with killall")
+            (println "⚠ No baresip processes found or error with killall:" err)))
+        (Thread/sleep 1000)
+        (catch Exception e2
+          (println "⚠ Error killing baresip with killall:" (.getMessage e2)))))))
 
 (defn ensure-baresip-config [final-wav]
+  (println "📁 Ensuring baresip config directory exists")
   (.mkdirs (File. baresip-home))
-  (println "📁 Writing SIP config to" accounts-path)
+  (when (.exists (File. baresip-home))
+    (println "✅ Config directory exists at" baresip-home))
 
-  ;; Записываем accounts
+  ;; Ensure accounts file is created
+  (println "📝 Creating SIP accounts file at" accounts-path)
   (let [acc-content (str "<sip:" sip-user "@" sip-domain ":" sip-port ">"
                          ";auth_user=" sip-user
                          ";auth_pass=" sip-pass
                          ";transport=udp\n")
         acc-file (File. accounts-path)]
+    (.createNewFile acc-file) ; Explicitly create the file
     (spit acc-file acc-content)
     (with-open [raf (java.io.RandomAccessFile. acc-file "rw")]
       (let [fd (.getFD raf)]
         (.sync fd)))
-    (println "✅ accounts записан и fsync выполнен"))
+    (println "✅ Accounts file created and synced"))
 
-  ;; Записываем config
+  ;; Write config file
+  (println "📝 Writing config file at" config-path)
   (spit config-path
         (str "module_path /usr/lib64/baresip/modules\n"
              "module g711.so\n"
              "module aufile.so\n"
              "module cons.so\n\n"
              "sip_transp udp\n"
-             "sip_listen 0.0.0.0:" sip-port "\n" ; Уникальный порт
+             "sip_listen 0.0.0.0:" sip-port "\n"
              "audio_player aufile\n"
              "audio_source aufile\n"
              "audio_path " final-wav "\n"))
-  (println "✅ config записан"))
+  (println "✅ Config file written"))
 
 (defn call-sip [final-wav phone]
-  (kill-existing-baresip) ; Убиваем старые процессы
+  (kill-existing-baresip) ; Ensure no old processes
   (ensure-baresip-config final-wav)
   (println "📞 Calling via baresip:" phone)
-
-  (Thread/sleep 1000) ; Ждем записи конфигурации
 
   (let [command ["baresip" "-f" baresip-home]
         pb (doto (ProcessBuilder. command)
@@ -71,32 +86,65 @@
                 (java.io.OutputStreamWriter. (.getOutputStream process)))
         reader (clojure.java.io/reader (.getInputStream process))]
 
-    (future
-      (doseq [line (line-seq reader)]
-        (println "[BARESIP]:" line)))
+    (try
+      ;; Read baresip output in a separate thread
+      (future
+        (try
+          (doseq [line (line-seq reader)]
+            (println "[BARESIP]:" line))
+          (catch Exception e
+            (println "⚠ Error reading baresip output:" (.getMessage e)))))
 
-    (Thread/sleep 5000) ; Увеличиваем время для инициализации
+      ;; Wait for baresip to initialize
+      (println "⏳ Waiting for baresip to initialize...")
+      (Thread/sleep 5000)
 
-    (if (.exists (java.io.File. final-wav))
-      (println "✅ WAV exists at:" final-wav)
-      (throw (Exception. (str "❌ WAV not found at: " final-wav))))
+      ;; Check if process is still alive
+      (if-not (.isAlive process)
+        (throw (Exception. "❌ Baresip process terminated unexpectedly")))
 
-    (println "⚙ Sending /ausrc")
-    (.write writer (str "/ausrc aufile," final-wav "\n"))
-    (.flush writer)
-    (Thread/sleep 2000)
+      ;; Verify WAV file exists
+      (if (.exists (java.io.File. final-wav))
+        (println "✅ WAV exists at:" final-wav)
+        (throw (Exception. (str "❌ WAV not found at: " final-wav))))
 
-    (println "📞 Sending /dial")
-    (.write writer (str "/dial sip:" phone "@" sip-domain "\n"))
-    (.flush writer)
-    (Thread/sleep 20000) ; Увеличиваем время для вызова
+      ;; Send commands
+      (println "⚙ Sending /ausrc")
+      (.write writer (str "/ausrc aufile," final-wav "\n"))
+      (.flush writer)
+      (Thread/sleep 2000)
 
-    (println "👋 Sending /quit")
-    (.write writer "/quit\n")
-    (.flush writer)
-    (.close writer)
+      (println "📞 Sending /dial")
+      (.write writer (str "/dial sip:" phone "@" sip-domain "\n"))
+      (.flush writer)
+      (Thread/sleep 20000) ; Wait for call to complete
 
-    (.waitFor process)))
+      (println "👋 Sending /quit")
+      (.write writer "/quit\n")
+      (.flush writer)
+
+      ;; Wait for process to terminate
+      (println "⏳ Waiting for baresip to terminate...")
+      (.waitFor process 5000 java.util.concurrent.TimeUnit/MILLISECONDS)
+
+      (catch Exception e
+        (println "❌ Error during SIP call:" (.getMessage e))
+        (throw e))
+      (finally
+        ;; Ensure streams and process are closed
+        (try
+          (.close writer)
+          (catch Exception _))
+        (try
+          (.close reader)
+          (catch Exception _))
+        (try
+          (when (.isAlive process)
+            (println "🛑 Forcing baresip process to terminate")
+            (.destroy process)
+            (.waitFor process 2000 java.util.concurrent.TimeUnit/MILLISECONDS))
+          (catch Exception e
+            (println "⚠ Error terminating baresip process:" (.getMessage e))))))))
 
 (defn split-phones [s]
   (->> (clojure.string/split s #"[,\s]+")
