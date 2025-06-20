@@ -1,8 +1,11 @@
 (ns tts-caller.audio
+  (:require
+   [clojure.java.shell :refer [sh]])
   (:import [javax.sound.sampled AudioFormat AudioInputStream AudioSystem AudioFileFormat$Type]
            [java.io ByteArrayInputStream File]
            [org.w3c.dom Document]
            [javax.xml.parsers DocumentBuilderFactory]))
+  
 
 ;; ✅ Установи нужный голос здесь:
 
@@ -104,16 +107,25 @@
         audio (generate-audio-bytes-plain text voice)
         silence15 (silence-bytes 2000 format)
         silence10 (silence-bytes 500 format)
-        full (concat-audio-streams [silence15 audio audio silence10] format)]
-    (AudioSystem/write full AudioFileFormat$Type/WAVE (File. outfile))))
+        full (concat-audio-streams [silence15 audio audio silence10] format)
+        tmp (str outfile ".tmp.wav")]
+    (AudioSystem/write full AudioFileFormat$Type/WAVE (File. tmp))
+    (let [{:keys [exit err]} (sh "sox" tmp "-r" "8000" outfile)]
+      (when-not (zero? exit)
+        (println "❌ sox error:" err)))))
 
 (defn generate-final-wav-ssml [ssml outfile]
   (let [format (AudioFormat. 16000 16 1 true false)
         audio (generate-audio-bytes-ssml ssml voice)
         silence15 (silence-bytes 2000 format)
         silence10 (silence-bytes 500 format)
-        full (concat-audio-streams [silence15 audio audio silence10] format)]
-    (AudioSystem/write full AudioFileFormat$Type/WAVE (File. outfile))))
+        full (concat-audio-streams [silence15 audio audio silence10] format)
+        tmp (str outfile ".tmp.wav")]
+    (AudioSystem/write full AudioFileFormat$Type/WAVE (File. tmp))
+    (let [{:keys [exit err]} (sh "sox" tmp "-r" "8000" outfile)]
+      (when-not (zero? exit)
+        (println "❌ sox error:" err)))))
+
 
 (defn generate-final-wav-auto [text outfile]
   (if (.startsWith text "<speak>")

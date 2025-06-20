@@ -62,6 +62,7 @@
   (spit config-path
         (str
          "module_path /usr/lib64/baresip/modules\n"
+         "module account.so\n"
          "module g711.so\n"
          "module stun.so\n"
          "module turn.so\n"
@@ -69,12 +70,14 @@
          "module menu.so\n"
          "module aufile.so\n"
          "module sndfile.so\n"
-         "module cons.so\n\n"
+         "module cons.so\n"
+         "module auresamp.so\n\n"
          "sip_transp udp\n"
          "sip_listen 0.0.0.0:" sip-port "\n"
          "audio_player aufile\n"
          "audio_source aufile\n"
          "audio_path " wav "\n"))
+
   (println "✅ Config создан"))
 
 
