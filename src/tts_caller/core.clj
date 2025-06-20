@@ -45,7 +45,7 @@
   (println "✅ Папка:" baresip-dir)
 
   (println "📝 Файл accounts:" accounts-path)
-  
+
   (let [acc (str "<sip:" sip-user "@" sip-domain ":" sip-port ">"
                  ";auth_user=" sip-user
                  ";auth_pass=" sip-pass
@@ -57,20 +57,26 @@
       (.sync (.getFD raf)))
     (println "✅ Accounts создан")
     (println "📄 Содержимое accounts:\n" acc))
-  
-  
+
   (println "📝 Config:" config-path)
   (spit config-path
-        (str "module_path /usr/lib64/baresip/modules\n"
-             "module g711.so\n"
-             "module aufile.so\n"
-             "module cons.so\n\n"
-             "sip_transp udp\n"
-             "sip_listen 0.0.0.0:" sip-port "\n"
-             "audio_player aufile\n"
-             "audio_source aufile\n"
-             "audio_path " wav "\n"))
+        (str
+         "module_path /usr/lib64/baresip/modules\n"
+         "module g711.so\n"
+         "module stun.so\n"
+         "module turn.so\n"
+         "module contact.so\n"
+         "module menu.so\n"
+         "module aufile.so\n"
+         "module sndfile.so\n"
+         "module cons.so\n\n"
+         "sip_transp udp\n"
+         "sip_listen 0.0.0.0:" sip-port "\n"
+         "audio_player aufile\n"
+         "audio_source aufile\n"
+         "audio_path " wav "\n"))
   (println "✅ Config создан"))
+
 
 (defn call-sip [wav phone]
   (kill-baresip)
