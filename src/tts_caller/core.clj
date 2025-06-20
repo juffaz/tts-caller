@@ -81,6 +81,11 @@
   (println "✅ Config создан"))
 
 
+(def sip-user (or (System/getenv "SIP_USER") "python_client"))
+(def sip-pass (or (System/getenv "SIP_PASS") "1234pass"))
+(def sip-domain (or (System/getenv "SIP_HOST") "10.22.6.249"))
+(def baresip-dir "/tmp/baresip_config")
+
 (defn call-sip [wav phone]
   (kill-baresip)
   (setup-baresip-config wav)
@@ -88,59 +93,61 @@
 
   (println "🔍 Проверка SIP-сервера:" sip-domain)
   (try
-    (let [{:keys [exit err]} (sh "nc" "-z" "-u" sip-domain "5060")]
-      (if (zero? exit)
-        (println "✅ Сервер доступен")
-        (println "⚠ Сервер недоступен:" err)))
+    ;; UDP проверка: просто лог, nc -z -u всегда exit 1
+    (let [{:keys [err]} (sh "nc" "-z" "-u" sip-domain "5060")]
+      (println "ℹ Проверка завершена (UDP не всегда отвечает)"))
     (catch Exception e
       (println "⚠ Ошибка проверки:" (.getMessage e))))
 
-  (let [cmd ["baresip" "-f" baresip-dir "-v" "-d"]
+  (if-not (.exists (File. wav))
+    (throw (Exception. (str "❌ WAV не найден: " wav)))
+    (println "✅ WAV найден:" wav))
+
+  (let [cmd ["baresip" "-f" baresip-dir "-v"]
         pb (doto (ProcessBuilder. cmd)
              (.redirectErrorStream true))
         proc (.start pb)
-        writer (java.io.BufferedWriter.
-                (java.io.OutputStreamWriter. (.getOutputStream proc)))
+        writer (BufferedWriter. (OutputStreamWriter. (.getOutputStream proc)))
         reader (clojure.java.io/reader (.getInputStream proc))
         output (atom [])]
 
     (try
       (let [reader-thread
             (future
-              (try
-                (doseq [line (line-seq reader)]
-                  (swap! output conj line)
-                  (println "[BARESIP]:" line))
-                (catch Exception e
-                  (println "⚠ Ошибка вывода baresip:" (.getMessage e)))))]
+              (doseq [line (line-seq reader)]
+                (swap! output conj line)
+                (println "[BARESIP]:" line)))]
 
-        (println "⏳ Ждем baresip...")
-        (Thread/sleep 10000)
+        (println "⏳ Ожидание инициализации baresip...")
+        (Thread/sleep 7000)
 
-        (if-not (.isAlive proc)
-          (throw (Exception. "❌ Baresip завершился")))
+        (when-not (.isAlive proc)
+          (throw (Exception. "❌ baresip неожиданно завершился")))
 
-        (if (.exists (File. wav))
-          (println "✅ WAV:" wav)
-          (throw (Exception. (str "❌ WAV не найден: " wav))))
-
-        (println "⚙ /ausrc")
+        ;; Установка источника
+        (println "⚙ /ausrc aufile," wav)
         (.write writer (str "/ausrc aufile," wav "\n"))
         (.flush writer)
-        (Thread/sleep 2000)
+        (Thread/sleep 1000)
 
-        (println "📞 /dial sip:" phone "@" sip-domain)
-        (.write writer (str "/dial sip:" phone "@" sip-domain "\n"))
-        (.flush writer)
-        (Thread/sleep 60000)
+        ;; Вызов
+        (let [target (str "sip:" phone "@" sip-domain)]
+          (println "📞 /dial" target)
+          (.write writer (str "/dial " target "\n"))
+          (.flush writer))
 
+        ;; Ждать 45 секунд максимум
+        (Thread/sleep 45000)
+
+        ;; Завершить
         (println "👋 /quit")
         (.write writer "/quit\n")
         (.flush writer)
 
-        (println "⏳ Ждем завершения...")
+        ;; Дождаться выхода
+        (println "⏳ Ждём завершения baresip...")
         (let [code (.waitFor proc 10000 TimeUnit/MILLISECONDS)]
-          (println "ℹ Код выхода:" code))
+          (println "ℹ Код выхода baresip:" code))
 
         (future-cancel reader-thread))
 
@@ -148,16 +155,14 @@
         (println "❌ Ошибка вызова:" (.getMessage e))
         (throw e))
       (finally
-        (try (.close writer) (catch Exception _))
-        (try (.close reader) (catch Exception _))
-        (try
-          (when (.isAlive proc)
-            (println "🛑 Завершаем baresip")
-            (.destroy proc)
-            (.waitFor proc 2000 TimeUnit/MILLISECONDS))
-          (catch Exception e
-            (println "⚠ Ошибка завершения:" (.getMessage e))))
-        (println "📜 Лог baresip:" (clojure.string/join "\n" @output))))))
+        (doseq [s [writer reader]]
+          (try (.close s) (catch Exception _)))
+        (when (.isAlive proc)
+          (println "🛑 Принудительно завершаем baresip")
+          (.destroy proc))
+        (println "📜 Полный лог baresip:")
+        (println (clojure.string/join "\n" @output))))))
+
 
 (defn split-phones [s]
   (->> (clojure.string/split s #"[,\s]+")
