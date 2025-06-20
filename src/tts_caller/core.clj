@@ -45,14 +45,20 @@
   (println "✅ Папка:" baresip-dir)
 
   (println "📝 Файл accounts:" accounts-path)
-  (let [acc "<sip:" sip-user "@" sip-domain ":" sip-port ">;auth_user=" sip-user ";auth_pass=" sip-pass ";transport=udp\r\n"
+  
+  (let [acc (str "<sip:" sip-user "@" sip-domain ":" sip-port ">"
+                 ";auth_user=" sip-user
+                 ";auth_pass=" sip-pass
+                 ";transport=udp\n")
         file (File. accounts-path)]
     (.createNewFile file)
     (spit file acc)
     (with-open [raf (java.io.RandomAccessFile. file "rw")]
       (.sync (.getFD raf)))
-    (println "✅ Accounts создан"))
-
+    (println "✅ Accounts создан")
+    (println "📄 Содержимое accounts:\n" acc))
+  
+  
   (println "📝 Config:" config-path)
   (spit config-path
         (str "module_path /usr/lib64/baresip/modules\n"
