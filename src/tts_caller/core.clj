@@ -15,7 +15,9 @@
 (def sip-user (or (System/getenv "SIP_USER") "python_client"))
 (def sip-pass (or (System/getenv "SIP_PASS") "1234pass"))
 (def sip-domain (or (System/getenv "SIP_HOST") "10.22.6.249"))
-(def sip-port (or (System/getenv "SIP_PORT") "5060")) ; Порт 5060 для SIP-сервера
+;; (def sip-port (or (System/getenv "SIP_PORT") "5060")) ; Порт 5060 для SIP-сервера
+(def sip-port (str (+ 5061 (rand-int 39)))) ; 5061–5099
+
 
 (def baresip-dir "/tmp/baresip_config")
 (def accounts-path (str baresip-dir "/accounts"))
@@ -48,7 +50,7 @@
   (println "📝 Файл accounts:" accounts-path)
 
   ;; ✅ Обновлённая строка без < > и с regint=0
-  (let [acc (str "sip:" sip-user "@" sip-domain ":" sip-port
+  (let [acc (str "<sip:" sip-user "@" sip-domain ":" sip-port ">"
                  ";auth_user=" sip-user
                  ";auth_pass=" sip-pass
                  ";transport=udp"
