@@ -127,10 +127,46 @@
         (println "❌ sox error:" err)))))
 
 
-(defn generate-final-wav-auto [text outfile]
-  (if (.startsWith text "<speak>")
-    (generate-final-wav-ssml text outfile)
-    (generate-final-wav-plain text outfile)))
+(defn generate-final-wav-auto
+  [text outfile & {:keys [tts-engine repeat voice rate gain]
+                   :or {tts-engine "marytts"
+                        repeat 30
+                        voice "dfki-ot-hsmm"
+                        rate "default"
+                        gain 0.0}}]
+  (let [tmp "/tmp/generated.wav"]
+    (case tts-engine
+      "espeak"
+      (do
+        ;; Генерация WAV через espeak-ng
+        (let [{:keys [exit err]} (sh "bash" "-c"
+                                     (format "espeak-ng -v tr -s 140 \"%s\" --stdout | sox -t wav - -r 8000 -c 1 -b 16 %s gain %s"
+                                             text tmp gain))]
+          (when-not (zero? exit)
+            (println "❌ espeak error:" err)))
+        ;; Повтор + сохранить итоговый
+        (let [{:keys [exit err]} (sh "sox" tmp outfile "repeat" (str repeat))]
+          (when-not (zero? exit)
+            (println "❌ sox repeat error:" err))))
+
+      "marytts"
+      (let [ssml? (.startsWith text "<speak>")
+            format (AudioFormat. 16000 16 1 true false)
+            audio-bytes (if ssml?
+                          (generate-audio-bytes-ssml text voice)
+                          (generate-audio-bytes-plain text voice))
+            silence15 (silence-bytes 2000 format)
+            silence10 (silence-bytes 500 format)
+            full (concat-audio-streams [silence15 audio-bytes audio-bytes silence10] format)
+            tmp1 (str outfile ".tmp.wav")]
+        (AudioSystem/write full AudioFileFormat$Type/WAVE (File. tmp1))
+        (let [{:keys [exit err]} (sh "sox" tmp1 "-r" "8000" outfile "repeat" (str repeat))]
+          (when-not (zero? exit)
+            (println "❌ sox format/convert error:" err)))))
+
+    (println "✅ Файл готов:" outfile)))
+
+
 
 (comment
   ;; 🔁 Пример быстрой проверки

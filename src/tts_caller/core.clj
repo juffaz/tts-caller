@@ -179,12 +179,18 @@
        (remove clojure.string/blank?)))
 
 (defn handle-call [{:keys [query-params]}]
-  (let [{:strs [text phone]} query-params
-        wav "/tmp/final.wav"]
+  (let [{:strs [text phone engine repeat]} query-params
+        wav "/tmp/final.wav"
+        engine (or engine "marytts")
+        repeat (try (Integer/parseInt (or repeat "30"))
+                    (catch Exception _ 30))]
     (if (and text phone)
       (let [phones (split-phones phone)]
         (println "🗣 Текст:" text)
-        (audio/generate-final-wav-auto text wav)
+        (println "⚙ Движок TTS:" engine " Повтор:" repeat)
+        (audio/generate-final-wav-auto text wav
+                                       :tts-engine engine
+                                       :repeat repeat)
         (println "📁 WAV:" wav)
         (go
           (doseq [p phones]
@@ -194,7 +200,8 @@
               (catch Exception e
                 (println "❌ Ошибка:" p (.getMessage e))))))
         (resp/response (str "📞 Вызов в очереди: " (clojure.string/join ", " phones)
-                            " от " sip-user "@" sip-domain)))
+                            " от " sip-user "@" sip-domain
+                            " через " engine)))
       (resp/bad-request "❌ Нет ?text=...&phone=..."))))
 
 (defroutes app-routes
