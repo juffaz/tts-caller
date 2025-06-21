@@ -47,14 +47,12 @@
   (.mkdirs (File. baresip-dir))
   (println "✅ Папка:" baresip-dir)
 
-  (println "📝 Файл accounts:" accounts-path)
-
-  ;; ✅ Обновлённая строка без < > и с regint=0
+  ;; Правильная строка accounts (без < > и с портом 5060)
   (let [acc (str "sip:" sip-user "@" sip-domain ":5060"
                  ";auth_user=" sip-user
                  ";auth_pass=" sip-pass
                  ";transport=udp"
-                 ";regint=60\n")
+                 ";regint=0\n")
         file (File. accounts-path)]
     (.createNewFile file)
     (spit file acc)
@@ -63,8 +61,7 @@
     (println "✅ Accounts создан")
     (println "📄 Содержимое accounts:\n" acc))
 
-
-  (println "📝 Config:" config-path)
+  ;; config с audio_source и audio_player как в /root/.baresip/config
   (spit config-path
         (str
          "module_path /usr/lib64/baresip/modules\n"
@@ -80,11 +77,11 @@
          "module auresamp.so\n\n"
          "sip_transp udp\n"
          "sip_listen 0.0.0.0:" sip-port "\n"
-         "audio_player aufile\n"
-         "audio_source aufile\n"
-         "audio_path " wav "\n"))
-
+         "audio_player aufile,play=" wav "\n"
+         "audio_source aufile,/dev/zero\n"
+         "audio_alert aufile,/dev/null\n"))
   (println "✅ Config создан"))
+
 
 
 (comment
