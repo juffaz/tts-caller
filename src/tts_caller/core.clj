@@ -54,7 +54,7 @@
                  "auth_user=" sip-user ";"
                  "auth_pass=" sip-pass ";"
                  "transport=udp;"
-                 "regint=60\n")
+                 "regint=9\n")
         file (File. accounts-path)]
     (.createNewFile file)
     (spit file acc)
