@@ -78,22 +78,29 @@
          "sip_transp udp\n"
          "sip_listen 0.0.0.0:" sip-port "\n"
          "audio_source aufile,play=" wav "\n"
-         "audio_alert aufile,/dev/null\n")) 
+         "audio_alert aufile,/dev/null\n"))
   (println "✅ Config создан"))
 
 
 
 (comment
-  
+
 (def sip-user (or (System/getenv "SIP_USER") "python_client"))
 (def sip-pass (or (System/getenv "SIP_PASS") "1234pass"))
 (def sip-domain (or (System/getenv "SIP_HOST") "10.22.6.249"))
 (def baresip-dir "/tmp/baresip_config")
 
-  
+
   )
 
 (defn call-sip [wav phone]
+  ;; 🔍 Проверка: убить любые висящие процессы baresip до запуска
+  (let [{:keys [out]} (sh "pgrep" "-f" "baresip")]
+    (when-not (clojure.string/blank? out)
+      (println "⚠ Найдены активные процессы baresip, убиваем...")
+      (kill-baresip)))
+
+  ;; 🛠 Настройка baresip
   (kill-baresip)
   (setup-baresip-config wav)
   (println "📞 Вызов:" phone)
@@ -109,8 +116,11 @@
     (throw (Exception. (str "❌ WAV не найден: " wav)))
     (println "✅ WAV найден:" wav))
 
-  ;; УБРАНО -t 60
-  (let [cmd ["baresip" "-f" baresip-dir]
+  ;; 🟢 Запуск baresip с конфигурацией
+  (let [cmd ["baresip"
+           "-f" baresip-dir
+           "-e" (str "/ausrc aufile," wav)
+           "-e" (str "/dial sip:" phone "@" sip-domain)]
         pb (doto (ProcessBuilder. cmd)
              (.redirectErrorStream true))
         proc (.start pb)
@@ -143,11 +153,10 @@
           (.write writer (str "/dial " target "\n"))
           (.flush writer))
 
-        ;; Ждём 7 секунд — затем убиваем
-        (Thread/sleep 7000)
-        (when (.isAlive proc)
-          (println "🛑 Завершаем baresip через 7 сек")
-          (.destroy proc))
+        ;; ⏱ Ждём завершения baresip максимум 20 сек
+        (println "⏳ Ждём завершения baresip...")
+        (let [code (.waitFor proc 20000 TimeUnit/MILLISECONDS)]
+          (println "ℹ baresip завершился с кодом:" code))
 
         (future-cancel reader-thread))
 
