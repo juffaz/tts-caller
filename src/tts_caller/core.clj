@@ -103,7 +103,6 @@
 
   (println "🔍 Проверка SIP-сервера:" sip-domain)
   (try
-    ;; UDP проверка: просто лог, nc -z -u всегда exit 1
     (let [{:keys [err]} (sh "nc" "-z" "-u" sip-domain "5060")]
       (println "ℹ Проверка завершена (UDP не всегда отвечает)"))
     (catch Exception e
@@ -113,7 +112,8 @@
     (throw (Exception. (str "❌ WAV не найден: " wav)))
     (println "✅ WAV найден:" wav))
 
-  (let [cmd ["baresip" "-f" baresip-dir "-t" "60"]
+  ;; УБРАНО -t 60
+  (let [cmd ["baresip" "-f" baresip-dir]
         pb (doto (ProcessBuilder. cmd)
              (.redirectErrorStream true))
         proc (.start pb)
@@ -129,7 +129,7 @@
                 (println "[BARESIP]:" line)))]
 
         (println "⏳ Ожидание инициализации baresip...")
-        (Thread/sleep 7000)
+        (Thread/sleep 2000)
 
         (when-not (.isAlive proc)
           (throw (Exception. "❌ baresip неожиданно завершился")))
@@ -146,12 +146,12 @@
           (.write writer (str "/dial " target "\n"))
           (.flush writer))
 
+        ;; Ждём 7 секунд — затем убиваем
+        (Thread/sleep 7000)
+        (when (.isAlive proc)
+          (println "🛑 Завершаем baresip через 7 сек")
+          (.destroy proc))
 
-        ;; Ждать завершения baresip (он сам завершится через -t 60) 
-        (println "⏳ Ждём завершения baresip...")
-          (let [code (.waitFor proc 70000 TimeUnit/SECONDS)]
-            (println "ℹ Код выхода baresip:" code))
-        
         (future-cancel reader-thread))
 
       (catch Exception e
@@ -160,9 +160,6 @@
       (finally
         (doseq [s [writer reader]]
           (try (.close s) (catch Exception _)))
-        (when (.isAlive proc)
-          (println "🛑 Принудительно завершаем baresip")
-          (.destroy proc))
         (println "📜 Полный лог baresip:")
         (println (clojure.string/join "\n" @output))))))
 
