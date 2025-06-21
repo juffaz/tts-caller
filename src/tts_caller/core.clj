@@ -47,10 +47,12 @@
 
   (println "📝 Файл accounts:" accounts-path)
 
-  (let [acc (str "<sip:" sip-user "@" sip-domain ":" sip-port ">"
+  ;; ✅ Обновлённая строка без < > и с regint=0
+  (let [acc (str "sip:" sip-user "@" sip-domain ":" sip-port
                  ";auth_user=" sip-user
                  ";auth_pass=" sip-pass
-                 ";transport=udp\n")
+                 ";transport=udp"
+                 ";regint=0\n")
         file (File. accounts-path)]
     (.createNewFile file)
     (spit file acc)
@@ -82,10 +84,15 @@
   (println "✅ Config создан"))
 
 
+(comment
+  
 (def sip-user (or (System/getenv "SIP_USER") "python_client"))
 (def sip-pass (or (System/getenv "SIP_PASS") "1234pass"))
 (def sip-domain (or (System/getenv "SIP_HOST") "10.22.6.249"))
 (def baresip-dir "/tmp/baresip_config")
+
+  
+  )
 
 (defn call-sip [wav phone]
   (kill-baresip)
