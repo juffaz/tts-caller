@@ -50,11 +50,11 @@
   (println "📝 Файл accounts:" accounts-path)
 
   ;; ✅ Обновлённая строка без < > и с regint=0
-  (let [acc (str "<sip:" sip-user "@" sip-domain ">"
-                 ";auth_user=" sip-user
-                 ";auth_pass=" sip-pass
-                 ";transport=udp"
-                 ";regint=60\n")
+  (let [acc (str "<sip:" sip-user "@" sip-domain ">;"
+                 "auth_user=" sip-user ";"
+                 "auth_pass=" sip-pass ";"
+                 "transport=udp;"
+                 "regint=60\n")
         file (File. accounts-path)]
     (.createNewFile file)
     (spit file acc)
