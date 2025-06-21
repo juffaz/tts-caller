@@ -54,7 +54,7 @@
                  ";auth_user=" sip-user
                  ";auth_pass=" sip-pass
                  ";transport=udp"
-                 ";regint=0\n")
+                 ";regint=60\n")
         file (File. accounts-path)]
     (.createNewFile file)
     (spit file acc)
@@ -113,7 +113,7 @@
     (throw (Exception. (str "❌ WAV не найден: " wav)))
     (println "✅ WAV найден:" wav))
 
-  (let [cmd ["baresip" "-f" baresip-dir "-v"]
+  (let [cmd ["baresip" "-f" baresip-dir "-t" "60"]
         pb (doto (ProcessBuilder. cmd)
              (.redirectErrorStream true))
         proc (.start pb)
@@ -146,19 +146,12 @@
           (.write writer (str "/dial " target "\n"))
           (.flush writer))
 
-        ;; Ждать 45 секунд максимум
-        (Thread/sleep 45000)
 
-        ;; Завершить
-        (println "👋 /quit")
-        (.write writer "/quit\n")
-        (.flush writer)
-
-        ;; Дождаться выхода
+        ;; Ждать завершения baresip (он сам завершится через -t 60) 
         (println "⏳ Ждём завершения baresip...")
-        (let [code (.waitFor proc 10000 TimeUnit/MILLISECONDS)]
-          (println "ℹ Код выхода baresip:" code))
-
+          (let [code (.waitFor proc 70000 TimeUnit/SECONDS)]
+            (println "ℹ Код выхода baresip:" code))
+        
         (future-cancel reader-thread))
 
       (catch Exception e
