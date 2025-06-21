@@ -77,9 +77,8 @@
          "module auresamp.so\n\n"
          "sip_transp udp\n"
          "sip_listen 0.0.0.0:" sip-port "\n"
-         "audio_player aufile,play=" wav "\n"
-         "audio_source aufile,/dev/zero\n"
-         "audio_alert aufile,/dev/null\n"))
+         "audio_source aufile,play=" wav "\n"
+         "audio_alert aufile,/dev/null\n")) 
   (println "✅ Config создан"))
 
 
