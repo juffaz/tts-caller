@@ -1,14 +1,13 @@
 FROM quay.io/centos/centos:stream9
 
-# Установка зависимостей
+# Install dependencies
 RUN dnf install -y epel-release && \
     dnf install -y --allowerasing \
     baresip baresip-alsa baresip-pulse baresip-sndfile \
     alsa-utils java-17-openjdk curl procps-ng psmisc nmap-ncat sox espeak-ng && \
     dnf clean all
 
-
-# Установка Leiningen
+# Install Leiningen
 RUN curl -O https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein && \
     mv lein /usr/local/bin/lein && \
     chmod +x /usr/local/bin/lein && \
@@ -16,21 +15,17 @@ RUN curl -O https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/l
 
 WORKDIR /app
 
-# Копируем проект
+# Copy project files
 COPY . /app
 
-# Сборка
+# Build the project
 RUN lein uberjar
 
-# Копируем baresip-модули (если вдруг baresip будет искать их локально)
+# Copy baresip modules (in case baresip looks for them locally)
 RUN mkdir -p /root/.baresip && \
     cp /usr/lib64/baresip/modules/*.so /root/.baresip || true
 
-# Копируем baresip-модули (если baresip будет искать их локально)
-RUN mkdir -p /root/.baresip && \
-    cp /usr/lib64/baresip/modules/*.so /root/.baresip || true
-
-# Конфиг для baresip в /tmp (наш кастомный путь)
+# Copy baresip modules (custom config path)
 RUN mkdir -p /tmp/baresip_config && \
     cp /usr/lib64/baresip/modules/*.so /tmp/baresip_config || true
 
