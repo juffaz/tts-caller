@@ -24,30 +24,30 @@
 (def config-path (str baresip-dir "/config"))
 
 (defn kill-baresip []
-  (println "🛑 Убиваем baresip")
+  (println "🛑 Kill baresip")
   (try
     (let [{:keys [exit err]} (sh "pkill" "-f" "baresip")]
       (if (zero? exit)
-        (println "✅ Процессы убиты")
-        (println "⚠ Ошибка или процессы не найдены:" err)))
+        (println "✅ Processes killed")
+        (println "⚠ Error or no processes found:" err)))
     (Thread/sleep 1000)
     (catch Exception e
-      (println "⚠ Ошибка pkill:" (.getMessage e))
+      (println "⚠ pkill error:" (.getMessage e))
       (try
         (let [{:keys [exit err]} (sh "killall" "baresip")]
           (if (zero? exit)
-            (println "✅ Убиты через killall")
-            (println "⚠ Ошибка killall:" err)))
+            (println "✅ Killed via killall")
+            (println "⚠ killall error:" err)))
         (Thread/sleep 1000)
         (catch Exception e2
-          (println "⚠ Ошибка killall:" (.getMessage e2)))))))
+          (println "⚠ killall error:" (.getMessage e2)))))))
 
 (defn setup-baresip-config [wav]
-  (println "📁 Создаем конфиг baresip")
+  (println "📁 Create baresip config")
   (.mkdirs (File. baresip-dir))
-  (println "✅ Папка:" baresip-dir)
+  (println "✅ Folder:" baresip-dir)
 
-  ;; Правильная строка accounts (без < > и с портом 5060)
+  ;; Correct accounts line (without < > and with port 5060)
   (let [acc (str "sip:" sip-user "@" sip-domain ":5060"
                  ";auth_user=" sip-user
                  ";auth_pass=" sip-pass
@@ -58,10 +58,10 @@
     (spit file acc)
     (with-open [raf (java.io.RandomAccessFile. file "rw")]
       (.sync (.getFD raf)))
-    (println "✅ Accounts создан")
-    (println "📄 Содержимое accounts:\n" acc))
+    (println "✅ Accounts file created")
+    (println "📄 Contents of accounts:\n" acc))
 
-  ;; config с audio_source и audio_player как в /root/.baresip/config
+  ;; config with audio_source and audio_player like in /root/.baresip/config
   (spit config-path
         (str
          "module_path /usr/lib64/baresip/modules\n"
@@ -79,44 +79,40 @@
          "sip_listen 0.0.0.0:" sip-port "\n"
          "audio_source aufile,play=" wav "\n"
          "audio_alert aufile,/dev/null\n"))
-  (println "✅ Config создан"))
-
-
+  (println "✅ Config file created"))
 
 (comment
 
-(def sip-user (or (System/getenv "SIP_USER") "python_client"))
+ (def sip-user (or (System/getenv "SIP_USER") "python_client"))
 (def sip-pass (or (System/getenv "SIP_PASS") "1234pass"))
 (def sip-domain (or (System/getenv "SIP_HOST") "10.22.6.249"))
 (def baresip-dir "/tmp/baresip_config")
-
-
   )
 
 (defn call-sip [wav phone]
-  ;; 🔍 Проверка: убить любые висящие процессы baresip до запуска
+  ;; 🔍 Check: kill any hanging baresip processes before starting
   (let [{:keys [out]} (sh "pgrep" "-f" "baresip")]
     (when-not (clojure.string/blank? out)
-      (println "⚠ Найдены активные процессы baresip, убиваем...")
+      (println "⚠ Active baresip processes found, killing...")
       (kill-baresip)))
 
-  ;; 🛠 Настройка baresip
+  ;; 🛠 Baresip setup
   (kill-baresip)
   (setup-baresip-config wav)
-  (println "📞 Вызов:" phone)
+  (println "📞 Call:" phone)
 
-  (println "🔍 Проверка SIP-сервера:" sip-domain)
+  (println "🔍 Checking SIP server:" sip-domain)
   (try
     (let [{:keys [err]} (sh "nc" "-z" "-u" sip-domain "5060")]
-      (println "ℹ Проверка завершена (UDP не всегда отвечает)"))
+      (println "ℹ Check completed (UDP may not always respond)"))
     (catch Exception e
-      (println "⚠ Ошибка проверки:" (.getMessage e))))
+      (println "⚠ Check error:" (.getMessage e))))
 
   (if-not (.exists (File. wav))
-    (throw (Exception. (str "❌ WAV не найден: " wav)))
-    (println "✅ WAV найден:" wav))
+    (throw (Exception. (str "❌ WAV not found: " wav)))
+    (println "✅ WAV found:" wav))
 
-  ;; 🟢 Запуск baresip с конфигурацией
+  ;; 🟢 Starting baresip with configuration
   (let [cmd ["baresip"
            "-f" baresip-dir
            "-e" (str "/ausrc aufile," wav)
@@ -135,38 +131,38 @@
                 (swap! output conj line)
                 (println "[BARESIP]:" line)))]
 
-        (println "⏳ Ожидание инициализации baresip...")
+        (println "⏳ Waiting for baresip initialization...")
         (Thread/sleep 2000)
 
         (when-not (.isAlive proc)
-          (throw (Exception. "❌ baresip неожиданно завершился")))
+          (throw (Exception. "❌ baresip exited unexpectedly")))
 
-        ;; Установка источника
+        ;; Setting audio source
         (println "⚙ /ausrc aufile," wav)
         (.write writer (str "/ausrc aufile," wav "\n"))
         (.flush writer)
         (Thread/sleep 1000)
 
-        ;; Вызов
+        ;; Call
         (let [target (str "sip:" phone "@" sip-domain)]
           (println "📞 /dial" target)
           (.write writer (str "/dial " target "\n"))
           (.flush writer))
 
-        ;; ⏱ Ждём завершения baresip максимум 20 сек
-        (println "⏳ Ждём завершения baresip...")
+        ;; ⏱ Waiting for baresip to finish (max 20 seconds)
+        (println "⏳ Waiting for baresip to finish...")
         (let [code (.waitFor proc 20000 TimeUnit/MILLISECONDS)]
-          (println "ℹ baresip завершился с кодом:" code))
+          (println "ℹ baresip exited with code:" code))
 
         (future-cancel reader-thread))
 
       (catch Exception e
-        (println "❌ Ошибка вызова:" (.getMessage e))
+        (println "❌ Call error:" (.getMessage e))
         (throw e))
       (finally
         (doseq [s [writer reader]]
           (try (.close s) (catch Exception _)))
-        (println "📜 Полный лог baresip:")
+        (println "📜 Full baresip log:")
         (println (clojure.string/join "\n" @output))))))
 
 
@@ -182,8 +178,8 @@
                     (catch Exception _ 30))]
     (if (and text phone)
       (let [phones (split-phones phone)]
-        (println "🗣 Текст:" text)
-        (println "⚙ Движок TTS:" engine " Повтор:" repeat)
+        (println "🗣 Text:" text)
+        (println "⚙ Engine TTS:" engine " Repeat:" repeat)
         (audio/generate-final-wav-auto text wav
                                        :tts-engine engine
                                        :repeat repeat)
@@ -192,13 +188,13 @@
           (doseq [p phones]
             (try
               (call-sip wav p)
-              (println "📞 Вызов:" p)
+              (println "📞 Call :" p)
               (catch Exception e
-                (println "❌ Ошибка:" p (.getMessage e))))))
-        (resp/response (str "📞 Вызов в очереди: " (clojure.string/join ", " phones)
-                            " от " sip-user "@" sip-domain
-                            " через " engine)))
-      (resp/bad-request "❌ Нет ?text=...&phone=..."))))
+                (println "❌ Error:" p (.getMessage e))))))
+        (resp/response (str "📞 Call queued: " (clojure.string/join ", " phones)
+                            " from " sip-user "@" sip-domain
+                            " via  " engine)))
+      (resp/bad-request "❌ No ?text=...&phone=..."))))
 
 (defroutes app-routes
   (GET "/call" [] handle-call)
