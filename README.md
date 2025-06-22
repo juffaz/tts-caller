@@ -90,4 +90,3 @@ Ensure the following JARs are present in the lib directory:
 docker exec -it tts-caller cat /tmp/baresip.log
 ```
 
-Хочешь — добавлю секцию о CI/CD или примеры с `Prometheus Alertmanager`.
