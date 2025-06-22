@@ -9,10 +9,10 @@
                  [instaparse "1.4.8"]
                  [medley "1.4.0"]
                  ]
-  :main tts-caller.core                      ;; <- используется при uberjar
-  :uberjar-name "tts-caller-standalone.jar"           ;; <--- добавлено
-  :aot [tts-caller.core]                     ;; <- обязательно для .jar
+  :main tts-caller.core                      ;; <- used during uberjar
+  :uberjar-name "tts-caller-standalone.jar"           ;; <--- added
+  :aot [tts-caller.core]                     ;; <- Required for .jar
   :resource-paths ["resources"]
   :extra-classpath-dirs ["lib"]
-  :profiles {:dev {:jvm-opts ["-Dmary.base=lib"]}} ;; <- важно для Calva + lein repl
+  :profiles {:dev {:jvm-opts ["-Dmary.base=lib"]}} ;; <- Important for Calva + lein repl
   :repositories [["central" "https://repo1.maven.org/maven2/"]])
