@@ -4,16 +4,16 @@
 *.jar
 *.class
 
-# Логи
+# Logs
 /log/
 
-# Локальные настройки и кэши редакторов/IDE
+# Local settings and cache editors/IDE
 /.calva/
 /.clj-kondo/
 /.lsp/
 /.vscode/
 
-# Временные файлы
+# Temp files
 *~
 *.bak
 *.swp
@@ -21,7 +21,7 @@
 # macOS
 .DS_Store
 
-# Локальные зависимости (если используются)
+# Local dependencies (if used)
 /checkouts/
 
 # nREPL, Calva temp
