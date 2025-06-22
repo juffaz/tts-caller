@@ -113,8 +113,11 @@ curl --get "http://localhost:8899/call" \
 ```
 #### Environment variables
 Variable	Description
+
 SIP_USER	SIP username/login
+
 SIP_PASS	SIP password
+
 SIP_HOST	SIP server IP or FQDN
 
 #### Example use cases
