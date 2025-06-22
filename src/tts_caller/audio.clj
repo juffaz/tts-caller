@@ -10,11 +10,15 @@
 ;; ✅ Set the desired voice here:
 
 
-(def voice "dfki-ot-hsmm")
+;; (def voice "dfki-ot-hsmm")
+(def voice "ac-irina-hsmm")
 
 (comment
 
+(def voice "ac-irina-hsmm")
+(def voice "ac-elena-hsmm")
 
+ 
   (user/init!)
   
   
