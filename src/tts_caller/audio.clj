@@ -7,7 +7,7 @@
            [javax.xml.parsers DocumentBuilderFactory]))
   
 
-;; ✅ Установи нужный голос здесь:
+;; ✅ Set the desired voice here:
 
 
 (def voice "dfki-ot-hsmm")
@@ -138,13 +138,13 @@
     (case tts-engine
       "espeak"
       (do
-        ;; Генерация WAV через espeak-ng
+        ;; Generate WAV using espeak-ng
         (let [{:keys [exit err]} (sh "bash" "-c"
                                      (format "espeak-ng -v tr -s 140 \"%s\" --stdout | sox -t wav - -r 8000 -c 1 -b 16 %s gain %s"
                                              text tmp gain))]
           (when-not (zero? exit)
             (println "❌ espeak error:" err)))
-        ;; Повтор + сохранить итоговый
+        ;; Repeat + save final output
         (let [{:keys [exit err]} (sh "sox" tmp outfile "repeat" (str repeat))]
           (when-not (zero? exit)
             (println "❌ sox repeat error:" err))))
@@ -164,17 +164,17 @@
           (when-not (zero? exit)
             (println "❌ sox format/convert error:" err)))))
 
-    (println "✅ Файл готов:" outfile)))
+    (println "✅ File is ready:" outfile)))
 
 
 
 (comment
-  ;; 🔁 Пример быстрой проверки
+  ;; 🔁 Example of a quick check
 
-  ;; Проверка обычного текста:
+  ;; Check of regular text:
   (generate-final-wav-auto "Salam, Sphere və Atlas işləmir!" "/tmp/plain.wav")
 
-  ;; Проверка SSML с быстрой скоростью:
+  ;; Check SSML with fast speed:
   (generate-final-wav-auto "<speak><prosody rate='x-fast'>Salam, Sphere və Atlas işləmir!</prosody></speak>" "/tmp/ssml.wav")
   
    (tts-caller.audio/generate-final-wav-auto
