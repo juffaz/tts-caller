@@ -123,33 +123,23 @@ SIP_HOST	SIP server IP or FQDN
 #### Example use cases
 
     Critical incident voice alerts
-
     SIP integration with monitoring systems
-
     Automated emergency call notifications
 
 #### Technologies used
 
     Clojure
-
     MaryTTS
-
     espeak-ng
-
     Baresip
-
     Docker
 
 #### Bugfixes and improvements
 
     Fixed early termination of baresip via ProcessBuilder
-
     Switched from stdin commands to -e arguments for reliable execution
-
     Added support for multiple phones
-
     Added repeat and engine parameters
-
     Full logs available at /tmp/baresip.log inside container
 ```bash
 docker exec -it tts-caller cat /tmp/baresip.log
