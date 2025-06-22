@@ -9,21 +9,21 @@
 *.class
 /checkouts/
 
-# Логи
+# Logs
 /log/
 
-# Локальные настройки и кэши редакторов/IDE
+# Local setting and cache editors/IDE
 /.calva/
 /.clj-kondo/
 /.lsp/
 /.vscode/
 
-# Временные файлы
+# Temp files
 *~
 *.bak
 *.swp
 
-# Документация и прочее
+# Docs and other
 README
 
 # macOS
