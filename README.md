@@ -92,7 +92,7 @@ docker run -d --network=host \
 
 curl --get "http://localhost:8899/call" \
   --data-urlencode "text=Mobile işləmir!" \
-  --data-urlencode "phone=0702011321"
+  --data-urlencode "phone=0722111111"
 
 Additional API parameters
 Parameter	Description
@@ -104,7 +104,7 @@ Multiple phones example
 
 curl --get "http://localhost:8899/call" \
   --data-urlencode "text=Alert from system!" \
-  --data-urlencode "phone=0702011321,0702011322" \
+  --data-urlencode "phone=0722111111,0722111112" \
   --data-urlencode "engine=espeak" \
   --data-urlencode "repeat=3"
 
