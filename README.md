@@ -48,19 +48,14 @@ SIP_HOST	SIP server IP or FQDN
 ### Example use cases
 
     Critical incident voice alerts
-
     SIP integration with monitoring systems
-
     Automated emergency call notifications
 
 ### Technologies used
 
     Clojure
-
     MaryTTS
-
     Baresip
-
     Docker
 
 
@@ -133,6 +128,18 @@ SIP_HOST	SIP server IP or FQDN
     espeak-ng
     Baresip
     Docker
+
+#### Required JAR files in lib/ folder
+
+Ensure the following JARs are present in the lib directory:
+
+    marytts-client-5.2-jar-with-dependencies.jar
+    marytts-runtime-5.2-jar-with-dependencies.jar
+    marytts-lang-en-5.2.jar
+    marytts-lang-ru-5.2.jar
+    marytts-lang-tr-5.2.jar
+    voice-cmu-slt-hsmm-5.2.jar
+    voice-dfki-ot-hsmm-5.2.jar
 
 #### Bugfixes and improvements
 
