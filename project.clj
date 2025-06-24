@@ -8,6 +8,7 @@
                  [clout "2.2.1"]
                  [instaparse "1.4.8"]
                  [medley "1.4.0"]
+                 [org.slf4j/slf4j-simple "1.7.36"]
                  ]
   :main tts-caller.core
   :uberjar-name "tts-caller-standalone.jar"
