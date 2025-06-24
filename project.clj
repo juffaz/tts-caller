@@ -7,10 +7,14 @@
                  [compojure "1.7.1"]
                  [clout "2.2.1"]
                  [instaparse "1.4.8"]
-                 [medley "1.4.0"]]
+                 [medley "1.4.0"]
+                 ;; MaryTTS dependencies
+                 [de.dfki.mary/marytts-runtime "5.2"]
+                 [de.dfki.mary/voice-dfki-ot-hsmm "5.2"]]
   :main tts-caller.core
   :uberjar-name "tts-caller-standalone.jar"
   :aot [tts-caller.core]
   :resource-paths ["resources"]
-  :extra-classpath-dirs ["lib"]
-  :jvm-opts ["-Dmary.base=lib"])
+  :jvm-opts ["-Dmary.base=lib"] ;; Apply mary.base globally
+  :profiles {:dev {:jvm-opts ["-Dmary.base=lib"]}}
+  :repositories [["central" "https://repo1.maven.org/maven2/"]])
