@@ -8,9 +8,7 @@
                  [clout "2.2.1"]
                  [instaparse "1.4.8"]
                  [medley "1.4.0"]
-                 ;; MaryTTS dependencies
-                 [de.dfki.mary/marytts-runtime "5.2"]
-                 [de.dfki.mary/voice-dfki-ot-hsmm "5.2"]]
+                 ]
   :main tts-caller.core
   :uberjar-name "tts-caller-standalone.jar"
   :aot [tts-caller.core]
