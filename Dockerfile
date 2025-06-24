@@ -31,4 +31,4 @@ RUN mkdir -p /tmp/baresip_config && \
 
 EXPOSE 8899
 
-CMD ["java", "-cp", "target/tts-caller-standalone.jar:lib/*", "clojure.main", "-m", "tts-caller.core"]
+CMD ["java", "-Dmary.base=/app/lib", "-cp", "target/tts-caller-standalone.jar:lib/*", "clojure.main", "-m", "tts-caller.core"]
