@@ -77,6 +77,10 @@
   (println "✅ Config file created"))
 
 (defn call-sip [wav phone]
+  (let [{:keys [out]} (sh "pgrep" "-f" "baresip")]
+    (when-not (clojure.string/blank? out)
+      (println "⚠ Active baresip processes found, killing...")
+      (kill-baresip)))
   (kill-baresip)
   (setup-baresip-config wav)
   (println "📞 Call:" phone)
@@ -86,12 +90,9 @@
       (println "ℹ Check completed (UDP may not always respond)"))
     (catch Exception e
       (println "⚠ Check error:" (.getMessage e))))
-  
   (if-not (.exists (File. wav))
     (throw (Exception. (str "❌ WAV not found: " wav)))
     (println "✅ WAV found:" wav))
-
-  ;; 🟢 Starting baresip with configuration
   (let [cmd ["baresip"
              "-f" baresip-dir
              "-e" (str "/ausrc aufile," wav)
@@ -102,46 +103,35 @@
         writer (BufferedWriter. (OutputStreamWriter. (.getOutputStream proc)))
         reader (clojure.java.io/reader (.getInputStream proc))
         output (atom [])]
-    
     (try
       (let [reader-thread
             (future
               (doseq [line (line-seq reader)]
                 (swap! output conj line)
                 (println "[BARESIP]:" line)))]
-
         (println "⏳ Waiting for baresip initialization...")
         (Thread/sleep 2000)
-
-        ;; Ensure the process is alive
         (when-not (.isAlive proc)
           (throw (Exception. "❌ baresip exited unexpectedly")))
-
         (println "⚙ /ausrc aufile," wav)
-        (.write writer (str "/ausrc auffile," wav "\n"))
+        (.write writer (str "/ausrc aufile," wav "\n")) ;; Исправлено: auffile → aufile
         (.flush writer)
         (Thread/sleep 1000)
-
-        ;; Dial the phone number
         (let [target (str "sip:" phone "@" sip-domain)]
           (println "📞 /dial" target)
           (.write writer (str "/dial " target "\n"))
           (.flush writer))
-
-        ;; ⏱ Wait for baresip to finish (max 20 seconds)
         (println "⏳ Waiting for baresip to finish...")
-        (let [code (.waitFor proc 20000 TimeUnit/MILLISECONDS)]
-          (println "ℹ baresip exited with code:" code))
-
-        (future-cancel reader-thread))
-
+        (let [code (.waitFor proc 30000 TimeUnit/MILLISECONDS)] ;; Таймаут 30 секунд
+          (println "ℹ baresip exited with code:" code)
+          {:exit code :output @output}))
       (catch Exception e
         (println "❌ Call error:" (.getMessage e))
         (throw e))
-
       (finally
         (doseq [s [writer reader]]
           (try (.close s) (catch Exception _)))
+        (kill-baresip) ;; Добавляем очистку
         (println "📜 Full baresip log:")
         (println (clojure.string/join "\n" @output))))))
 
