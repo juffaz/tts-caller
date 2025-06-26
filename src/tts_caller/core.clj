@@ -43,7 +43,6 @@
   (println "📁 Create baresip config")
   (.mkdirs (File. baresip-dir))
   (println "✅ Folder:" baresip-dir)
-
   (let [acc (str "sip:" sip-user "@" sip-domain ":5060"
                  ";auth_user=" sip-user
                  ";auth_pass=" sip-pass
@@ -56,7 +55,6 @@
       (.sync (.getFD raf)))
     (println "✅ Accounts file created")
     (println "📄 Contents of accounts:\n" acc))
-
   (spit config-path
         (str
          "module_path /usr/lib64/baresip/modules\n"
@@ -114,7 +112,7 @@
         (when-not (.isAlive proc)
           (throw (Exception. "❌ baresip exited unexpectedly")))
         (println "⚙ /ausrc aufile," wav)
-        (.write writer (str "/ausrc aufile," wav "\n"))
+        (.write writer (str "/ausrc auffile," wav "\n"))
         (.flush writer)
         (Thread/sleep 1000)
         (let [target (str "sip:" phone "@" sip-domain)]
@@ -148,7 +146,7 @@
                    (min (max r 1) 5))
                  (catch Exception _ 3))]
     (if (and text phone)
-      (let [phones (split-phones phone)]
+      (let [phones (take 10 (split-phones phone))]
         (println "🗣 Text:" text)
         (println "⚙ Engine TTS:" engine " Repeat:" repeat)
         (audio/generate-final-wav-auto text wav
@@ -156,15 +154,16 @@
                                        :repeat repeat)
         (println "📁 WAV:" wav)
         (go
-          (loop [numbers phones]
-            (when-let [p (first numbers)]
-              (try
-                (println "📞 Call:" p)
-                (call-sip wav p)
-                (Thread/sleep 1000)
-                (catch Exception e
-                  (println "❌ Error:" p (.getMessage e)))
-              (recur (rest numbers)))))
+          (doseq [p phones]
+            (try
+              (println "📞 Call:" p)
+              (let [{:keys [exit output]} (call-sip wav p)]
+                (println "📞 Call result for" p ":"
+                         (if (zero? exit) "success"
+                             (str "failed with exit code " exit))))
+              (Thread/sleep 1000) ;; Пауза после каждого звонка
+              (catch Exception e
+                (println "❌ Error:" p (.getMessage e))))))
         (resp/response (str "📞 Call queued: " (clojure.string/join ", " phones)
                             " from " sip-user "@" sip-domain
                             " via " engine)))
