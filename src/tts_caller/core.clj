@@ -77,9 +77,7 @@
   (println "✅ Config file created"))
 
 (defn call-sip [wav phone]
-  ;; 🔍 Check: kill any hanging baresip processes before starting
   (kill-baresip)
-
   (setup-baresip-config wav)
   (println "📞 Call:" phone)
   (println "🔍 Checking SIP server:" sip-domain)
@@ -144,7 +142,6 @@
       (finally
         (doseq [s [writer reader]]
           (try (.close s) (catch Exception _)))
-        (kill-baresip) ;; Clean up process after the call
         (println "📜 Full baresip log:")
         (println (clojure.string/join "\n" @output))))))
 
