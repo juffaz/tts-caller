@@ -180,21 +180,29 @@
       (let [phones (split-phones phone)]
         (println "🗣 Text:" text)
         (println "⚙ Engine TTS:" engine " Repeat:" repeat)
+
+        ;; Generate the WAV file
         (audio/generate-final-wav-auto text wav
                                        :tts-engine engine
                                        :repeat repeat)
         (println "📁 WAV:" wav)
+        
+        ;; Call each phone number sequentially with delay
         (go
           (doseq [p phones]
             (try
-              (call-sip wav p)
-              (println "📞 Call :" p)
+              (call-sip wav p)  ;; Make the call to the number
+              (println "📞 Call:" p)
+              (Thread/sleep 2000)  ;; 2-second delay between calls
               (catch Exception e
                 (println "❌ Error:" p (.getMessage e))))))
+        
+        ;; Respond with confirmation
         (resp/response (str "📞 Call queued: " (clojure.string/join ", " phones)
                             " from " sip-user "@" sip-domain
-                            " via  " engine)))
+                            " via " engine)))
       (resp/bad-request "❌ No ?text=...&phone=..."))))
+
 
 (defroutes app-routes
   (GET "/call" [] handle-call)
