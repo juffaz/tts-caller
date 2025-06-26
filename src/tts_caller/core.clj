@@ -90,78 +90,61 @@
   )
 
 (defn call-sip [wav phone]
-  ;; 🔍 Check: kill any hanging baresip processes before starting
   (let [{:keys [out]} (sh "pgrep" "-f" "baresip")]
     (when-not (clojure.string/blank? out)
       (println "⚠ Active baresip processes found, killing...")
       (kill-baresip)))
-
-  ;; 🛠 Baresip setup
   (kill-baresip)
   (setup-baresip-config wav)
   (println "📞 Call:" phone)
-
   (println "🔍 Checking SIP server:" sip-domain)
   (try
     (let [{:keys [err]} (sh "nc" "-z" "-u" sip-domain "5060")]
       (println "ℹ Check completed (UDP may not always respond)"))
     (catch Exception e
       (println "⚠ Check error:" (.getMessage e))))
-
   (if-not (.exists (File. wav))
     (throw (Exception. (str "❌ WAV not found: " wav)))
     (println "✅ WAV found:" wav))
-
-  ;; 🟢 Starting baresip with configuration
   (let [cmd ["baresip"
-           "-f" baresip-dir
-           "-e" (str "/ausrc aufile," wav)
-           "-e" (str "/dial sip:" phone "@" sip-domain)]
+             "-f" baresip-dir
+             "-e" (str "/ausrc aufile," wav)
+             "-e" (str "/dial sip:" phone "@" sip-domain)]
         pb (doto (ProcessBuilder. cmd)
              (.redirectErrorStream true))
         proc (.start pb)
         writer (BufferedWriter. (OutputStreamWriter. (.getOutputStream proc)))
         reader (clojure.java.io/reader (.getInputStream proc))
         output (atom [])]
-
     (try
       (let [reader-thread
             (future
               (doseq [line (line-seq reader)]
                 (swap! output conj line)
                 (println "[BARESIP]:" line)))]
-
         (println "⏳ Waiting for baresip initialization...")
         (Thread/sleep 2000)
-
         (when-not (.isAlive proc)
           (throw (Exception. "❌ baresip exited unexpectedly")))
-
-        ;; Setting audio source
         (println "⚙ /ausrc aufile," wav)
         (.write writer (str "/ausrc aufile," wav "\n"))
         (.flush writer)
         (Thread/sleep 1000)
-
-        ;; Call
         (let [target (str "sip:" phone "@" sip-domain)]
           (println "📞 /dial" target)
           (.write writer (str "/dial " target "\n"))
           (.flush writer))
-
-        ;; ⏱ Waiting for baresip to finish (max 20 seconds)
         (println "⏳ Waiting for baresip to finish...")
         (let [code (.waitFor proc 20000 TimeUnit/MILLISECONDS)]
           (println "ℹ baresip exited with code:" code))
-
         (future-cancel reader-thread))
-
       (catch Exception e
         (println "❌ Call error:" (.getMessage e))
         (throw e))
       (finally
         (doseq [s [writer reader]]
           (try (.close s) (catch Exception _)))
+        (kill-baresip) ;; Добавляем очистку процесса
         (println "📜 Full baresip log:")
         (println (clojure.string/join "\n" @output))))))
 
@@ -174,34 +157,32 @@
   (let [{:strs [text phone engine repeat]} query-params
         wav "/tmp/final.wav"
         engine (or engine "marytts")
-        repeat (try (Integer/parseInt (or repeat "30"))
-                    (catch Exception _ 30))]
+        repeat (try
+                 (let [r (Integer/parseInt (or repeat "3"))]
+                   (min (max r 1) 5)) ;; Ограничиваем: 1–5 повторов
+                 (catch Exception _ 3))]
     (if (and text phone)
       (let [phones (split-phones phone)]
         (println "🗣 Text:" text)
         (println "⚙ Engine TTS:" engine " Repeat:" repeat)
-
-        ;; Generate the WAV file
         (audio/generate-final-wav-auto text wav
                                        :tts-engine engine
                                        :repeat repeat)
         (println "📁 WAV:" wav)
-        
-        ;; Call each phone number sequentially with delay
         (go
-          (doseq [p phones]
-            (try
-              (call-sip wav p)  ;; Make the call to the number
-              (println "📞 Call:" p)
-              (Thread/sleep 2000)  ;; 2-second delay between calls
-              (catch Exception e
-                (println "❌ Error:" p (.getMessage e))))))
-        
-        ;; Respond with confirmation
+          (loop [numbers phones]
+            (when-let [p (first numbers)]
+              (try
+                (println "📞 Call:" p)
+                (call-sip wav p)
+                (catch Exception e
+                  (println "❌ Error:" p (.getMessage e)))
+              (recur (rest numbers)))))
         (resp/response (str "📞 Call queued: " (clojure.string/join ", " phones)
                             " from " sip-user "@" sip-domain
                             " via " engine)))
       (resp/bad-request "❌ No ?text=...&phone=..."))))
+)
 
 
 (defroutes app-routes
