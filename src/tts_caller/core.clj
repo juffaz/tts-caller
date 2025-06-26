@@ -11,13 +11,10 @@
            [java.lang ProcessBuilder]
            [java.util.concurrent TimeUnit]))
 
-
 (def sip-user (or (System/getenv "SIP_USER") "python_client"))
 (def sip-pass (or (System/getenv "SIP_PASS") "1234pass"))
 (def sip-domain (or (System/getenv "SIP_HOST") "10.22.6.249"))
-;; (def sip-port (or (System/getenv "SIP_PORT") "5060")) ; Порт 5060 для SIP-сервера
 (def sip-port (str (+ 5061 (rand-int 39)))) ; 5061–5099
-
 
 (def baresip-dir "/tmp/baresip_config")
 (def accounts-path (str baresip-dir "/accounts"))
@@ -47,7 +44,6 @@
   (.mkdirs (File. baresip-dir))
   (println "✅ Folder:" baresip-dir)
 
-  ;; Correct accounts line (without < > and with port 5060)
   (let [acc (str "sip:" sip-user "@" sip-domain ":5060"
                  ";auth_user=" sip-user
                  ";auth_pass=" sip-pass
@@ -61,7 +57,6 @@
     (println "✅ Accounts file created")
     (println "📄 Contents of accounts:\n" acc))
 
-  ;; config with audio_source and audio_player like in /root/.baresip/config
   (spit config-path
         (str
          "module_path /usr/lib64/baresip/modules\n"
@@ -81,20 +76,10 @@
          "audio_alert aufile,/dev/null\n"))
   (println "✅ Config file created"))
 
-(comment
-
- (def sip-user (or (System/getenv "SIP_USER") "python_client"))
-(def sip-pass (or (System/getenv "SIP_PASS") "1234pass"))
-(def sip-domain (or (System/getenv "SIP_HOST") "10.22.6.249"))
-(def baresip-dir "/tmp/baresip_config")
-  )
-
 (defn call-sip [wav phone]
-  (let [{:keys [out]} (sh "pgrep" "-f" "baresip")]
-    (when-not (clojure.string/blank? out)
-      (println "⚠ Active baresip processes found, killing...")
-      (kill-baresip)))
+  ;; 🔍 Check: kill any hanging baresip processes before starting
   (kill-baresip)
+
   (setup-baresip-config wav)
   (println "📞 Call:" phone)
   (println "🔍 Checking SIP server:" sip-domain)
@@ -103,9 +88,12 @@
       (println "ℹ Check completed (UDP may not always respond)"))
     (catch Exception e
       (println "⚠ Check error:" (.getMessage e))))
+  
   (if-not (.exists (File. wav))
     (throw (Exception. (str "❌ WAV not found: " wav)))
     (println "✅ WAV found:" wav))
+
+  ;; 🟢 Starting baresip with configuration
   (let [cmd ["baresip"
              "-f" baresip-dir
              "-e" (str "/ausrc aufile," wav)
@@ -116,38 +104,49 @@
         writer (BufferedWriter. (OutputStreamWriter. (.getOutputStream proc)))
         reader (clojure.java.io/reader (.getInputStream proc))
         output (atom [])]
+    
     (try
       (let [reader-thread
             (future
               (doseq [line (line-seq reader)]
                 (swap! output conj line)
                 (println "[BARESIP]:" line)))]
+
         (println "⏳ Waiting for baresip initialization...")
         (Thread/sleep 2000)
+
+        ;; Ensure the process is alive
         (when-not (.isAlive proc)
           (throw (Exception. "❌ baresip exited unexpectedly")))
+
         (println "⚙ /ausrc aufile," wav)
-        (.write writer (str "/ausrc aufile," wav "\n"))
+        (.write writer (str "/ausrc auffile," wav "\n"))
         (.flush writer)
         (Thread/sleep 1000)
+
+        ;; Dial the phone number
         (let [target (str "sip:" phone "@" sip-domain)]
           (println "📞 /dial" target)
           (.write writer (str "/dial " target "\n"))
           (.flush writer))
+
+        ;; ⏱ Wait for baresip to finish (max 20 seconds)
         (println "⏳ Waiting for baresip to finish...")
         (let [code (.waitFor proc 20000 TimeUnit/MILLISECONDS)]
           (println "ℹ baresip exited with code:" code))
+
         (future-cancel reader-thread))
+
       (catch Exception e
         (println "❌ Call error:" (.getMessage e))
         (throw e))
+
       (finally
         (doseq [s [writer reader]]
           (try (.close s) (catch Exception _)))
-        (kill-baresip) ;; Добавляем очистку процесса
+        (kill-baresip) ;; Clean up process after the call
         (println "📜 Full baresip log:")
         (println (clojure.string/join "\n" @output))))))
-
 
 (defn split-phones [s]
   (->> (clojure.string/split s #"[,\s]+")
@@ -182,8 +181,6 @@
                             " from " sip-user "@" sip-domain
                             " via " engine)))
       (resp/bad-request "❌ No ?text=...&phone=..."))))
-)
-
 
 (defroutes app-routes
   (GET "/call" [] handle-call)
@@ -193,5 +190,5 @@
   (wrap-params app-routes))
 
 (defn -main []
-  (println "✅ TTS SIP Caller на 8899: " sip-user "@" sip-domain ":" sip-port)
+  (println "✅ TTS SIP Caller on 8899: " sip-user "@" sip-domain ":" sip-port)
   (run-jetty app {:port 8899}))
