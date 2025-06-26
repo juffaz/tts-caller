@@ -114,7 +114,7 @@
         (when-not (.isAlive proc)
           (throw (Exception. "❌ baresip exited unexpectedly")))
         (println "⚙ /ausrc aufile," wav)
-        (.write writer (str "/ausrc aufile," wav "\n")) ;; Исправлено: auffile → aufile
+        (.write writer (str "/ausrc aufile," wav "\n"))
         (.flush writer)
         (Thread/sleep 1000)
         (let [target (str "sip:" phone "@" sip-domain)]
@@ -122,7 +122,7 @@
           (.write writer (str "/dial " target "\n"))
           (.flush writer))
         (println "⏳ Waiting for baresip to finish...")
-        (let [code (.waitFor proc 30000 TimeUnit/MILLISECONDS)] ;; Таймаут 30 секунд
+        (let [code (.waitFor proc 40000 TimeUnit/MILLISECONDS)]
           (println "ℹ baresip exited with code:" code)
           {:exit code :output @output}))
       (catch Exception e
@@ -131,7 +131,7 @@
       (finally
         (doseq [s [writer reader]]
           (try (.close s) (catch Exception _)))
-        (kill-baresip) ;; Добавляем очистку
+        (kill-baresip)
         (println "📜 Full baresip log:")
         (println (clojure.string/join "\n" @output))))))
 
@@ -145,7 +145,7 @@
         engine (or engine "marytts")
         repeat (try
                  (let [r (Integer/parseInt (or repeat "3"))]
-                   (min (max r 1) 5)) ;; Ограничиваем: 1–5 повторов
+                   (min (max r 1) 5))
                  (catch Exception _ 3))]
     (if (and text phone)
       (let [phones (split-phones phone)]
@@ -161,6 +161,7 @@
               (try
                 (println "📞 Call:" p)
                 (call-sip wav p)
+                (Thread/sleep 1000)
                 (catch Exception e
                   (println "❌ Error:" p (.getMessage e)))
               (recur (rest numbers)))))
