@@ -87,9 +87,11 @@ Ensure the following JARs are present in the lib directory:
 - 📞 Added support for multiple phone numbers in one call
 - 🎚 Added `repeat` and `engine` query parameters
 - 📂 Full logs available at `/tmp/baresip.log` inside container
+
 ```bash
 docker exec -it tts-caller cat /tmp/baresip.log
 ```
+
 2024-09-25
 - ⚙️ Implemented dynamic UDP port allocation to avoid conflicts
 - 📵 Improved handling of SIP errors (e.g., Busy, Unavailable, Reset)
