@@ -80,13 +80,27 @@ Ensure the following JARs are present in the lib directory:
     voice-dfki-ot-hsmm-5.2.jar
 
 #### Bugfixes and improvements
-
-    Fixed early termination of baresip via ProcessBuilder
-    Switched from stdin commands to -e arguments for reliable execution
-    Added support for multiple phones
-    Added repeat and engine parameters
-    Full logs available at /tmp/baresip.log inside container
+2024-06-01
+- 🛠 Fixed early termination of Baresip via `ProcessBuilder`
+- 🔁 Switched from stdin commands to `-e` arguments for reliable execution
+2024-07-15
+- 📞 Added support for multiple phone numbers in one call
+- 🎚 Added `repeat` and `engine` query parameters
+- 📂 Full logs available at `/tmp/baresip.log` inside container
 ```bash
 docker exec -it tts-caller cat /tmp/baresip.log
 ```
+2024-09-25
+- ⚙️ Implemented dynamic UDP port allocation to avoid conflicts
+- 📵 Improved handling of SIP errors (e.g., Busy, Unavailable, Reset)
+- 🧹 Ensured proper cleanup of Baresip and continued calls after disconnect
+- 🕓 Added delay logic based on actual call status (connected or failed)
+    
+#### Features
+- ☎️ SIP voice calls via Baresip (UDP transport)
+- 🔁 Automatic retry for busy/unavailable numbers
+- 🔊 Custom TTS generation (MaryTTS, eSpeak-NG)
+- 🕐 Timestamped call logs for easy troubleshooting
+- 🎯 Dynamic UDP port allocation to avoid conflicts
+- 🚫 Handles "Busy" / "Not available" responses without delay
 
