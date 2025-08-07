@@ -63,11 +63,12 @@
   ;;(println "✅ Folder:" baresip-dir) ; Removed for log clarity
 
   ;; Create the accounts file with SIP credentials.
-  (let [acc (str "sip:" sip-user "@" sip-domain ":5060" ; Note: Port 5060 for registration
+  ;; ✅ Используем sip-port для регистрации и включаем regint
+  (let [acc (str "sip:" sip-user "@" sip-domain ":" sip-port ; Используем тот же порт, что и для прослушивания
                  ";auth_user=" sip-user
                  ";auth_pass=" sip-pass
                  ";transport=udp"
-                 ";regint=0\n") ; regint=0 means no automatic re-registration
+                 ";regint=300\n") ; Регистрация каждые 300 секунд
         file (File. accounts-path)]
     (.createNewFile file)
     (spit file acc)
@@ -215,6 +216,8 @@
   (->> (clojure.string/split s #"[,\s]+")
        (remove clojure.string/blank?)))
 
+
+;; --- Handle HTTP request ---
 ;; The main function that handles incoming HTTP GET requests to /call.
 (defn handle-call [{:keys [query-params]}]
   (let [{:strs [text phone engine repeat]} query-params
@@ -222,25 +225,25 @@
         engine (or engine "marytts")
         repeat-int (try (Integer/parseInt (or repeat "30")) (catch Exception _ 30))
         phones-list (if phone (split-phones phone) [])]
-
     (if (and text (seq phones-list))
       (let [batch-job {:text text
                        :phones phones-list
                        :wav-path wav-path
                        :engine engine
                        :repeat repeat-int}]
-
-        ;; ✅ Теперь и alts!! и timeout доступны
-        (let [[result chan] (alts!! [[batch-queue-channel batch-job] (timeout 5000)])]
-          (if (= chan batch-queue-channel)
-            (do
-              (println "📥 Batch job queued for phones:" phones-list)
-              (resp/response (str "📞 Batch job queued for: " (clojure.string/join ", " phones-list)
-                                  " from " sip-user "@" sip-domain
-                                  " via " engine)))
-            (do
-              (println "⏰ Queue timeout, rejecting batch job for phones:" phones-list)
-              (resp/status (resp/response "❌ Service busy, try again later") 503)))))
+        ;; ✅ Используем offer! без таймаута для немедленной попытки постановки в очередь
+        (if (async/offer! batch-queue-channel batch-job)
+          (do
+            (println "📥 Batch job queued for phones:" phones-list)
+            ;; Return an immediate success response to the client.
+            (resp/response (str "📞 Batch job queued for: " (clojure.string/join ", " phones-list)
+                                " from " sip-user "@" sip-domain
+                                " via " engine)))
+          (do
+            ;; If the queue is full, reject the request immediately.
+            (println "꽉 Queue is full, rejecting batch job for phones:" phones-list)
+            (resp/status (resp/response "❌ Service busy, queue full") 503))))
+      ;; If parameters are missing or invalid, return a bad request response.
       (resp/bad-request "❌ No valid ?text=...&phone=..."))))
 
 ;; --- Routes ---
