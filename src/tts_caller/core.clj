@@ -7,7 +7,7 @@
             [ring.middleware.params :refer [wrap-params]]
             [clojure.java.shell :refer [sh]]
             ;; Import core.async for managing asynchronous operations and queues
-            [clojure.core.async :as async :refer [go go-loop chan >!! <!! close! alts!!]])
+            [clojure.core.async :as async :refer [go go-loop chan >!! <!! close! alts!! timeout]])
   (:import [java.io File]
            [java.lang ProcessBuilder]
            [java.util.concurrent TimeUnit]))
@@ -230,7 +230,7 @@
                        :engine engine
                        :repeat repeat-int}]
 
-        ;; ✅ Исправлено: добавлена недостающая скобка после alts!!
+        ;; ✅ Теперь и alts!! и timeout доступны
         (let [[result chan] (alts!! [[batch-queue-channel batch-job] (timeout 5000)])]
           (if (= chan batch-queue-channel)
             (do
