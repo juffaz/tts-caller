@@ -7,7 +7,7 @@
             [ring.middleware.params :refer [wrap-params]]
             [clojure.java.shell :refer [sh]]
             ;; Import core.async for managing asynchronous operations and queues
-            [clojure.core.async :as async :refer [go go-loop chan >!! <!! close!]])
+            [clojure.core.async :as async :refer [go go-loop chan >!! <!! close! alts!!]])
   (:import [java.io File]
            [java.lang ProcessBuilder]
            [java.util.concurrent TimeUnit]))
