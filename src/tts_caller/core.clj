@@ -218,37 +218,31 @@
 ;; The main function that handles incoming HTTP GET requests to /call.
 (defn handle-call [{:keys [query-params]}]
   (let [{:strs [text phone engine repeat]} query-params
-        ;; Generate a unique path for the WAV file for this specific batch request.
         wav-path (str "/tmp/final_batch_" (System/currentTimeMillis) ".wav")
-        ;; Get TTS engine, defaulting to "marytts".
         engine (or engine "marytts")
-        ;; Parse repeat count, defaulting to 30 if invalid or missing.
         repeat-int (try (Integer/parseInt (or repeat "30"))
                         (catch Exception _ 30))
-        ;; Parse and clean the list of phone numbers.
         phones-list (if phone (split-phones phone) [])]
-    ;; Validate that both text and at least one phone number are provided.
+    
     (if (and text (seq phones-list))
-      ;; If valid, create a batch job map.
       (let [batch-job {:text text
                        :phones phones-list
                        :wav-path wav-path
                        :engine engine
                        :repeat repeat-int}]
-        ;; Send the batch job to the queue using `offer!` with a timeout.
-        ;; This prevents the HTTP request from blocking indefinitely if the queue is full.
-        (if (async/offer! batch-queue-channel batch-job 5000) ; 5 second timeout
-          (do
-            (println "📥 Batch job queued for phones:" phones-list)
-            ;; Return an immediate success response to the client.
-            (resp/response (str "📞 Batch job queued for: " (clojure.string/join ", " phones-list)
-                                " from " sip-user "@" sip-domain
-                                " via " engine)))
-          (do
-            ;; If the queue is full or the offer times out, reject the request.
-            (println "꽉 Queue is full or timeout, rejecting batch job for phones:" phones-list)
-            (resp/status (resp/response "❌ Service busy, try again later") 503))))
-      ;; If parameters are missing or invalid, return a bad request response.
+        
+        ;; ✅ Правильно: используем alts!! с таймаутом
+        (let [[sent _] (alts!! [batch-queue-channel (timeout 5000)])]
+          (if sent
+            (do
+              (println "📥 Batch job queued for phones:" phones-list)
+              (resp/response (str "📞 Batch job queued for: " (clojure.string/join ", " phones-list)
+                                  " from " sip-user "@" sip-domain
+                                  " via " engine)))
+            (do
+              (println "⏰ Queue timeout, rejecting batch job for phones:" phones-list)
+              (resp/status (resp/response "❌ Service busy, try again later") 503)))))
+      
       (resp/bad-request "❌ No valid ?text=...&phone=..."))))
 
 ;; --- Routes ---
