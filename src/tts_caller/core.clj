@@ -189,7 +189,7 @@
               (println "✅ Call attempt finished for" phone)
               ;; Pause between calls to avoid overwhelming the SIP server/recipient.
               (println "⏳ Waiting before next call...")
-              (Thread/sleep 15000) ; 15 seconds pause
+              (Thread/sleep 40000) ; 15 seconds pause
               (catch Exception e
                 ;; Catch errors for a specific call, but continue with the next one in the batch.
                 (println "💥 Error during call to" phone ":" (.getMessage e))
