@@ -230,8 +230,8 @@
                        :engine engine
                        :repeat repeat-int}]
 
-        ;; ✅ Правильное использование alts!! для put! с таймаутом
-        (let [[result chan] (alts!! [[batch-queue-channel batch-job] (timeout 5000)]]
+        ;; ✅ Исправлено: добавлена недостающая скобка после alts!!
+        (let [[result chan] (alts!! [[batch-queue-channel batch-job] (timeout 5000)])]
           (if (= chan batch-queue-channel)
             (do
               (println "📥 Batch job queued for phones:" phones-list)
