@@ -220,20 +220,19 @@
   (let [{:strs [text phone engine repeat]} query-params
         wav-path (str "/tmp/final_batch_" (System/currentTimeMillis) ".wav")
         engine (or engine "marytts")
-        repeat-int (try (Integer/parseInt (or repeat "30"))
-                        (catch Exception _ 30))
+        repeat-int (try (Integer/parseInt (or repeat "30")) (catch Exception _ 30))
         phones-list (if phone (split-phones phone) [])]
-    
+
     (if (and text (seq phones-list))
       (let [batch-job {:text text
                        :phones phones-list
                        :wav-path wav-path
                        :engine engine
                        :repeat repeat-int}]
-        
-        ;; ✅ Правильно: используем alts!! с таймаутом
-        (let [[sent _] (alts!! [batch-queue-channel (timeout 5000)])]
-          (if sent
+
+        ;; ✅ Правильное использование alts!! для put! с таймаутом
+        (let [[result chan] (alts!! [[batch-queue-channel batch-job] (timeout 5000)]]
+          (if (= chan batch-queue-channel)
             (do
               (println "📥 Batch job queued for phones:" phones-list)
               (resp/response (str "📞 Batch job queued for: " (clojure.string/join ", " phones-list)
@@ -242,7 +241,6 @@
             (do
               (println "⏰ Queue timeout, rejecting batch job for phones:" phones-list)
               (resp/status (resp/response "❌ Service busy, try again later") 503)))))
-      
       (resp/bad-request "❌ No valid ?text=...&phone=..."))))
 
 ;; --- Routes ---
