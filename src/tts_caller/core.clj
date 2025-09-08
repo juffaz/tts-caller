@@ -157,8 +157,9 @@
                           (ts-println "❌ Failed (code:" exit-code "). Retrying...")
                           (Thread/sleep retry-delay-ms)
                           (attempt-call (inc n))))
+                      ) ; close inner let for exit-code
 
-                    (catch Exception e
+                      (catch Exception e
                       (future-cancel reader-thread)
                       (kill-baresip)
                       (do
