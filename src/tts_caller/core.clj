@@ -6,77 +6,72 @@
             [tts-caller.audio :as audio]
             [ring.middleware.params :refer [wrap-params]]
             [clojure.java.shell :refer [sh]]
-            ;; Import core.async for managing asynchronous operations and queues
-            [clojure.core.async :as async :refer [go go-loop chan >!! <!! close! alts!! timeout]])
+            [clojure.core.async :as async :refer [go go-loop chan >!! <! close!]])
   (:import [java.io File]
            [java.lang ProcessBuilder]
            [java.util.concurrent TimeUnit]))
 
+;; --- Функция логирования с временем ---
+(defn ts-println [& args]
+  (let [ts (java.time.LocalDateTime/now)
+        formatted-ts (.format (java.time.format.DateTimeFormatter/ofPattern "yyyy-MM-dd HH:mm:ss") ts)]
+    (println formatted-ts (clojure.string/join " " args))))
+
 ;; --- SIP Configuration ---
-;; Define SIP account details, obtained from environment variables or defaults.
 (def sip-user (or (System/getenv "SIP_USER") "python_client"))
 (def sip-pass (or (System/getenv "SIP_PASS") "1234pass"))
 (def sip-domain (or (System/getenv "SIP_HOST") "10.22.6.249"))
-;; Use a fixed SIP port for consistency.
-(def sip-port "50060") ; Note: This was 5060 in previous snippets, corrected here if needed.
+(def sip-port "50060")
 
-;; Define paths for the temporary baresip configuration directory and files.
+;; --- Пути к конфигурации baresip ---
 (def baresip-dir "/tmp/baresip_config")
 (def accounts-path (str baresip-dir "/accounts"))
 (def config-path (str baresip-dir "/config"))
 
-;; --- Core.async for Batch Queue ---
-;; Create a buffered channel to hold batch jobs. This acts as the queue.
-;; Buffer size 10 - can be increased if needed to handle bursts.
+;; --- Асинхронная очередь ---
 (def batch-queue-channel (chan 10))
 
-;; --- Functions for working with baresip ---
-;; Function to forcefully kill any existing baresip processes to ensure a clean state.
+;; --- Убить baresip ---
 (defn kill-baresip []
-  (println "🛑 Kill baresip")
+  (ts-println "🛑 Killing baresip processes")
   (try
-    ;; Try using pkill first
-    (let [{:keys [exit err]} (sh "pkill" "-f" "baresip")]
-      (if (zero? exit)
-        (println "✅ Processes killed")
-        ;;(println "⚠ Error or no processes found:" err) ; This can be normal sometimes
-        ))
+    (let [{:keys [exit]} (sh "pkill" "-f" "baresip")]
+      (when (zero? exit) (ts-println "✅ baresip killed")))
     (Thread/sleep 1000)
     (catch Exception e
-      (println "⚠ pkill error:" (.getMessage e))
-      ;; Fallback to killall if pkill fails
+      (ts-println "⚠ pkill failed:" (.getMessage e))
       (try
-        (let [{:keys [exit err]} (sh "killall" "baresip")]
-          (if (zero? exit)
-            (println "✅ Killed via killall")
-            ;;(println "⚠ killall error:" err)
-            ))
+        (let [{:keys [exit]} (sh "killall" "baresip")]
+          (when (zero? exit) (ts-println "✅ Killed via killall")))
         (Thread/sleep 1000)
         (catch Exception e2
-          (println "⚠ killall error:" (.getMessage e2)))))))
+          (ts-println "⚠ killall failed:" (.getMessage e2)))))))
 
-;; Function to create the necessary baresip configuration files for a call.
-(defn setup-baresip-config [wav]
-  (println "📁 Create baresip config")
-  ;; Ensure the config directory exists.
+;; --- Ждать освобождения порта ---
+(defn wait-for-port-release [port]
+  (loop []
+    (let [{:keys [out]} (sh "ss" "-tulpn")]
+      (if (not (re-find (re-pattern (str ":" port)) out))
+        (ts-println (str "✅ Port " port " is free"))
+        (do
+          (ts-println (str "⌛ Port " port " is still in use, waiting..."))
+          (Thread/sleep 2000)
+          (recur))))))
+
+;; --- Настроить конфиг baresip ---
+(defn setup-baresip-config [wav repeat]
+  (ts-println "📁 Creating baresip config")
   (.mkdirs (File. baresip-dir))
-  ;;(println "✅ Folder:" baresip-dir) ; Removed for log clarity
 
-  ;; Create the accounts file with SIP credentials.
-  ;; ✅ Используем sip-port для регистрации и включаем regint
-  (let [acc (str "sip:" sip-user "@" sip-domain ":" sip-port ; Используем тот же порт, что и для прослушивания
+  (let [acc (str "sip:" sip-user "@" sip-domain ":" sip-port
                  ";auth_user=" sip-user
                  ";auth_pass=" sip-pass
                  ";transport=udp"
-                 ";regint=300\n") ; Регистрация каждые 300 секунд
+                 ";regint=300\n")
         file (File. accounts-path)]
     (.createNewFile file)
-    (spit file acc)
-    ;;(println "✅ Accounts file created")
-    ;;(println "📄 Contents of accounts:\n" acc)
-    )
+    (spit file acc))
 
-  ;; Create the main config file, specifying modules, SIP transport, and audio source.
   (spit config-path
         (str
          "module_path /usr/lib64/baresip/modules\n"
@@ -91,180 +86,150 @@
          "module cons.so\n"
          "module auresamp.so\n\n"
          "sip_transp udp\n"
-         "sip_listen 0.0.0.0:" sip-port "\n" ; Listen on the specified port
-         "audio_source aufile,play=" wav "\n" ; Play the specified WAV file
-         "audio_alert aufile,/dev/null\n")) ; No alert sound
-  (println "✅ Config file created"))
+         "sip_listen 0.0.0.0:" sip-port "\n"
+         "audio_source aufile,play=" wav ",repeat=" repeat "\n"
+         "audio_alert aufile,/dev/null\n"))
+  (ts-println "✅ Config file created"))
 
-;; Function to make a single SIP call using baresip.
-(defn call-sip-single [wav phone]
-  ;; 1. Check if the WAV file exists.
-  (if-not (.exists (File. wav))
-    (println "❌ WAV not found: " wav)
-    (println "✅ WAV found:" wav))
+;; --- Основная функция вызова с retry (исправленная) ---
+(defn call-sip-single [wav phone repeat]
+  (let [max-retries 3
+        retry-delay-ms 10000]
+    (letfn [(attempt-call [n]
+              ;; Проверка лимита попыток
+              (when (> n max-retries)
+                (ts-println "❌ Call failed after" max-retries "attempts:" phone)
+                (throw (ex-info "Call failed after retries" {:phone phone :max-retries max-retries})))
 
-  ;; 2. Kill any potentially hanging baresip processes before starting a new one.
-  (let [{:keys [out]} (sh "pgrep" "-f" "baresip")]
-    (when-not (clojure.string/blank? out)
-      (println "⚠ Active baresip processes found, killing...")
-      (kill-baresip)))
+              (ts-println "📞 Calling:" phone "(attempt" n "/" max-retries ")")
 
-  ;; 3. Setup the baresip configuration for this specific call/WAV file.
-  (setup-baresip-config wav)
+              ;; Проверка WAV
+              (if-not (.exists (File. wav))
+                (do
+                  (ts-println "❌ WAV not found:" wav)
+                  (throw (ex-info "WAV not found" {:phone phone}))))
 
-  ;; 4. Log the call attempt.
-  (println "📞 Calling:" phone)
-  (println "🔍 SIP server:" sip-domain)
+              ;; Очистка
+              (kill-baresip)
+              (wait-for-port-release sip-port)
 
-  ;; 5. Launch the baresip process with the configuration and dial command.
-  (let [cmd ["baresip"
-             "-f" baresip-dir ; Use the generated config directory
-             "-e" (str "/ausrc aufile," wav) ; Set audio source command
-             "-e" (str "/dial sip:" phone "@" sip-domain)] ; Dial command
-        pb (doto (ProcessBuilder. cmd)
-             (.redirectErrorStream true)) ; Merge stderr into stdout for easier handling
-        proc (.start pb) ; Start the process
-        reader (clojure.java.io/reader (.getInputStream proc)) ; Read its output
-        output (atom [])] ; Store output lines for potential debugging
+              ;; Настройка
+              (setup-baresip-config wav repeat)
 
-    (try
-      ;; Read baresip output in a separate thread/future to avoid blocking.
-      (let [reader-thread
-            (future
-              (doseq [line (line-seq reader)]
-                (swap! output conj line)
-                (println "[BARESIP]:" line)))]
+              ;; Запуск baresip
+              (let [cmd ["baresip" "-f" baresip-dir
+                         "-e" (str "/ausrc aufile," wav)
+                         "-e" (str "/dial sip:" phone "@" sip-domain)]
+                    pb (doto (ProcessBuilder. cmd) (.redirectErrorStream true))
+                    proc (.start pb)
+                    reader (clojure.java.io/reader (.getInputStream proc))
+                    output (atom [])]
 
-        (println "⏳ Waiting for baresip to finish call...")
-        ;; Wait for the baresip process to finish (with a maximum timeout of 45 seconds).
-        (let [code (.waitFor proc 45000 TimeUnit/MILLISECONDS)]
-          (println "ℹ baresip exited with code:" code))
+                (let [reader-thread
+                      (future
+                        (doseq [line (line-seq reader)]
+                          (swap! output conj line)
+                          (ts-println "[BARESIP]:" line)))]
 
-        ;; Stop reading the log from the future.
-        (future-cancel reader-thread))
+                  (try
+                    (let [exit-code (.waitFor proc 45000 TimeUnit/MILLISECONDS)
+                          output-str (clojure.string/join "\n" @output)]
 
-      ;; Handle any exceptions that occur during the call process.
-      (catch Exception e
-        (println "❌ Call error for" phone ":" (.getMessage e))
-        ;; Ensure baresip is killed on error.
-        (kill-baresip)
-        (throw e))
+                      (future-cancel reader-thread)
+                      (kill-baresip)
+                      (wait-for-port-release sip-port)
 
-      ;; Ensure resources are closed and baresip is killed in the 'finally' block.
-      (finally
-        ;; Close the reader resource.
-        (try (.close reader) (catch Exception _))
-        ;;(println "📜 Full baresip log for" phone ":")
-        ;;(println (clojure.string/join "\n" @output)) ; Removed for clarity
+                      (cond
+                        ;; Успех
+                        (zero? exit-code)
+                        (ts-println "✅ Call succeeded:" phone)
 
-        ;; Kill the baresip process after finishing, as a final cleanup step.
-        (kill-baresip)))))
+                        ;; 480 — временно недоступен → retry
+                        (clojure.string/includes? output-str "480 Temporarily unavailable")
+                        (do
+                          (ts-println "⚠️ 480 received. Retrying in" (int (/ retry-delay-ms 1000)) "sec...")
+                          (Thread/sleep retry-delay-ms)
+                          (attempt-call (inc n)))
 
-;; --- Initialize worker for processing batches ---
-;; Function to start the background worker that processes batch jobs sequentially.
+                        ;; Любая другая ошибка
+                        :else
+                        (do
+                          (ts-println "❌ Failed (code:" exit-code "). Retrying...")
+                          (Thread/sleep retry-delay-ms)
+                          (attempt-call (inc n))))
+
+                    (catch Exception e
+                      (future-cancel reader-thread)
+                      (kill-baresip)
+                      (do
+                        (ts-println "💥 Error:" (.getMessage e) "- Retrying...")
+                        (Thread/sleep retry-delay-ms)
+                        (attempt-call (inc n))))
+
+                    (finally
+                      (try (.close reader) (catch Exception _)))))))]
+      (attempt-call 1)))) ; Начинаем с попытки 1
+
+;; --- Обработчик очереди ---
 (defn start-batch-worker! []
-  ;; Use a go-loop to create a lightweight thread that continuously listens to the channel.
   (go-loop []
-    ;; Take a batch job from the queue. This will block if the queue is empty.
-    (when-let [batch-job (<!! batch-queue-channel)]
-      ;; Extract details from the batch job map.
+    (when-let [batch-job (<! batch-queue-channel)]
       (let [{:keys [text phones wav-path engine repeat]} batch-job]
-        (println "🚀 Starting to process batch job for phones:" phones)
+        (ts-println "🚀 Starting batch:" phones)
         (try
-          ;; 1. Generate the WAV file for this specific batch.
-          ;; WAV generation is deferred until the worker is ready to process this batch.
-          ;; This ensures that a new WAV is not generated while previous calls are still running.
-          (println "🗣 Generating WAV for text:" text)
+          (ts-println "🗣 Generating audio...")
           (audio/generate-final-wav-auto text wav-path
                                          :tts-engine engine
-                                         :repeat repeat)
-          (println "📁 WAV generated:" wav-path)
+                                         :repeat 1)
+          (ts-println "📁 Audio ready:" wav-path)
 
-          ;; 2. Sequentially call each number in the batch.
-          ;; This loop ensures only one call is made at a time.
           (doseq [phone phones]
             (try
-              (println "📞 Attempting call to" phone)
-              ;; Make the call using the WAV file generated for this batch.
-              (call-sip-single wav-path phone)
-              (println "✅ Call attempt finished for" phone)
-              ;; Pause between calls to avoid overwhelming the SIP server/recipient.
-              (println "⏳ Waiting before next call...")
-              (Thread/sleep 40000) ; 15 seconds pause
+              (call-sip-single wav-path phone repeat)
+              (ts-println "✅ Completed:" phone)
               (catch Exception e
-                ;; Catch errors for a specific call, but continue with the next one in the batch.
-                (println "💥 Error during call to" phone ":" (.getMessage e))
-                ;; Pause after an error as well, before trying the next number.
-                (println "⏳ Waiting before next call (after error)...")
-                (Thread/sleep 15000)
-                )))
-
-          (println "🏁 Finished processing batch job for phones:" phones)
-          ;; The next batch will only start processing after this one finishes completely.
+                (ts-println "💥 Call failed:" phone (.getMessage e))
+                (Thread/sleep 15000))))
+          (ts-println "🏁 Batch finished:" phones)
           (catch Exception e
-            ;; Catch fatal errors that affect the entire batch processing.
-            (println "💥 Fatal error processing batch job for phones" phones ":" (.getMessage e))
-            ;; Retry logic or notification could be added here.
-            ))))
-    ;; Continue the loop to process the next item in the queue.
+            (ts-println "💥 Batch error:" (.getMessage e))))))
     (recur))
-  (println "👷 Batch worker started"))
+  (ts-println "👷 Batch worker started"))
 
-;; --- Handle HTTP request ---
-;; Helper function to parse and clean the phone number string.
+;; --- Парсинг номеров ---
 (defn split-phones [s]
   (->> (clojure.string/split s #"[,\s]+")
        (remove clojure.string/blank?)))
 
-
-;; --- Handle HTTP request ---
-;; The main function that handles incoming HTTP GET requests to /call.
+;; --- HTTP обработчик ---
 (defn handle-call [{:keys [query-params]}]
   (let [{:strs [text phone engine repeat]} query-params
         wav-path (str "/tmp/final_batch_" (System/currentTimeMillis) ".wav")
         engine (or engine "marytts")
-        repeat-int (try (Integer/parseInt (or repeat "30")) (catch Exception _ 30))
-        phones-list (if phone (split-phones phone) [])]
+        repeat-int (try (Integer/parseInt (or repeat "3")) (catch Exception _ 3))
+        phones-list (split-phones phone)]
     (if (and text (seq phones-list))
-      (let [batch-job {:text text
-                       :phones phones-list
-                       :wav-path wav-path
-                       :engine engine
-                       :repeat repeat-int}]
-        ;; ✅ Используем offer! без таймаута для немедленной попытки постановки в очередь
+      (let [batch-job {:text text :phones phones-list :wav-path wav-path
+                       :engine engine :repeat repeat-int}]
         (if (async/offer! batch-queue-channel batch-job)
           (do
-            (println "📥 Batch job queued for phones:" phones-list)
-            ;; Return an immediate success response to the client.
-            (resp/response (str "📞 Batch job queued for: " (clojure.string/join ", " phones-list)
-                                " from " sip-user "@" sip-domain
-                                " via " engine)))
+            (ts-println "📥 Batch queued:" phones-list)
+            (resp/response (str "📞 Calls queued for: " (clojure.string/join ", " phones-list))))
           (do
-            ;; If the queue is full, reject the request immediately.
-            (println "꽉 Queue is full, rejecting batch job for phones:" phones-list)
-            (resp/status (resp/response "❌ Service busy, queue full") 503))))
-      ;; If parameters are missing or invalid, return a bad request response.
-      (resp/bad-request "❌ No valid ?text=...&phone=..."))))
+            (ts-println "❌ Queue full")
+            (resp/status (resp/response "Service busy") 503))))
+      (resp/bad-request "❌ Missing ?text=...&phone=..."))))
 
-;; --- Routes ---
-;; Define the web application routes.
+;; --- Маршруты ---
 (defroutes app-routes
-  (GET "/call" [] handle-call) ; Route for making calls
-  (GET "/health" [] (resp/response "OK"))) ; Simple health check endpoint
+  (GET "/call" [] handle-call)
+  (GET "/health" [] (resp/response "OK")))
 
-;; Wrap the routes with middleware to parse query parameters.
-(def app
-  (wrap-params app-routes))
+(def app (wrap-params app-routes))
 
-;; --- Application Startup ---
-;; The main entry point for the application.
+;; --- Запуск ---
 (defn -main []
-  ;; Print startup information.
-  (println "✅ TTS SIP Caller starting on port 8899: " sip-user "@" sip-domain ":" sip-port)
-  ;; Start the single batch worker.
-  ;; This ensures that only one call (from one batch) is processed at any given time,
-  ;; respecting the constraint of a single GSM line.
+  (ts-println "✅ Starting TTS Caller:" sip-user "@" sip-domain ":" sip-port)
   (start-batch-worker!)
-  ;; Start the embedded Jetty web server on port 8899.
-  (run-jetty app {:port 8899 :join? false}) ; join? false so the main thread is not blocked
-  (println "🚀 Server started"))
+  (run-jetty app {:port 8899 :join? false})
+  (ts-println "🚀 Server started on port 8899"))
